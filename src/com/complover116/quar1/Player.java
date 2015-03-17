@@ -65,6 +65,9 @@ public class Player implements Serializable {
 		fireKey = fKey;
 	}
 	public void tick() {
+		if(this.firedelay < 0 && !this.joined){
+			this.turnIntoBot();
+		}
 		firedelay --;
 		hitdelay --;
 			this.yVel += 1;
@@ -121,9 +124,17 @@ public class Player implements Serializable {
 		if(new Rectangle((int) newX, (int)y, 32,32).intersects(r)){
 			flag = false;
 			if(horizMov == -1) {
+				if(isBot()) {
+					horizMov = 1;
+					looksRight = true;
+				}
 				this.x = r.getX()+r.getWidth();
 			} else {
 				this.x = r.getX()-32;
+				if(isBot()) {
+					horizMov = -1;
+					looksRight = false;
+				}
 			}
 			break;
 		}
@@ -150,6 +161,9 @@ public class Player implements Serializable {
 	public boolean isBot() {
 		return false;
 	}
+	public void turnIntoBot() {
+		CurGame.lvl.players.set(skin-1, new Bot(-100, -100, this.skin));
+	}
 	public boolean OOB() {
 		if(this.y>800) return true;
 		if(this.x>800) return true;
@@ -175,7 +189,11 @@ public class Player implements Serializable {
 			onGround = false;
 		}
 		if(key == fireKey){
-			if(firedelay < 0){
+			fire();
+		}
+	}
+	public void fire() {
+		if(firedelay < 0){
 			if(Math.random() > 0.5) {
 				SoundHandler.playSound("/sound/effects/fire1.wav");
 			} else {
@@ -188,7 +206,6 @@ public class Player implements Serializable {
 			else
 				CurGame.lvl.TADs.add(new Projectile(this.x, this.y, this.skin, -15+this.horizMov*speedX, this.yVel, fireColor));
 			firedelay = 30;
-		}
 		}
 	}
 	public void getHit() {
