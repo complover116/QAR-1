@@ -3,6 +3,7 @@ package com.complover116.quar1;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
@@ -10,7 +11,12 @@ public class ServerThread implements Runnable {
 	public static ArrayList<RemoteClient> clients = new ArrayList<RemoteClient>();
 	public static DatagramSocket socket;
 	public ServerThread() {
-		
+		try {
+			socket = new DatagramSocket(1141);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

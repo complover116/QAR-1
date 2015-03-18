@@ -11,7 +11,7 @@ public class GUI {
 	public static ProgressMonitor progressMonitor;
 	public static void init() {
 		System.out.println("INITIALIZING THE GUI");
-		mainFrame = new JFrame("QAR-1");
+		mainFrame = new JFrame("QAR-1 "+Config.version);
 		mainFrame.setPreferredSize(new Dimension(800,900));
 		mainFrame.setResizable(false);
 		Render pn = new Render();

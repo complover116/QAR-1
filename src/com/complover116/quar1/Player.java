@@ -124,17 +124,11 @@ public class Player implements Serializable {
 		if(new Rectangle((int) newX, (int)y, 32,32).intersects(r)){
 			flag = false;
 			if(horizMov == -1) {
-				if(isBot()) {
-					horizMov = 1;
-					looksRight = true;
-				}
+				
 				this.x = r.getX()+r.getWidth();
 			} else {
 				this.x = r.getX()-32;
-				if(isBot()) {
-					horizMov = -1;
-					looksRight = false;
-				}
+				
 			}
 			break;
 		}
@@ -146,6 +140,19 @@ public class Player implements Serializable {
 		} else {
 			
 			horizMov = 0;
+			if(horizMov == -1) {
+				if(isBot()) {
+					horizMov = 1;
+					looksRight = true;
+				}
+				
+			} else {
+				
+				if(isBot()) {
+					horizMov = -1;
+					looksRight = false;
+				}
+			}
 		}
 	}
 	public static Color getSkinColor(int skin) {
@@ -222,9 +229,10 @@ public class Player implements Serializable {
 		for(int i = 0; i < 10; i ++)
 			CurGame.lvl.TADs.add(new Particle(this.x+32-Math.random()*32,this.y+32-Math.random()*32,1, getSkinColor(), 10));
 		if(this.health < 0) {
-			this.skin = 0;
+			
 			for(int i = 0; i < 40; i ++)
 				CurGame.lvl.TADs.add(new Particle(this.x+32-Math.random()*32,this.y+32-Math.random()*32,1, getSkinColor(), 10));
+			this.skin = 0;
 			this.SetControls(0, 0, 0, 0);
 			this.x = -100;
 			this.y = -100;

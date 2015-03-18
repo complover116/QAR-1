@@ -14,8 +14,13 @@ public class Bot extends Player{
 	@Override
 	public void tick() {
 		super.tick();
+		if(!Loader.isServer) return;
 		time ++;
-		
+		if(this.health < 1) {
+			this.x = -100;
+			this.y = -10000;
+			return;
+		}
 		//SPAWN
 		if(!this.joined&&this.time>200&&this.health>1) {
 			this.spawn();
@@ -61,6 +66,7 @@ public class Bot extends Player{
 		return true;
 	}
 	public void jump() {
+		if(this.jumpsLeft < 1){return;}
 		SoundHandler.playSound("/sound/effects/jump.wav");
 		jumpsLeft -= 1;
 		yVel = -20;

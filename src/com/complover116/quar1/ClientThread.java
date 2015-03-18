@@ -118,6 +118,9 @@ public class ClientThread implements Runnable {
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog(null, "Unknown network error", "Network error", JOptionPane.ERROR_MESSAGE);
 				System.exit(0);
+			} catch (NullPointerException e2) {
+				
+				System.out.println("Skipping key state sending:not connected yet");
 			}
 	}
 }
