@@ -9,8 +9,18 @@ public class Bot extends Player{
 	
 	public Bot(int x, int y, int skin) {
 		super(x, y, skin);
+		if(Config.botDifficulty>=3){
+			accuracy = 0.03;
+		} else {
+			accuracy = 0.5;
+		}
 	}
 	int time = 0;
+	
+	//Bot's margin of shot:
+	double accuracy;
+	
+	
 	@Override
 	public void tick() {
 		super.tick();
@@ -27,10 +37,12 @@ public class Bot extends Player{
 			this.joined = true;
 			this.jump();
 		}
-		if(this.onGround) {
+		if(this.onGround&&Math.random()>0.99) {
+			
 			jump();
 			
 		}
+		
 		if(this.time > 230) {
 			this.time = 200;
 			switch((int)(Math.random()*3)) {
@@ -47,6 +59,8 @@ public class Bot extends Player{
 			break;
 			}
 		}
+		
+		// AIMING CODE
 		for(int i = 0; i < 4; i ++) {
 		Player target = CurGame.lvl.players.get(i);
 		double goalHeading = Math.atan2(target.x - this.x, target.y - this.y);
@@ -56,7 +70,7 @@ public class Bot extends Player{
 		} else {
 			fireDir = Math.atan2(-15+this.horizMov*speedX, this.yVel);
 		}
-		if(fireDir<goalHeading + 0.03 && fireDir>goalHeading-0.03) {
+		if(fireDir<goalHeading + accuracy && fireDir>goalHeading-accuracy) {
 			fire();
 		}
 		}

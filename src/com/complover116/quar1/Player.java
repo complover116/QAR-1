@@ -65,7 +65,7 @@ public class Player implements Serializable {
 		fireKey = fKey;
 	}
 	public void tick() {
-		if(this.firedelay < 0 && !this.joined){
+		if(this.firedelay < 0 && !this.joined && Config.botDifficulty > -1){
 			this.turnIntoBot();
 		}
 		firedelay --;
