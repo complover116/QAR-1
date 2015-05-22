@@ -26,7 +26,7 @@ public class Bot extends Player{
 		super.tick();
 		if(!Loader.isServer) return;
 		time ++;
-		if(this.health < 1) {
+		if(this.health < 0) {
 			this.x = -100;
 			this.y = -10000;
 			return;

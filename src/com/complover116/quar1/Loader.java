@@ -12,6 +12,23 @@ public class Loader {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		
+		//TESTER.JAR v2 stuff
+		/*
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					MainInit.main(new String[]{});
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					//fuuuuuuuuuuu
+				}
+			}
+			
+		}).start();*/
+		
 		//Initia
 		Map.init();
 		CurGame.lvl.loadMap(Map.map2);
