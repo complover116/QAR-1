@@ -37,7 +37,11 @@ public class Bot extends Player{
 			this.joined = true;
 			this.jump();
 		}
-		if(this.onGround&&Math.random()>0.99) {
+		
+		//AI
+		
+		//RANDOM JUMPS
+		if(Config.botDifficulty<4&&this.onGround&&Math.random()>0.99) {
 			
 			jump();
 			
@@ -61,6 +65,7 @@ public class Bot extends Player{
 		}
 		
 		// AIMING CODE
+		if(Config.botDifficulty>1)
 		for(int i = 0; i < 4; i ++) {
 		Player target = CurGame.lvl.players.get(i);
 		double goalHeading = Math.atan2(target.x - this.x, target.y - this.y);
@@ -73,6 +78,11 @@ public class Bot extends Player{
 		if(fireDir<goalHeading + accuracy && fireDir>goalHeading-accuracy) {
 			fire();
 		}
+		}
+		else {
+			if(Math.random()>0.95) {
+				fire();
+			}
 		}
 	}
 	@Override
