@@ -1,0 +1,3 @@
+apply plugin: 'application'
+apply plugin: 'eclipse'
+mainClassName = "com.complover116.quar1.Loader"
