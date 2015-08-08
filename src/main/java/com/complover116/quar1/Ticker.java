@@ -4,7 +4,7 @@ public class Ticker {
 	public static int ticktime = 0;
 	public static void tick() {
 		
-		
+		if(Loader.initialized){
 		//TICK PLAYERS
 		for(int i = 0; i < CurGame.lvl.players.size(); i ++)
 			CurGame.lvl.players.get(i).tick();
@@ -19,6 +19,7 @@ public class Ticker {
 				}
 		if(Loader.isServer) {
 			ServerThread.sendData();
+		}
 		}
 	}
 }

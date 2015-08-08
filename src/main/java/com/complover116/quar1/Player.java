@@ -12,7 +12,7 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = -5377012459758221762L;
 	public static final double speedX = 10;
 	public double x;
-	public double y;
+	public double y = 10000;
 	public int skin;
 	public boolean joined = false;
 	public int rightKey;
@@ -65,6 +65,8 @@ public class Player implements Serializable {
 		fireKey = fKey;
 	}
 	public void tick() {
+		if(this.y<900){this.joined = true;}
+		if(this.y>900&&this.joined == true&&this.health>-1) {this.getHit();}
 		if(this.firedelay < 0 && !this.joined && Config.botDifficulty > -1){
 			this.turnIntoBot();
 		}
@@ -170,7 +172,7 @@ public class Player implements Serializable {
 	}
 	public void turnIntoBot() {
 		if(skin == 0) {return;}
-		CurGame.lvl.players.set(skin-1, new Bot(-100, -100, this.skin));
+		CurGame.lvl.players.set(skin-1, new Bot(-100, 1000, this.skin));
 	}
 	public boolean OOB() {
 		if(this.y>800) return true;

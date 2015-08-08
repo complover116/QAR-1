@@ -46,4 +46,12 @@ public class GUI {
 		if(selectedValue == null) System.exit(0);
 		return (String)selectedValue;
 	}
+	public static void askBots() {
+		int reply = JOptionPane.showConfirmDialog(null, "Should we enable bots for this game?", "AI Setup", JOptionPane.YES_NO_OPTION);
+		if (reply == JOptionPane.YES_OPTION) {
+			Config.botDifficulty = 5;
+		} else {
+			Config.botDifficulty = -1;
+		}
+	}
 }

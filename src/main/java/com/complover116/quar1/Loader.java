@@ -49,6 +49,7 @@ public class Loader {
 		}
 		initialized = false;
 		if(in.equalsIgnoreCase("host")) {
+			GUI.askBots();
 			Render.loadStep = "Hosting a game...";
 			new Thread(new ServerThread()).start();
 			isServer = true;

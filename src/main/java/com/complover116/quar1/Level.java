@@ -15,19 +15,19 @@ public class Level {
 			this.platforms.add(map.platforms.get(i));
 		}
 		
-		Player player1 = new Player(-100, -100, 1);
+		Player player1 = new Player(-100, 1000, 1);
 		player1.SetControls(CharData.D, CharData.A, CharData.W, CharData.S);
 		players.add(player1);
 		
-		Player player2 = new Player(-100, -100, 2);
+		Player player2 = new Player(-100, 1000, 2);
 		player2.SetControls(CharData.Right, CharData.Left, CharData.Up, CharData.Down);
 		players.add(player2);
 		
-		Player player3 = new Player(-100, -100, 3);
+		Player player3 = new Player(-100, 1000, 3);
 		player3.SetControls(CharData.K, CharData.H, CharData.U, CharData.J);
 		players.add(player3);
 		
-		Player player4 = new Player(-100, -100, 4);
+		Player player4 = new Player(-100, 1000, 4);
 		player4.SetControls(CharData.NumPlus, CharData.Num8, CharData.Ast, CharData.Num9);
 		players.add(player4);
 		

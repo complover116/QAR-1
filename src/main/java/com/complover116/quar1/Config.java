@@ -6,7 +6,7 @@ public class Config {
 	public static int netTick = 0;
 	public static InetAddress server;
 	public static String address = "localhost";
-	public static final String version = "v1.6 beta";
+	public static final String version = "v1.6";
 	
 	/***
 	 * Difficulty:
@@ -18,5 +18,5 @@ public class Config {
 	 * 4 - AI movement is not random anymore, now attempts to evade projectiles;
 	 * 5 - Maximum difficulty: AI deliberately hunts the player, following him around and aiming perfectly;
 	 */
-	public static int botDifficulty = 5;
+	public static int botDifficulty = -1;
 }
