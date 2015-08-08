@@ -1,11 +1,12 @@
 language: java
 deploy:
-  skip_cleanup:
+  skip_cleanup: true
   provider: gcs
   access_key_id: GOOGN5LIWR6GNM6NPPWV
   secret_access_key:
     secure: wVHIo5eBtdJVCr8IzF3Tj0M8uAGs0VWOqghOCnyhb3bX6fl3X+WzRPYIMqFVmG142EYiaNcnIVDkayNzoB3BCi5W9aVJcPWjJ3QL34DfY971FFVzt2q+8sT3KP4gsLD1+D081JEv1tSRkESiNwb2oStWL6bxoBvSNulhGsNQ3FDnPF46YdSwmOAHwu6wThEBbZAIYu8iZi31+slh1MK3PDewNaiuMvTqeV8wZq3pwH63d7HotdmAdYDnrRp8PABlZVU3vFea+mD8HiTS7qPHApwnESw1vTG0byklGpIy2CRvjiUFS40tTkYmVy/+wHqfEfvp63svELOex4qAQRMivgfgfJNoIBwbUZDy8VHWkgtQE00whoBb0wqAJ2wTExo2UricA2tPS/6qA5v9E5R7nkP3zRUFeulaFx/hZlwWGBSDf425pAgh5JyRjCGNhzWf1DGFKGiUhdePWRV1VlYcX9TXTRNinqR1H1LhBbVIgdSmzCJ1r+UuHaCmPRMVes1VFAcmIKlzkvC7CrNlgYVXK2SBkWkN5/KuOC/CLsneBuBJ99iRW1u3Lk0jHUJRECq3zdEU6jGVh3DllT3yRqNHOADP8Wqg6TimFJ8Q9lyQw9Fx1MmvNBNgv5n049QU15edd2obuy7dVomRipYzatLfCDcBxBRwFnV3fWxHA64S/Pg=
   bucket: qar_build_storage
+  local_dir: QAR-1
   on:
     repo: complover116/QAR-1
 before_deploy: ./CI_Deployment_Script.sh
