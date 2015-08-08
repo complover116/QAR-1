@@ -1,3 +1,9 @@
 language: java
-addons:
-  artifacts: true
+deploy:
+  provider: gcs
+  access_key_id: GOOGN5LIWR6GNM6NPPWV
+  secret_access_key:
+    secure: Ih9gPZTP+46vAVjEFFcx/KEZvXNf34LbnVkRxtVoVKCiAzMmdgRj/9jwTlHJD3xJkr8oaSPg1YLigphP3/nfoKldzEg7bggjSnlZmaj7mn7Z46BmaOJKdjqo2ZHkvXwCI+jE22YKsJZqnA1POqjIFbijHf++TooB5kwbQA+fvoMFenY88Tsv6XOi19V4n+D+ZyGj9Aqi1Vkqs9CL7YM6gpxsYmPBnFP3qu8DYuZUsLlNm+VwjP76KHgW2ZGOh8pBsBsb85pPk52lE9uKG/0OZ9zSfLxxuQHvrlD2k6G2IUvzORChr3SINC164LbzqRYpvF14PRgdediwCg1gvaw8awlCqa5yNGPqMgoW530Perj3ojjvmeNz/2sneNO8B0jilQfRwuL3I2BDxKGWPEyWdaLbwoiSUPSX76ginns+EiAc+Ao7Z+92TeuGXbvyQwpXUmfBBBZ0bkbSu95NXXKvLLueBYqpRzJBgXG5R0TRD6UAFXDjxmY1lGEuJ14jneatWpNkVsHVFwTDUBIM9Aybx69Nh5Sil97HozgTLJYHE22QBU55sXMb5TwJhPnZgvjdxRzD3ur0lPjA/9WGj23uFeDo9j0I9Rt8qPY0gGPkcJb9t0rQ4xKJnHsCuIEElsXIxi9B73AXX2+p7qp5bVPreTXa7MhH8MQuaENvMyYn1to=
+  bucket: qar_build_storage
+  on:
+    repo: complover116/QAR-1
