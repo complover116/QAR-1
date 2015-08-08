@@ -169,6 +169,7 @@ public class Player implements Serializable {
 		return false;
 	}
 	public void turnIntoBot() {
+		if(skin == 0) {return;}
 		CurGame.lvl.players.set(skin-1, new Bot(-100, -100, this.skin));
 	}
 	public boolean OOB() {
