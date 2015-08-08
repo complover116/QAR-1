@@ -1,5 +1,6 @@
 language: java
 deploy:
+  skip_cleanup:
   provider: gcs
   access_key_id: GOOGN5LIWR6GNM6NPPWV
   secret_access_key:
@@ -8,3 +9,4 @@ deploy:
   local-dir: QAR-1
   on:
     repo: complover116/QAR-1
+before_deploy: ./CI_Deployment_Script.sh
