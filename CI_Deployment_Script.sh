@@ -6,7 +6,7 @@ mkdir $PROJNAME/build-$TRAVIS_BUILD_NUMBER/
 gzip build/distributions/$PROJNAME.tar
 cp build/distributions/$PROJNAME.tar.gz $PROJNAME/build-$TRAVIS_BUILD_NUMBER/
 #Remove everything so travis does not get confused
-rm -f *
-rm -rf build
-rm -rf gradle
+#rm -f *
+#rm -rf build
+#rm -rf gradle
 
