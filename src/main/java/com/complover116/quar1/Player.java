@@ -173,6 +173,7 @@ public class Player implements Serializable {
 	public void turnIntoBot() {
 		if(skin == 0) {return;}
 		CurGame.lvl.players.set(skin-1, new Bot(-100, 1000, this.skin));
+		CurGame.lvl.players.get(skin-1).firedelay = 0;
 	}
 	public boolean OOB() {
 		if(this.y>800) return true;

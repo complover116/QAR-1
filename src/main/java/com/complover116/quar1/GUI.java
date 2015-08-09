@@ -12,7 +12,7 @@ public class GUI {
 	public static void init() {
 		System.out.println("INITIALIZING THE GUI");
 		mainFrame = new JFrame("QAR-1 "+Config.version);
-		mainFrame.setPreferredSize(new Dimension(900,800));
+		mainFrame.setPreferredSize(new Dimension(900,600));
 		mainFrame.setResizable(true);
 		Render pn = new Render();
 		pn.addKeyListener(pn);

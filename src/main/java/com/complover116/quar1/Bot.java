@@ -32,7 +32,7 @@ public class Bot extends Player{
 			return;
 		}
 		//SPAWN
-		if(!this.joined&&this.time>200&&this.health>1) {
+		if(!this.joined&&this.health>1) {
 			this.spawn();
 			this.joined = true;
 			this.jump();
@@ -41,7 +41,7 @@ public class Bot extends Player{
 		//AI
 		
 		//RANDOM JUMPS
-		if(Config.botDifficulty<4&&this.onGround&&Math.random()>0.99) {
+		if(Config.botDifficulty<6&&this.onGround&&Math.random()>0.99) {
 			
 			jump();
 			
