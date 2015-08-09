@@ -1,6 +1,7 @@
 package com.complover116.quar1;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,10 +19,22 @@ public class Render extends JPanel implements KeyListener {
 	private static final long serialVersionUID = 1224246674901715075L;
 	public static double rot = 0;
 	public static String loadStep = "Waiting for user";
+	public static int oldHeight = 800;
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(new Color(0,0,0));
+		//Adjust to window size
+		//if(GUI.mainFrame.getHeight()!=oldHeight){
+		
+		double scale = (double)GUI.mainFrame.getHeight()/(double)800;
+		//System.out.println("Adjusting window size: width - "+(int)(scale*900)+" height - "+(int) (scale*800));
+		GUI.mainFrame.setSize((int)(scale*900), (int) (scale*800));
+		//if(GUI.mainFrame.getWidth() == (int)(scale*900))
+		//oldHeight = GUI.mainFrame.getHeight();
+		
+		//}
+		g2d.scale(scale, scale);
 		//RENDER PLATFORMS
 		for(int i = 0; i < CurGame.lvl.platforms.size(); i ++){
 			switch(CurGame.lvl.platforms.get(i).type) {
