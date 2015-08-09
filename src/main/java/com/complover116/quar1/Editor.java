@@ -28,6 +28,8 @@ public class Editor {
 	}
 	public static void save() {
 		Loader.initialized = false;
+		Render.loadStep = "Saving...";
+		mapname = GUI.askString("Save", "Input the filename");
 		Render.loadStep = "Saving to "+mapname;
 		try {
 			Thread.sleep(100);
