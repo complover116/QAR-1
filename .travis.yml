@@ -1,7 +1,6 @@
 language: java
 before_deploy: "./CI_Deployment_Script.sh"
 deploy:
-  skip_cleanup: true
   - provider: gcs
     access_key_id: GOOGN5LIWR6GNM6NPPWV
     secret_access_key:
@@ -16,4 +15,5 @@ deploy:
     file: QAR-1/build-$TRAVIS_BUILD_NUMBER/QAR-1.tar.gz
     on:
       repo: complover116/QAR-1
+  skip_cleanup: true
 
