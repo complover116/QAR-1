@@ -49,8 +49,8 @@ public class Render extends JPanel implements KeyListener, MouseListener {
 			break;
 			case 2:
 				g2d.setColor(Player.getSkinColor(CurGame.lvl.platforms.get(i).owner));
-				g2d.draw(new Rectangle(CurGame.lvl.platforms.get(i).rect.x,CurGame.lvl.platforms.get(i).rect.y - 40, CurGame.lvl.platforms.get(i).rect.width, 8));
-				g2d.fill(new Rectangle(CurGame.lvl.platforms.get(i).rect.x,CurGame.lvl.platforms.get(i).rect.y - 40, (int)((double)CurGame.lvl.platforms.get(i).rect.width*((double)CurGame.lvl.platforms.get(i).captureProgress/(double)250)), 8));
+				g2d.drawRect(CurGame.lvl.platforms.get(i).rect.x,CurGame.lvl.platforms.get(i).rect.y - 40, CurGame.lvl.platforms.get(i).rect.width, 8);
+				g2d.fillRect(CurGame.lvl.platforms.get(i).rect.x,CurGame.lvl.platforms.get(i).rect.y - 40, (int)((double)CurGame.lvl.platforms.get(i).rect.width*((double)CurGame.lvl.platforms.get(i).captureProgress/(double)250)), 8);
 				
 				
 			break;
@@ -58,7 +58,7 @@ public class Render extends JPanel implements KeyListener, MouseListener {
 				g2d.setColor(new Color(255,0,0));
 			break;
 			}
-			g2d.fill(CurGame.lvl.platforms.get(i).rect);
+			g2d.fillRect(CurGame.lvl.platforms.get(i).rect.x, CurGame.lvl.platforms.get(i).rect.y, CurGame.lvl.platforms.get(i).rect.width, CurGame.lvl.platforms.get(i).rect.height);
 		}
 		//RENDER PLAYERS
 		for(int i = 0; i < CurGame.lvl.players.size(); i++)
@@ -154,6 +154,8 @@ public class Render extends JPanel implements KeyListener, MouseListener {
 			if(e.getKeyChar() == '1') Editor.color = 0;
 			if(e.getKeyChar() == '2') Editor.color = 1;
 			if(e.getKeyChar() == '3') Editor.color = 3;
+			if(e.getKeyChar() == '`') Editor.save();
+			if(e.getKeyChar() == '~') Editor.initialize();
 		}
 	}
 

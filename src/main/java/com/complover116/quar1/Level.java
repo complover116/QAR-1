@@ -1,6 +1,15 @@
 package com.complover116.quar1;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import org.yaml.snakeyaml.Yaml;
 
 public class Level {
 	public ArrayList<Platform> platforms = new ArrayList<Platform>();
@@ -37,5 +46,46 @@ public class Level {
 	}
 	public Level() {
 				
+	}
+	public boolean save(String name) {
+		Yaml yaml = new Yaml();
+		for(int i = 0; i < platforms.size(); i ++){
+			platforms.get(i).rect2save = new Rect(platforms.get(i).rect, platforms.get(i).type);
+			platforms.get(i).rect = null;
+		}
+		String data = yaml.dump(platforms);
+		for(int i = 0; i < platforms.size(); i ++){
+			platforms.get(i).rect = platforms.get(i).rect2save.toAWTRect();
+		}
+		new File("levels").mkdir();
+		try {
+			FileOutputStream fos = new FileOutputStream("levels/"+name+".yml");
+			fos.write(data.getBytes());
+			fos.close();
+		} catch (FileNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
+	}
+	@SuppressWarnings("unchecked")
+	public boolean load(String name) {
+		
+		try {
+			FileInputStream fis = new FileInputStream("levels/"+name+".yml");
+			Yaml yaml = new Yaml();
+			this.platforms = (ArrayList<Platform>)yaml.load(fis);
+			for(int i = 0; i < platforms.size(); i ++){
+				platforms.get(i).rect = platforms.get(i).rect2save.toAWTRect();
+				platforms.get(i).type = platforms.get(i).rect2save.type;
+			}
+			fis.close();
+		} catch (FileNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
+		return true;
 	}
 }

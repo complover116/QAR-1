@@ -50,7 +50,7 @@ public class Loader {
 		}
 		initialized = false;
 		if(in.equalsIgnoreCase("edit")) {
-			Render.loadStep = "Entering edit mode...";
+			
 			
 		    Editor.initialize();
 		}

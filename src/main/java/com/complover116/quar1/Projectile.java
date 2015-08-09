@@ -75,7 +75,7 @@ public class Projectile implements TAD {
 	}
 	public void draw(Graphics2D g2d) {
 		g2d.setColor(color);
-		g2d.fill(new Rectangle((int)this.x, (int)this.y,16,16));
+		g2d.fillRect((int)this.x, (int)this.y,16,16);
 	}
 	@Override
 	public boolean isDead() {
