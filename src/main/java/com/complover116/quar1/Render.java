@@ -5,14 +5,17 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.JPanel;
 
-public class Render extends JPanel implements KeyListener {
+public class Render extends JPanel implements KeyListener, MouseListener {
 	/**
 	 * 
 	 */
@@ -106,7 +109,9 @@ public class Render extends JPanel implements KeyListener {
 			g2d.drawString("AI", 820, 750);
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
 		}
-		
+		if(Loader.editMode) {
+			g2d.drawImage(ResourceContainer.images.get("/img/editorAim.png"), AffineTransform.getTranslateInstance(Editor.posX-8.5, Editor.posY-8.5), null);
+		}
 		if(ClientThread.timeout > ClientThread.timeoutLow) {
 			g2d.setColor(new Color(255,0,0));
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
@@ -145,6 +150,11 @@ public class Render extends JPanel implements KeyListener {
 			ServerThread.sendBytes(b);
 			CurGame.lvl.loadMap(Map.map2);
 		}
+		if(Loader.editMode) {
+			if(e.getKeyChar() == '1') Editor.color = 0;
+			if(e.getKeyChar() == '2') Editor.color = 1;
+			if(e.getKeyChar() == '3') Editor.color = 3;
+		}
 	}
 
 	@Override
@@ -165,5 +175,53 @@ public class Render extends JPanel implements KeyListener {
 		}
 		for(int i = 0; i < CurGame.lvl.players.size(); i ++)
 			CurGame.lvl.players.get(i).keyReleased(e.getKeyCode());
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+		if(Loader.editMode == false||arg0.getButton()!=MouseEvent.BUTTON3) return;
+		double x = (double)arg0.getX()/GUI.mainFrame.getWidth()*900;
+		double y = (double)arg0.getY()/GUI.mainFrame.getHeight()*800;
+		Editor.posX = (int)x;
+		Editor.posY = (int)y;
+		for(int i = 0; i < CurGame.lvl.platforms.size(); i ++) {
+			if(CurGame.lvl.platforms.get(i).rect.contains(new Point((int)x, (int)y))) {
+				CurGame.lvl.platforms.remove(i);
+				SoundHandler.playSound("/sound/effects/hurt2.wav");
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		if(Loader.editMode == false||arg0.getButton()!=MouseEvent.BUTTON1) return;
+		double x = (double)arg0.getX()/GUI.mainFrame.getWidth()*900;
+		double y = (double)arg0.getY()/GUI.mainFrame.getHeight()*800;
+		Editor.posX = (int)x;
+		Editor.posY = (int)y;
+		SoundHandler.playSound("/sound/effects/jump.wav");
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		if(Loader.editMode == false||arg0.getButton()!=MouseEvent.BUTTON1) return;
+		double x = (double)arg0.getX()/GUI.mainFrame.getWidth()*900;
+		double y = (double)arg0.getY()/GUI.mainFrame.getHeight()*800;
+		CurGame.lvl.platforms.add(new Platform(new Rectangle(Editor.posX, Editor.posY, (int)x - Editor.posX, (int)y - Editor.posY), Editor.color));
+		SoundHandler.playSound("/sound/effects/fire1.wav");
 	}
 }

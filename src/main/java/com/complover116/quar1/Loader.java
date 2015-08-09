@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Loader {
 	public static boolean isServer = false;
+	public static boolean editMode = false;
 	public static boolean initialized = false;
 	public static boolean run = true;
 	public static void main(String[] args) throws IOException {
@@ -29,9 +30,9 @@ public class Loader {
 			
 		}).start();*/
 		
-		//Initia
+		//Init
 		Map.init();
-		CurGame.lvl.loadMap(Map.map2);
+		CurGame.lvl.loadMap(Map.map1);
 		GUI.init();
 		System.out.println("...SOS...");
 		String in = GUI.askString("Connection setup", "To join a game, type an ip address. To host one, type \"host\"");
@@ -48,7 +49,12 @@ public class Loader {
 			}
 		}
 		initialized = false;
-		if(in.equalsIgnoreCase("host")) {
+		if(in.equalsIgnoreCase("edit")) {
+			Render.loadStep = "Entering edit mode...";
+			
+		    Editor.initialize();
+		}
+		else if(in.equalsIgnoreCase("host")) {
 			GUI.askBots();
 			Render.loadStep = "Hosting a game...";
 			new Thread(new ServerThread()).start();
