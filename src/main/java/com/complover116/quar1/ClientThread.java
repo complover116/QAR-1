@@ -81,14 +81,7 @@ public class ClientThread implements Runnable {
 					CurGame.lvl.TADs.add(new Projectile(data2));
 				break;
 				case 3:
-					switch(in[1]) {
-					case 1:
-						CurGame.lvl.loadMap(Map.map1);
-					break;
-					case 2:
-						CurGame.lvl.loadMap(Map.map2);
-					break;
-					}
+					CurGame.lvl.loadInt(""+in[1]);
 				break;
 				}
 			} catch (IOException e1) {

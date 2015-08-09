@@ -60,6 +60,7 @@ public class ServerThread implements Runnable {
 	}
 
 	public static void sendData() {
+		synchronized(CurGame.lvl.players){
 		for(byte i = 0; i < 4; i ++){
 		byte out[] = new byte[256];
 		out[0] = 1;
@@ -67,6 +68,7 @@ public class ServerThread implements Runnable {
 		ByteBuffer data = ByteBuffer.wrap(out, 2, 254);
 		CurGame.lvl.players.get(i).downdate(data);
 		sendBytes(out);
+		}
 		}
 	}
 

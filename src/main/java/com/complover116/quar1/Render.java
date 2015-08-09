@@ -136,12 +136,16 @@ public class Render extends JPanel implements KeyListener, MouseListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getKeyChar() == '1'&&Loader.isServer) {
-			byte b[] = new byte[64];
-			b[0] = 3;
-			b[1] = 1;
-			ServerThread.sendBytes(b);
-			CurGame.lvl.loadMap(Map.map1);
+	    if(Loader.isServer){
+	    	try{
+	    		int mapid = Integer.parseInt(new String(new char[]{e.getKeyChar()}));
+	    		byte b[] = new byte[64];
+				b[0] = 3;
+				b[1] = (byte)mapid;
+				ServerThread.sendBytes(b);
+				CurGame.lvl.loadInt(""+mapid);
+	        } catch (NumberFormatException e2){ }
+			
 		}
 		if(e.getKeyChar() == '2'&&Loader.isServer) {
 			byte b[] = new byte[64];

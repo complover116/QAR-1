@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -85,6 +86,43 @@ public class Level {
 			return false;
 		} catch (IOException e) {
 			return false;
+		}
+		return true;
+	}
+	@SuppressWarnings("unchecked")
+	public boolean loadInt(String name) {
+		synchronized(CurGame.lvl.players){
+		TADs.clear();
+		players.clear();
+		try {
+			InputStream fis = Level.class.getResourceAsStream("/levels/"+name+".yml");
+			Yaml yaml = new Yaml();
+			this.platforms = (ArrayList<Platform>)yaml.load(fis);
+			for(int i = 0; i < platforms.size(); i ++){
+				platforms.get(i).rect = platforms.get(i).rect2save.toAWTRect();
+				platforms.get(i).type = platforms.get(i).rect2save.type;
+			}
+			fis.close();
+		} catch (FileNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		}
+		Player player1 = new Player(-100, 1000, 1);
+		player1.SetControls(CharData.D, CharData.A, CharData.W, CharData.S);
+		players.add(player1);
+		
+		Player player2 = new Player(-100, 1000, 2);
+		player2.SetControls(CharData.Right, CharData.Left, CharData.Up, CharData.Down);
+		players.add(player2);
+		
+		Player player3 = new Player(-100, 1000, 3);
+		player3.SetControls(CharData.K, CharData.H, CharData.U, CharData.J);
+		players.add(player3);
+		
+		Player player4 = new Player(-100, 1000, 4);
+		player4.SetControls(CharData.NumPlus, CharData.Num8, CharData.Ast, CharData.Num9);
+		players.add(player4);
 		}
 		return true;
 	}
