@@ -1,11 +1,14 @@
 language: java
 before_deploy: "./CI_Deployment_Script.sh"
+install:
+  - "./gradlew android:assembleDebug"
+  - "./gradlew desktop:dist"
 deploy:
   - provider: releases
     skip-cleanup: true
     api_key:
       secure: QTG67z6y0J4O/0F40SMHSDVohaed1bYe5aRRKGn5Mnl9rtOn2wBy4HtA0qGz6twARfknvB8lb+NOfdWwvBdpYHBOnBtm6HUk9iYtWkPkbLtANsbb9EYLY1rG0tWIh36ohzqrjPfIL9bNoBbOORjArnpyp7WlZeV/YDwnvAhrqEwYSeyiHNy21HzwGneGBoM/Qa2fgcRSDy9tT2htUi/uOfnQq+t1CMVGkOqiZPYEHo9aFdlHjpXmvmz9L1iHFih7z1tQmAwQ1s8aIWJ87Pd4ddn1EJs9Dst2DI0dl5zJGroylD0ZSvbBV75AOaaE+TTdmV5Bj9n56pIDZi8JsAr7B31mHZRKpXESM3ghjo9jImRjFe6QkhHSGB9le31rsZNRBJA7HXW1OYA028Aep5NjHJ6aOqW1mSMVE17pREABrprlRoid1AQddWTkqpI7HjmlbUqe3Ap2WYpvaAXtU0MVz+zoVyYqVZALeD4B0x2FvT0UAX0V/9G0WpzHkD0rWbScEWnFRVapil4f35TpdIQKtDIszkkZIXjSy80hfruMjDNvv4ZDXZNjqfERRLg/2+eiJdUqF+6y6WPfTzjWjstqBtKyfWQtbm/AqW8a5h2DHLdf09nC22eu4/AaaqXrpoWc9dncRNSa9neJtHZ9kR3c7bAp9GxyDJz4wrKtKaSAG+c=
-    file: build/distributions/QAR-1.tar
+    file: upload/desktop-1.0.jar.gz
     on:
       tags: true
   - provider: gcs
@@ -14,7 +17,7 @@ deploy:
     secret_access_key:
       secure: wVHIo5eBtdJVCr8IzF3Tj0M8uAGs0VWOqghOCnyhb3bX6fl3X+WzRPYIMqFVmG142EYiaNcnIVDkayNzoB3BCi5W9aVJcPWjJ3QL34DfY971FFVzt2q+8sT3KP4gsLD1+D081JEv1tSRkESiNwb2oStWL6bxoBvSNulhGsNQ3FDnPF46YdSwmOAHwu6wThEBbZAIYu8iZi31+slh1MK3PDewNaiuMvTqeV8wZq3pwH63d7HotdmAdYDnrRp8PABlZVU3vFea+mD8HiTS7qPHApwnESw1vTG0byklGpIy2CRvjiUFS40tTkYmVy/+wHqfEfvp63svELOex4qAQRMivgfgfJNoIBwbUZDy8VHWkgtQE00whoBb0wqAJ2wTExo2UricA2tPS/6qA5v9E5R7nkP3zRUFeulaFx/hZlwWGBSDf425pAgh5JyRjCGNhzWf1DGFKGiUhdePWRV1VlYcX9TXTRNinqR1H1LhBbVIgdSmzCJ1r+UuHaCmPRMVes1VFAcmIKlzkvC7CrNlgYVXK2SBkWkN5/KuOC/CLsneBuBJ99iRW1u3Lk0jHUJRECq3zdEU6jGVh3DllT3yRqNHOADP8Wqg6TimFJ8Q9lyQw9Fx1MmvNBNgv5n049QU15edd2obuy7dVomRipYzatLfCDcBxBRwFnV3fWxHA64S/Pg=
     bucket: qar_build_storage
-    local_dir: build/distributions/QAR-1.tar.gz
+    local_dir: upload
     on:
       repo: complover116/QAR-1
     

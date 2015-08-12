@@ -1,6 +1,0 @@
-#Java2Script Configuration
-#Mon Mar 23 11:34:00 AST 2015
-j2s.resources.list=../../../../eclipse/plugins/net.sf.j2s.lib_2.0.0/j2slib/java.runtime.j2x
-j2s.abandoned.resources.list=
-j2s.output.path=bin
-j2s.compiler.status=disable
