@@ -26,6 +26,7 @@ before_deploy: "./CI_Deployment_Script.sh"
 install:
   - "./gradlew android:assembleDebug"
   - "./gradlew desktop:dist"
+script: ./NoTesting.sh
 deploy:
   - provider: releases
     skip-cleanup: true
