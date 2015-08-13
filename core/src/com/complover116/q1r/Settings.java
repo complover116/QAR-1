@@ -7,7 +7,7 @@ public class Settings {
     static final int widths[] = {400, 800, 1000, 1200, 1600};
 
 
-    public static float soundVolume = 100;
-    public static float musicVolume = 100;
+    public static float soundVolume = 50;
+    public static float musicVolume = 50;
 
 }

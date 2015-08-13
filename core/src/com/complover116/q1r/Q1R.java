@@ -18,7 +18,7 @@ public class Q1R extends Game {
         viewport = new FitViewport(800, 600, camera);
 		batch = new SpriteBatch();
         Resources.loadVital();
-        this.setScreen(new MainMenuScreen());
+        this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

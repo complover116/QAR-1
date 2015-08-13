@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * Created by complover116 on 25.05.2015 for QAR-1 Reloaded
  */
 public class MainMenuScreen implements Screen {
+	Q1R game;
     public ArrayList<Button> buttons = new ArrayList<Button>();
     int curselect = -1;
     int nextMode = 0;
@@ -37,7 +38,8 @@ public class MainMenuScreen implements Screen {
         public abstract void draw(float X, float Y);
         public abstract void mouseMove(float X, float Y);
     }
-    public MainMenuScreen() {
+    public MainMenuScreen(Q1R gmae) {
+    	game = gmae;
         MainMenu();
     }
     public void MainMenu() {
@@ -142,6 +144,10 @@ public class MainMenuScreen implements Screen {
                         state = -1;
                         nextMode = 2;
                     }
+                    if (newselect == 2) {
+                        state = -1;
+                        nextMode = 25565;
+                    }
                 }
                 if(curScreen == 1) {
                     if (newselect == 0) {
@@ -197,6 +203,9 @@ public class MainMenuScreen implements Screen {
             }
             if(nextMode == 11){
                 SoundMenu();
+            }
+            if(nextMode == 25565){
+                game.setScreen(new LobbyScreen(game));
             }
             state = 1;
         }
