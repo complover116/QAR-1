@@ -205,7 +205,9 @@ public class MainMenuScreen implements Screen {
                 SoundMenu();
             }
             if(nextMode == 25565){
-                game.setScreen(new LobbyScreen(game));
+            	//TODO:TEMP! Replace with LobbyScreen once that is ready!;
+            	GameManager.prepareLocal();
+                game.setScreen(new GameScreen(game));
             }
             state = 1;
         }

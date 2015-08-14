@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
  */
 public class LobbyScreen implements Screen {
 
+	//TODO: Temporary!!!
 	Q1R game;
 	public LobbyScreen(Q1R gmae) {
 		game = gmae;
