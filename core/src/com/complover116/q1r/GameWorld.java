@@ -18,7 +18,8 @@ public class GameWorld {
 	public static void init() {
 		platforms.add(new Platform(new Rectangle(100, 300, 600, 10), 0));
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
-		players.add(new PlayerEnt());
+		players.add(new PlayerEnt(1));
+		players.add(new PlayerEnt(2));
 	}
 	public static void render() {
 		//RENDER PLATFORMS

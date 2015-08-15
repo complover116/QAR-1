@@ -14,11 +14,12 @@ public class Player {
 	 */
 	final static byte CONNECTION_LOCAL = 0;
 	//TODO:Local control keys
-	int key_up = Input.Keys.W;
-	int key_left = Input.Keys.A;
-	int key_right = Input.Keys.D;
-	int key_down = Input.Keys.S;
+	int key_up;
+	int key_left;
+	int key_right;
+	int key_down;
 	
+	int controlScheme = 1;
 	/***
 	 * We have direct connection to the player machine, and we are not the host
 	 */
@@ -36,8 +37,23 @@ public class Player {
 	
 	PlayerEnt ent;
 	
-	public Player(PlayerEnt entity) {
+	public Player(PlayerEnt entity, int cont) {
+		switch(cont) {
+		case 1:
+			this.key_up = Input.Keys.W;
+			this.key_down = Input.Keys.S;
+			this.key_left = Input.Keys.A;
+			this.key_right = Input.Keys.D;
+		break;
+		case 2:
+			this.key_up = Input.Keys.UP;
+			this.key_down = Input.Keys.DOWN;
+			this.key_left = Input.Keys.LEFT;
+			this.key_right = Input.Keys.RIGHT;
+		break;
+		}
 		this.ent = entity;
+		this.controlScheme = cont;
 	}
 	public void tick() {
 		if(this.connectionType == CONNECTION_LOCAL) {

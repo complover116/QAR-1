@@ -23,7 +23,7 @@ public class PlayerEnt {
 	}
 	
 	public void tickPhysics(double deltaT) {
-		this.velY -= 1500*deltaT;
+		this.velY -= 2000*deltaT;
 		
 		if(this.jump&&this.jumpsleft>0) {
 			this.jumpsleft --;
@@ -31,7 +31,10 @@ public class PlayerEnt {
 		}
 		this.jump = false;
 		
-		this.velX = this.moveDir*400;
+		if(this.moveDir==1)this.facingLeft = false;
+		if(this.moveDir==-1)this.facingLeft = true;
+		
+		this.velX = this.moveDir*500;
 		
 		float newY = (float) (this.y + this.velY*deltaT);
 		float newX = (float) (this.x + this.velX*deltaT);
@@ -77,5 +80,9 @@ public class PlayerEnt {
 			return "player"+color+"_left";
 		else
 			return "player"+color;
+	}
+	
+	public PlayerEnt(int color) {
+		this.color = color;
 	}
 }

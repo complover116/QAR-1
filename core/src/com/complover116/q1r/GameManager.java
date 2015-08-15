@@ -22,7 +22,7 @@ public class GameManager {
 	public static void prepareLocal() {
 		Gdx.app.log("GameManager", "Preparing local client...");
 		GameWorld.init();
-		players.add(new Player(GameWorld.players.get(0)));
-		
+		players.add(new Player(GameWorld.players.get(0),1));
+		players.add(new Player(GameWorld.players.get(1),2));
 	}
 }
