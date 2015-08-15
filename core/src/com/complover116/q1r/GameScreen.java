@@ -18,6 +18,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		for(int i = 0; i < GameManager.players.size(); i++)
+			GameManager.players.get(i).tick();
 		GameWorld.update(delta);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

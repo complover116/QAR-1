@@ -33,7 +33,7 @@ public class Resources {
                 Gdx.app.error("Resources", "Failed loading "+imagename);
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
 
             }
@@ -55,7 +55,7 @@ public class Resources {
                 Gdx.app.error("Resources", "Failed loading "+soundname);
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
 
             }
