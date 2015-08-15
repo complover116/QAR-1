@@ -10,3 +10,11 @@ interface/SFX
 interface/SliderScale
 interface/SliderSlide
 interface/lobbybackground
+player1
+player2
+player3
+player4
+player1_left
+player2_left
+player3_left
+player4_left
