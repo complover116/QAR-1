@@ -15,11 +15,16 @@ public class GameWorld {
 	 */
 	public static ArrayList<PlayerEnt> players = new ArrayList<PlayerEnt>();
 	
+	/***
+	 * Contains reference to any non-player entity to be ticked and drawn
+	 */
+	public static ArrayList<Entity> ents = new ArrayList<Entity>();
 	public static void init() {
 		platforms.add(new Platform(new Rectangle(100, 300, 600, 10), 0));
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
 		players.add(new PlayerEnt(1));
 		players.add(new PlayerEnt(2));
+		ents.add(new Projectile(100,200,200,100));
 	}
 	public static void render() {
 		//RENDER PLATFORMS
@@ -36,11 +41,25 @@ public class GameWorld {
 		for(int i = 0; i < players.size(); i ++) {
 			Q1R.batch.draw(Resources.getImage(players.get(i).getImage()), players.get(i).x, players.get(i).y);
 		}
+		
 		Q1R.batch.end();
+		Q1R.shapeRenderer.begin(ShapeType.Filled);
+		//RENDER ENTITIES
+		for(int i = 0; i < ents.size(); i ++)
+			ents.get(i).draw();
+		
+		Q1R.shapeRenderer.end();
+		
 	}
 	public static void update(double deltaT) {
 		for(int i = 0; i < players.size(); i ++) {
 			players.get(i).tickPhysics(deltaT);;
+		}
+		for(int i = ents.size()-1; i > -1; i --) {
+			if(ents.get(i).isDead)
+				ents.remove(i);
+			else
+				ents.get(i).tick(deltaT);;
 		}
 	}
 }

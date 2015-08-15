@@ -65,6 +65,9 @@ public class Player {
 			} else if(Gdx.input.isKeyPressed(key_left)) {
 				ent.moveDir = -1;
 			} else ent.moveDir = 0;
+			if(Gdx.input.isKeyJustPressed(key_down)) {
+				ent.fire = true;
+			}
 		}
 	}
 }
