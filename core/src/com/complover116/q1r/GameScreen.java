@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 public class GameScreen implements Screen {
 	Q1R game;
 	
-	double time = 3;
+	double time = 5;
 	public GameScreen(Q1R game) {
 		this.game = game;
 	}
@@ -21,18 +21,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		if(Gdx.app.getType() == ApplicationType.Android&&time>0) {
-			
-			Q1R.batch.begin();
-			if(time < 0)
-			if(time>1)
-				Q1R.batch.setColor(1, 1, 1, 0);
-			else
-				Q1R.batch.setColor(1, 1, 1, (float) time);
-			Q1R.batch.draw(Resources.getImage("intefrace/AndroidControls"), 0, 0);
-			Q1R.batch.end();
-			time -= delta;
-		}
+		
 		for(int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
 		GameWorld.update(delta);
@@ -41,6 +30,20 @@ public class GameScreen implements Screen {
         Q1R.camera.update();
         Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
         Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
+        
+        if(Gdx.app.getType() == ApplicationType.Android&&time>0) {
+			
+			Q1R.batch.begin();
+			if(time>1)
+				Q1R.batch.setColor(1, 1, 1, 1);
+			else
+				Q1R.batch.setColor(1, 1, 1, (float) time);
+			Q1R.batch.draw(Resources.getImage("interface/AndroidControls"), 0, 0);
+			Q1R.batch.end();
+			Q1R.batch.setColor(1, 1, 1, 1);
+			time -= delta;
+		}
+
 		GameWorld.render();
 	}
 
