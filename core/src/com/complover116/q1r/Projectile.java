@@ -1,5 +1,6 @@
 package com.complover116.q1r;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Projectile extends Entity {
@@ -10,27 +11,46 @@ public class Projectile extends Entity {
 	float velY;
 	int color;
 	
+	double time = 0;
 	
 	public void tick(double deltaT) {
 		this.x += this.velX*deltaT;
 		this.y += this.velY*deltaT;
 		
+		time += deltaT;
+		
+		if(time>0.02) {
+			time = 0;
+			for(int i = 0; i < 3; i ++)
+				GameWorld.ents.add(new Particle(x, y, 4, 4, this.color, (float)Math.random()*40-20, (float)Math.random()*40-20));
+			GameWorld.ents.add(new Particle(x, y, 8, 16, this.color));
+		}
+		
 		for(int i = 0; i < GameWorld.platforms.size(); i ++) {
 			if(new Rectangle(this.x,this.y, 16,16).overlaps(GameWorld.platforms.get(i).bounds)) {
+				for(int j = 0; j < 8; j ++)
+					GameWorld.ents.add(new Particle(x, y, 8, 8, this.color, (float)Math.random()*160-80, (float)Math.random()*160-80));
 				this.isDead = true;
 			}
 		}
 	}
 	
 	public void draw() {
-		Q1R.shapeRenderer.setColor(1, 0, 0, 1);
+		for(int i = 0; i < 10; i += 1) {
+			Color col = PlayerEnt.colorFromID(color);
+			Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float)0.05);
+			Q1R.shapeRenderer.circle(x, y, 16+i*4);
+		}
+		
+		Q1R.shapeRenderer.setColor(PlayerEnt.colorFromID(color));
 		Q1R.shapeRenderer.rect(x-8,y-8,16,16);
 	}
 	
-	public Projectile(float x, float y, float velX, float velY) {
+	public Projectile(float x, float y, float velX, float velY, int color) {
 		this.x = x;
 		this.y = y;
 		this.velX = velX;
 		this.velY = velY;
+		this.color = color;
 	}
 }

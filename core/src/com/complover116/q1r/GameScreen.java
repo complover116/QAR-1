@@ -1,11 +1,14 @@
 package com.complover116.q1r;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 public class GameScreen implements Screen {
 	Q1R game;
+	
+	double time = 3;
 	public GameScreen(Q1R game) {
 		this.game = game;
 	}
@@ -18,6 +21,18 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		if(Gdx.app.getType() == ApplicationType.Android&&time>0) {
+			
+			Q1R.batch.begin();
+			if(time < 0)
+			if(time>1)
+				Q1R.batch.setColor(1, 1, 1, 0);
+			else
+				Q1R.batch.setColor(1, 1, 1, (float) time);
+			Q1R.batch.draw(Resources.getImage("intefrace/AndroidControls"), 0, 0);
+			Q1R.batch.end();
+			time -= delta;
+		}
 		for(int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
 		GameWorld.update(delta);

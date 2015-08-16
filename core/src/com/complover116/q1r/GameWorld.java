@@ -2,6 +2,8 @@ package com.complover116.q1r;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -24,7 +26,10 @@ public class GameWorld {
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
 		players.add(new PlayerEnt(1));
 		players.add(new PlayerEnt(2));
-		ents.add(new Projectile(100,200,200,100));
+		
+		
+		//Debug entities go there
+		//ents.add(new Projectile(100,200,200,100));
 	}
 	public static void render() {
 		//RENDER PLATFORMS
@@ -43,12 +48,14 @@ public class GameWorld {
 		}
 		
 		Q1R.batch.end();
+		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Q1R.shapeRenderer.begin(ShapeType.Filled);
 		//RENDER ENTITIES
 		for(int i = 0; i < ents.size(); i ++)
 			ents.get(i).draw();
 		
 		Q1R.shapeRenderer.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 		
 	}
 	public static void update(double deltaT) {

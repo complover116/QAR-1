@@ -10,6 +10,7 @@ interface/SFX
 interface/SliderScale
 interface/SliderSlide
 interface/lobbybackground
+interface/AndroidControls
 player1
 player2
 player3

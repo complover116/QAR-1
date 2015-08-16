@@ -1,8 +1,25 @@
 package com.complover116.q1r;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 
 public class PlayerEnt {
+	
+	public static Color colorFromID(int colorid) {
+		switch(colorid) {
+		case 1:
+			return Color.BLUE;
+		case 2:
+			return Color.RED;
+		case 3:
+			return Color.GREEN;
+		case 4:
+			return Color.YELLOW;
+		default:
+			return Color.BLACK;
+		}
+	}
+	
 	float x = 400;
 	float y = 400;
 	float velX = 0;
@@ -30,7 +47,7 @@ public class PlayerEnt {
 				xvel = -600;
 			else
 				xvel = 600;
-			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel+this.velX, this.velY));
+			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel+this.velX, this.velY, this.color));
 		}
 	}
 	public void tickPhysics(double deltaT) {
