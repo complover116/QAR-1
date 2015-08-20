@@ -4,5 +4,5 @@
 
 
 Uses the following sounds from freesound.org:
-http://www.freesound.org/people/Julien%20Matthey/sounds/201571/
-http://www.freesound.org/people/bubaproducer/sounds/151022/
+- http://www.freesound.org/people/Julien%20Matthey/sounds/201571/
+- http://www.freesound.org/people/bubaproducer/sounds/151022/
