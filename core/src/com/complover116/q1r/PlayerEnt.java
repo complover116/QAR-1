@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class PlayerEnt {
 	
+	int time = 0;
 	public static Color colorFromID(int colorid) {
 		switch(colorid) {
 		case 1:
@@ -35,6 +36,9 @@ public class PlayerEnt {
 	byte jumpsleft = 0;
 	int color = 1;
 	double fireDelay = 1;
+	int health = 4;
+	boolean inControl = true;
+	boolean isDead = false;
 	
 	Rectangle getBB() {
 		return new Rectangle(x,y,32,32);
@@ -42,6 +46,8 @@ public class PlayerEnt {
 	
 	void fire () {
 		if(fireDelay < 0) {
+			this.fireDelay = 0.5;
+			Resources.playSound("firenew"+(int)(Math.random()*3+1));
 			int xvel = 0;
 			if(this.facingLeft)
 				xvel = -600;
@@ -70,9 +76,9 @@ public class PlayerEnt {
 		if(this.moveDir==1)this.facingLeft = false;
 		if(this.moveDir==-1)this.facingLeft = true;
 		
-		this.velX = this.moveDir*500;
-		
-		
+		if(this.inControl)this.velX = this.moveDir*500;
+		else
+		this.velX += this.moveDir*1000*deltaT;
 		
 		float newY = (float) (this.y + this.velY*deltaT);
 		float newX = (float) (this.x + this.velX*deltaT);
@@ -108,6 +114,7 @@ public class PlayerEnt {
 			this.y=newY;
 		} else {
 			if(this.velY<0) {
+				this.inControl = true;
 				this.jumpsleft = 1;
 			}
 			this.y=topCollision;
@@ -124,5 +131,21 @@ public class PlayerEnt {
 	
 	public PlayerEnt(int color) {
 		this.color = color;
+	}
+
+	public void getHit(int amount, boolean left) {
+		Resources.playSound("hurtnew"+(int)(Math.random()*3+1));
+		this.inControl = false;
+		this.velX = 400;
+		if(left)this.velX = -400;
+		this.velY = 800;
+		this.health = this.health - amount;
+		if(this.health <= 0){
+			for(int i = 0; i < 50; i++) {
+				GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float)(Math.random()*400 - 200), (float)(Math.random()*400-50), true));
+			}
+			this.isDead = true;
+			Resources.playSound("explode");
+		}
 	}
 }

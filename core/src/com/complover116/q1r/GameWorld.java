@@ -22,6 +22,13 @@ public class GameWorld {
 	 */
 	public static ArrayList<Entity> ents = new ArrayList<Entity>();
 	public static void init() {
+		platforms.add(new Platform(new Rectangle(0, 0, 10, 600), 0));
+		platforms.add(new Platform(new Rectangle(790, 0, 10, 600), 0));
+		platforms.add(new Platform(new Rectangle(0, 0, 800, 10), 0));
+		
+		platforms.add(new Platform(new Rectangle(100, 100, 100, 10), 0));
+		platforms.add(new Platform(new Rectangle(10, 200, 100, 10), 0));
+		
 		platforms.add(new Platform(new Rectangle(100, 300, 600, 10), 0));
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
 		players.add(new PlayerEnt(1));
@@ -59,8 +66,11 @@ public class GameWorld {
 		
 	}
 	public static void update(double deltaT) {
-		for(int i = 0; i < players.size(); i ++) {
-			players.get(i).tickPhysics(deltaT);;
+		for(int i = players.size()-1; i > -1; i --) {
+			if(players.get(i).isDead)
+				players.remove(i);
+			else
+				players.get(i).tickPhysics(deltaT);;
 		}
 		for(int i = ents.size()-1; i > -1; i --) {
 			if(ents.get(i).isDead)

@@ -9,6 +9,8 @@ public class Particle extends Entity {
 	float fadeSpeed;
 	int color;
 	
+	boolean gravity = false;
+	
 	float velX;
 	float velY;
 	
@@ -33,6 +35,10 @@ public class Particle extends Entity {
 		this.x += this.velX*deltaT;
 		this.y += this.velY*deltaT;
 		
+		if(this.gravity){
+			this.velY -= 600*deltaT;
+		}
+		
 		this.size -= fadeSpeed*deltaT;
 		if(this.size<=0) {
 			//Gdx.app.log("Entities", "Particle died");
@@ -48,6 +54,16 @@ public class Particle extends Entity {
 		this.color = color;
 		this.velX = velX;
 		this.velY = velY;
+	}
+	public Particle(float x, float y, float size, float fadeSpeed, int color, float velX, float velY, boolean gravity) {
+		this.x = x;
+		this.y = y;
+		this.size = size;
+		this.fadeSpeed = fadeSpeed;
+		this.color = color;
+		this.velX = velX;
+		this.velY = velY;
+		this.gravity = gravity;
 	}
 	
 	public Particle(float x, float y, float size, float fadeSpeed, int color) {

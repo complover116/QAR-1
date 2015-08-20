@@ -33,6 +33,15 @@ public class Projectile extends Entity {
 				this.isDead = true;
 			}
 		}
+		for(int i = 0; i < GameWorld.players.size(); i ++) {
+			if(GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x,this.y, 16,16))&&GameWorld.players.get(i).color!=this.color) {
+				this.isDead = true;
+				if(this.x>GameWorld.players.get(i).x)
+				GameWorld.players.get(i).getHit(1, true);
+				else
+				GameWorld.players.get(i).getHit(1, false);
+			}
+		}
 	}
 	
 	public void draw() {
