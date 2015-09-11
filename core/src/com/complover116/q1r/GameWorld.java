@@ -45,9 +45,9 @@ public class GameWorld {
 		
 		
 		//LEFT
-		buttons[0] = new AndroidButton(new Rectangle(0,0,400,300));
+		buttons[0] = new AndroidButton(new Rectangle(0,0,200,300));
 		//RIGHT
-		buttons[1] = new AndroidButton(new Rectangle(0,300,400,300));
+		buttons[1] = new AndroidButton(new Rectangle(200,0,200,300));
 		//JUMP
 		buttons[2] = new AndroidButton(new Rectangle(400,300,400,300));
 		//FIRE
