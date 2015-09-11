@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class GameWorld {
 	
 	
-	public static AndroidButton buttons[] = new AndroidButton[4];
+	public static AndroidButton buttons[] = new AndroidButton[5];
 	/***
 	 * Contains the current map data
 	 */
@@ -52,6 +52,9 @@ public class GameWorld {
 		buttons[2] = new AndroidButton(new Rectangle(400,300,400,300));
 		//FIRE
 		buttons[3] = new AndroidButton(new Rectangle(400,0,400,300));
+		
+		//RESTART
+		buttons[4] = new AndroidButton(new Rectangle(0,500,100,100));
 		
 		//Debug entities go there
 		//ents.add(new Projectile(100,200,200,100));
@@ -97,7 +100,7 @@ public class GameWorld {
 			buttons[i].update();
 		}
 		//Check if restarting
-		if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+		if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH) || buttons[4].isPressed) {
 			GameManager.prepareLocal();
 		}
 		for(int i = players.size()-1; i > -1; i --) {
