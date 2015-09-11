@@ -66,11 +66,10 @@ public class Player {
 	public void tick() {
 		if(this.connectionType == CONNECTION_LOCAL) {
 			if(Gdx.app.getType() == ApplicationType.Android) {
-				if(GameWorld.buttons[0].isPressed){
-					ent.moveDir = -1;
-				} else
 				if(GameWorld.buttons[1].isPressed){
-					ent.moveDir = 1;
+					ent.moveDir=1;
+				} else if(GameWorld.buttons[0].isPressed){
+					ent.moveDir=-1;
 				} else {
 					ent.moveDir = 0;
 				}
@@ -80,7 +79,7 @@ public class Player {
 				if(GameWorld.buttons[3].isPressed){
 					ent.fire = true;
 				}
-			}
+			} else {
 			if(Gdx.input.isKeyJustPressed(key_up)) {
 				ent.jump = true;
 			}
@@ -91,6 +90,7 @@ public class Player {
 			} else ent.moveDir = 0;
 			if(Gdx.input.isKeyJustPressed(key_down)) {
 				ent.fire = true;
+			}
 			}
 		} else if(this.connectionType == CONNECTION_BOT) {
 			AI.tickFor(ent, 0.1);
