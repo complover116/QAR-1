@@ -21,8 +21,8 @@ public class PlayerEnt {
 		}
 	}
 	
-	float x = 400;
-	float y = 400;
+	float x = (float)(Math.random()*700 + 50);
+	float y = (float)(Math.random()*500 + 50);
 	float velX = 0;
 	float velY = 0;
 	
