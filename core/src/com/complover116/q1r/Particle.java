@@ -24,6 +24,8 @@ public class Particle extends Entity {
 				Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float)0.1);
 				Q1R.shapeRenderer.rect(x-size/2-size/10*i,y-size/2-size/10*i,size+size/5*i,size+size/5*i);
 			}
+		} else {
+			Q1R.shapeRenderer.rect(x-size/2,y-size/2,size,size);
 		}
 		//Q1R.shapeRenderer.setColor(PlayerEnt.colorFromID(color));
 		//Q1R.shapeRenderer.rect(x-size/2,y-size/2,size,size);
@@ -54,8 +56,9 @@ public class Particle extends Entity {
 		this.color = color;
 		this.velX = velX;
 		this.velY = velY;
+		this.glow = false;
 	}
-	public Particle(float x, float y, float size, float fadeSpeed, int color, float velX, float velY, boolean gravity) {
+	public Particle(float x, float y, float size, float fadeSpeed, int color, float velX, float velY, boolean glow, boolean gravity) {
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -64,6 +67,7 @@ public class Particle extends Entity {
 		this.velX = velX;
 		this.velY = velY;
 		this.gravity = gravity;
+		this.glow = glow;
 	}
 	
 	public Particle(float x, float y, float size, float fadeSpeed, int color) {

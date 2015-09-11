@@ -93,8 +93,8 @@ public class PlayerEnt {
 						topCollision = GameWorld.platforms.get(i).bounds.getY()+GameWorld.platforms.get(i).bounds.getHeight();
 					}
 				} else {
-					if(topCollision>GameWorld.platforms.get(i).bounds.getY()){
-						topCollision = GameWorld.platforms.get(i).bounds.getY();
+					if(topCollision<GameWorld.platforms.get(i).bounds.getY()-32){
+						topCollision = GameWorld.platforms.get(i).bounds.getY()-32;
 					}
 				}
 			}
@@ -135,6 +135,9 @@ public class PlayerEnt {
 
 	public void getHit(int amount, boolean left) {
 		Resources.playSound("hurtnew"+(int)(Math.random()*3+1));
+		for(int i = 0; i < 20; i++) {
+			GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float)(Math.random()*400 - 200), (float)(Math.random()*400-50), false, true));
+		}
 		this.inControl = false;
 		this.velX = 400;
 		if(left)this.velX = -400;
@@ -142,7 +145,7 @@ public class PlayerEnt {
 		this.health = this.health - amount;
 		if(this.health <= 0){
 			for(int i = 0; i < 50; i++) {
-				GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float)(Math.random()*400 - 200), (float)(Math.random()*400-50), true));
+				GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float)(Math.random()*800 - 400), (float)(Math.random()*800-100), false, true));
 			}
 			this.isDead = true;
 			Resources.playSound("explode");

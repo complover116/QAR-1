@@ -3,6 +3,7 @@ package com.complover116.q1r;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,6 +23,9 @@ public class GameWorld {
 	 */
 	public static ArrayList<Entity> ents = new ArrayList<Entity>();
 	public static void init() {
+		platforms.clear();
+		players.clear();
+		
 		platforms.add(new Platform(new Rectangle(0, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(790, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(0, 0, 800, 10), 0));
@@ -39,6 +43,7 @@ public class GameWorld {
 		//ents.add(new Projectile(100,200,200,100));
 	}
 	public static void render() {
+		
 		//RENDER PLATFORMS
 		Q1R.shapeRenderer.begin(ShapeType.Line);
 		Q1R.shapeRenderer.setColor(1, 1, 1, 1);
@@ -66,6 +71,10 @@ public class GameWorld {
 		
 	}
 	public static void update(double deltaT) {
+		//Check if restarting
+		if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
+			GameManager.prepareLocal();
+		}
 		for(int i = players.size()-1; i > -1; i --) {
 			if(players.get(i).isDead)
 				players.remove(i);

@@ -20,6 +20,7 @@ public class GameManager {
 	
 	
 	public static void prepareLocal() {
+		players.clear();
 		Gdx.app.log("GameManager", "Preparing local client...");
 		GameWorld.init();
 		players.add(new Player(GameWorld.players.get(0),1));
