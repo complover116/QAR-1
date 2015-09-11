@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameWorld {
+	
+	
+	public static AndroidButton buttons[] = new AndroidButton[4];
 	/***
 	 * Contains the current map data
 	 */
@@ -39,6 +42,16 @@ public class GameWorld {
 		players.add(new PlayerEnt(2));
 		players.add(new PlayerEnt(3));
 		players.add(new PlayerEnt(4));
+		
+		
+		//LEFT
+		buttons[0] = new AndroidButton(new Rectangle(0,0,400,300));
+		//RIGHT
+		buttons[1] = new AndroidButton(new Rectangle(0,300,400,300));
+		//JUMP
+		buttons[2] = new AndroidButton(new Rectangle(400,300,400,300));
+		//FIRE
+		buttons[3] = new AndroidButton(new Rectangle(400,0,400,300));
 		
 		//Debug entities go there
 		//ents.add(new Projectile(100,200,200,100));
@@ -72,6 +85,9 @@ public class GameWorld {
 		
 	}
 	public static void update(double deltaT) {
+		for(int i = 0; i < buttons.length; i ++){
+			buttons[i].update();
+		}
 		//Check if restarting
 		if(Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH)) {
 			GameManager.prepareLocal();

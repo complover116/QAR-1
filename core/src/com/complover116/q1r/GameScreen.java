@@ -4,13 +4,17 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
 	Q1R game;
 	
+	
+	
 	double time = 5;
 	public GameScreen(Q1R game) {
 		this.game = game;
+	
 	}
 
 	@Override
@@ -21,6 +25,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		
 		
 		for(int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();

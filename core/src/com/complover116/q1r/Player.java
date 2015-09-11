@@ -2,8 +2,10 @@ package com.complover116.q1r;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Application.ApplicationType;
 
 public class Player {
+	
 	
 	/***
 	 * This is a bot.
@@ -63,6 +65,22 @@ public class Player {
 	}
 	public void tick() {
 		if(this.connectionType == CONNECTION_LOCAL) {
+			if(Gdx.app.getType() == ApplicationType.Android) {
+				if(GameWorld.buttons[0].isPressed){
+					ent.moveDir = -1;
+				} else
+				if(GameWorld.buttons[1].isPressed){
+					ent.moveDir = 1;
+				} else {
+					ent.moveDir = 0;
+				}
+				if(GameWorld.buttons[2].isPressed){
+					ent.jump = true;
+				}
+				if(GameWorld.buttons[3].isPressed){
+					ent.fire = true;
+				}
+			}
 			if(Gdx.input.isKeyJustPressed(key_up)) {
 				ent.jump = true;
 			}
