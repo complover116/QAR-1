@@ -33,11 +33,13 @@ public class Player {
 	 */
 	final static byte CONNECTION_INDIRECT = 3;
 	
-	public byte connectionType = CONNECTION_LOCAL;
+	public byte connectionType;
 	
 	PlayerEnt ent;
 	
 	public Player(PlayerEnt entity, int cont) {
+		connectionType = CONNECTION_LOCAL;
+		
 		switch(cont) {
 		case 1:
 			this.key_up = Input.Keys.W;
@@ -51,6 +53,10 @@ public class Player {
 			this.key_left = Input.Keys.LEFT;
 			this.key_right = Input.Keys.RIGHT;
 		break;
+		case 5:
+			if(true) {
+				connectionType = CONNECTION_BOT;
+			}
 		}
 		this.ent = entity;
 		this.controlScheme = cont;
@@ -68,6 +74,8 @@ public class Player {
 			if(Gdx.input.isKeyJustPressed(key_down)) {
 				ent.fire = true;
 			}
+		} else if(this.connectionType == CONNECTION_BOT) {
+			AI.tickFor(ent, 0.1);
 		}
 	}
 }

@@ -24,6 +24,8 @@ public class GameManager {
 		Gdx.app.log("GameManager", "Preparing local client...");
 		GameWorld.init();
 		players.add(new Player(GameWorld.players.get(0),1));
-		players.add(new Player(GameWorld.players.get(1),2));
+		players.add(new Player(GameWorld.players.get(1),5));
+		players.add(new Player(GameWorld.players.get(2),5));
+		players.add(new Player(GameWorld.players.get(3),5));
 	}
 }

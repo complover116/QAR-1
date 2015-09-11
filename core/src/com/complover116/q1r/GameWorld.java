@@ -37,7 +37,8 @@ public class GameWorld {
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
 		players.add(new PlayerEnt(1));
 		players.add(new PlayerEnt(2));
-		
+		players.add(new PlayerEnt(3));
+		players.add(new PlayerEnt(4));
 		
 		//Debug entities go there
 		//ents.add(new Projectile(100,200,200,100));

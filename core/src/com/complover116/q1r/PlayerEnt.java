@@ -98,8 +98,6 @@ public class PlayerEnt {
 					}
 				}
 			}
-			//TODO;Fix weird teleporting bug
-			//Caused by checking against old y
 			if(GameWorld.platforms.get(i).bounds.overlaps(new Rectangle(newX,this.y,32,32))) {
 				moveToPlan = false;
 				if(this.velX>0){
