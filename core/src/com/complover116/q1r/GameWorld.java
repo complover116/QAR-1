@@ -63,14 +63,14 @@ public class GameWorld {
 		
 		//RENDER PLATFORMS
 		Q1R.shapeRenderer.begin(ShapeType.Line);
-		Q1R.shapeRenderer.setColor(0, 1, 1, 1);
+		/*Q1R.shapeRenderer.setColor(0, 1, 1, 1);
 		for(int i = 0; i < buttons.length; i ++) {
 			if(buttons[i].isPressed)
 				Q1R.shapeRenderer.setColor(1, 0, 0, 1);
 			else
 				Q1R.shapeRenderer.setColor(0, 1, 1, 0.5f);
 			Q1R.shapeRenderer.rect(buttons[i].bounds.x, buttons[i].bounds.y, buttons[i].bounds.width, buttons[i].bounds.height);
-		}
+		}*/
 		Q1R.shapeRenderer.setColor(1, 1, 1, 1);
 		for(int i = 0; i < platforms.size(); i++) {
 			Platform plat = platforms.get(i);
