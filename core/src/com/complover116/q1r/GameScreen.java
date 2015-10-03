@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
 	Settings.ticktime = (float)(spaaps / 10);
 	
 	Q1R.batch.begin();
-	Q1R.font.draw(Q1R.batch, "Tick Time:"+Settings.ticktime, 50, 50);
+	Q1R.font.draw(Q1R.batch, "Tick Time:"+Math.floor(Settings.ticktime*100)/100, 50, 50);
 	Q1R.batch.end();
         if(Gdx.app.getType() == ApplicationType.Android&&time>0) {
 			

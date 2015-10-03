@@ -22,8 +22,10 @@ public class Projectile extends Entity {
 		if(time>0.02) {
 			time = 0;
 			for(int i = 0; i < 3; i ++)
+				if(Settings.ticktime<0.2)
 				GameWorld.ents.add(new Particle(x, y, 4, 4, this.color, (float)Math.random()*200-100, (float)Math.random()*200-100, false, true));
-			GameWorld.ents.add(new Particle(x, y, 8, 16, this.color, 0, 0, false, false));
+if(Settings.ticktime<0.3)			
+GameWorld.ents.add(new Particle(x, y, 8, 16, this.color, 0, 0, false, false));
 		}
 		
 		for(int i = 0; i < GameWorld.platforms.size(); i ++) {
@@ -42,6 +44,10 @@ public class Projectile extends Entity {
 				GameWorld.players.get(i).getHit(1, false);
 			}
 		}
+		
+		if(this.x > 1000||this.x<-200||this.y>1000||this.y<-200){
+this.isDead = true;
+}
 	}
 	
 	public void draw() {
