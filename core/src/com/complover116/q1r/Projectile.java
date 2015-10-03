@@ -22,7 +22,7 @@ public class Projectile extends Entity {
 		if(time>0.02) {
 			time = 0;
 			for(int i = 0; i < 3; i ++)
-				GameWorld.ents.add(new Particle(x, y, 4, 4, this.color, (float)Math.random()*200-100, (float)Math.random()*200-100, true, true));
+				GameWorld.ents.add(new Particle(x, y, 4, 4, this.color, (float)Math.random()*200-100, (float)Math.random()*200-100, false, true));
 			GameWorld.ents.add(new Particle(x, y, 8, 16, this.color, 0, 0, false, false));
 		}
 		
