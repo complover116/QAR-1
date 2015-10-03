@@ -99,7 +99,7 @@ public class MainMenuScreen implements Screen {
 	
 	if(loaded == 2) {
             Resources.load();
-	    Settings.benchmark();
+	    //Settings.benchmark();
             //loaded = 2;
             return;
         }
