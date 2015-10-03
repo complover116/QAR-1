@@ -6,15 +6,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class Q1R extends Game {
 	public static SpriteBatch batch;
 	public static ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public static Viewport viewport;
-	
+	public static BitmapFont font;	
 	@Override
 	public void create () {
+font = new BitmapFont();
+        font.setColor(Color.WHITE);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,800,600);
         viewport = new FitViewport(800, 600, camera);

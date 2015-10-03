@@ -14,22 +14,7 @@ public class Settings {
 
 
 
-    public static float benchtime = 0;
+    public static float ticktime = 0;
 
-    public static void benchmark() {
-	final int cycles = 1000000;	
-	long start = System.currentTimeMillis();
-	for(int i = 0; i < cycles; i++) {
-		for(int l = 0; l < 10; l ++){
-		int k = (int)(Math.random()*20000)*(int)(Math.random()*20000);
-}
-		if(i%(cycles/10)==0) {
-			Gdx.app.log("Benchmarking", i/(cycles/100)+"% complete");
-		}
-	}
-	long time = System.currentTimeMillis() - start;
-	benchtime = (float)time/(float)1000;
-	Gdx.app.log("Benchmarking", "Complete. Time: "+benchtime+"seconds");
-    }
-
+    public static double[] ttimes = new double[100];
 }

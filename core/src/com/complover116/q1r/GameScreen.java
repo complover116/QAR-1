@@ -36,6 +36,18 @@ public class GameScreen implements Screen {
         Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
         Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
         
+	double spaaps = 0;
+	for(int i = 0; i < 99; i ++) {
+	spaaps += Settings.ttimes[i];
+	Settings.ttimes[i] = Settings.ttimes[i+1];
+	}
+	Settings.ttimes[99] = delta;
+	spaaps += delta;
+	Settings.ticktime = (float)(spaaps / 10);
+	
+	Q1R.batch.begin();
+	Q1R.font.draw(Q1R.batch, "Tick Time:"+Settings.ticktime, 50, 50);
+	Q1R.batch.end();
         if(Gdx.app.getType() == ApplicationType.Android&&time>0) {
 			
 			Q1R.batch.begin();

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+
 import java.util.ArrayList;
 
 /**
@@ -99,6 +100,9 @@ public class MainMenuScreen implements Screen {
 	
 	if(loaded == 2) {
             Resources.load();
+	    for(int i = 0; i < 100; i ++){
+Settings.ttimes[i] = 0;
+}
 	    //Settings.benchmark();
             //loaded = 2;
             return;
