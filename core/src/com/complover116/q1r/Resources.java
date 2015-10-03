@@ -15,6 +15,7 @@ public class Resources {
 
     public static void loadVital() {
         textures.put("splashscreen", new Texture(Gdx.files.internal("img/Logo.png")));
+	textures.put("ERROR", new Texture(Gdx.files.internal("img/ERROR.png")));
     }
     public static void load() {
 
@@ -26,16 +27,21 @@ public class Resources {
 
         for(String imagename : imglist) {
             imagename = imagename.trim();
+	    MainMenuScreen.loadStep = "Loading "+imagename;
             try {
                 textures.put(imagename, new Texture(Gdx.files.internal("img/" + imagename+".png")));
                 Gdx.app.log("Resources", "Loaded "+imagename);
             } catch (Exception e) {
                 Gdx.app.error("Resources", "Failed loading "+imagename);
-            }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
+		e.printStackTrace();
+		MainMenuScreen.loaded = -1;
+				
+		try {		
+		Thread.sleep(500);
+		} catch (InterruptedException e1) {
 
+            	}
+		return;
             }
         }
 
@@ -48,19 +54,21 @@ public class Resources {
 
         for(String soundname : soundlist) {
             soundname = soundname.trim();
+	    MainMenuScreen.loadStep = "Loading "+soundname;
             try {
                 sounds.put(soundname, Gdx.audio.newSound(Gdx.files.internal("sound/effects/" + soundname+".wav")));
                 Gdx.app.log("Resources", "Loaded "+soundname);
             } catch (Exception e) {
                 Gdx.app.error("Resources", "Failed loading "+soundname);
+		MainMenuScreen.loaded = -1;
             }
-            try {
-                Thread.sleep(10);
+        }
+try {
+                Thread.sleep(100);
             } catch (InterruptedException e) {
 
             }
-        }
-
+	MainMenuScreen.loaded = 0;
     }
 
     public static Texture getImage(String name) {

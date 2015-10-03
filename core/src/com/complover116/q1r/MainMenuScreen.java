@@ -13,12 +13,14 @@ import java.util.ArrayList;
  */
 public class MainMenuScreen implements Screen {
 	Q1R game;
+
+    static volatile String loadStep;
     public ArrayList<Button> buttons = new ArrayList<Button>();
     int curselect = -1;
     int nextMode = 0;
     int state = 1;
     int curScreen = 0;
-    byte loaded = 1;
+    static volatile byte loaded = 1;
     boolean lastClick = false;
     static class Button {
         Rectangle rect;
@@ -94,20 +96,27 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Q1R.camera.update();
         Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
-
+	
+	if(loaded == 2) {
+            Resources.load();
+	    Settings.benchmark();
+            //loaded = 2;
+            return;
+        }
         if(loaded == 1) {
             Q1R.batch.begin();
             Q1R.batch.draw(Resources.textures.get("splashscreen"), 208, 175);
             Q1R.batch.end();
-
-            loaded = 2;
+	    loaded = 2;
             return;
         }
-        if(loaded == 2) {
-            Resources.load();
-            loaded = 0;
+        if(loaded == -1) {
+            Q1R.batch.begin();
+            Q1R.batch.draw(Resources.textures.get("ERROR"), 208, 175);
+            Q1R.batch.end();
             return;
         }
+        
             int newselect = -1;
         if(state == 0) {
             Vector3 unp = Q1R.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
