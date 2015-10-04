@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class PlayerEnt {
 	
+	Player ply;
+	
 	int time = 0;
 	public static Color colorFromID(int colorid) {
 		switch(colorid) {
@@ -132,6 +134,7 @@ public class PlayerEnt {
 	}
 
 	public void getHit(int amount, boolean left) {
+		ply.streak = 0;
 		Resources.playSound("hurtnew"+(int)(Math.random()*3+1));
 		for(int i = 0; i < 20; i++) {
 			GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float)(Math.random()*400 - 200), (float)(Math.random()*400-50), false, true));

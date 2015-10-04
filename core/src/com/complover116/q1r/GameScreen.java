@@ -5,11 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
 	Q1R game;
 	
-	
+	int WIDTH = 0;
+	int HEIGHT = 0;
 	
 	double time = 5;
 	public GameScreen(Q1R game) {
@@ -33,9 +35,24 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Q1R.camera.update();
-        Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
-        Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
         
+	
+	Gdx.gl.glViewport(0, 0, WIDTH, HEIGHT);
+	
+	Q1R.shapeRenderer.getProjectionMatrix().idt().setToOrtho2D(0,0,WIDTH,HEIGHT);
+	Q1R.shapeRenderer.getTransformMatrix().idt();
+	Q1R.batch.getProjectionMatrix().idt().setToOrtho2D(0,0,WIDTH,HEIGHT);
+	Q1R.batch.getTransformMatrix().idt();
+	//PLAYER INFO RENDER CODE
+	for(int i = 0; i < GameManager.players.size(); i++)
+		GameManager.players.get(i).draw();
+	
+	Q1R.viewport.update(WIDTH, HEIGHT);
+        Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
+	Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
+	
+	
+	
 	double spaaps = 0;
 	for(int i = 0; i < 99; i ++) {
 	spaaps += Settings.ttimes[i];
@@ -67,6 +84,8 @@ public class GameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		Q1R.viewport.update(width, height);
+		WIDTH = width;
+		HEIGHT = height;
 	}
 
 	@Override

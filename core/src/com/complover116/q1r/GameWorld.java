@@ -28,6 +28,7 @@ public class GameWorld {
 	public static void init() {
 		platforms.clear();
 		players.clear();
+		ents.clear();
 		
 		platforms.add(new Platform(new Rectangle(0, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(790, 0, 10, 600), 0));
@@ -82,6 +83,8 @@ public class GameWorld {
 		Q1R.batch.begin();
 		for(int i = 0; i < players.size(); i ++) {
 			Q1R.batch.draw(Resources.getImage(players.get(i).getImage()), players.get(i).x, players.get(i).y);
+			/*Q1R.font.setColor(PlayerEnt.colorFromID(players.get(i).color));
+			Q1R.font.draw(Q1R.batch, ""+players.get(i).ply.score, players.get(i).x+10, players.get(i).y+40);*/
 		}
 		
 		Q1R.batch.end();

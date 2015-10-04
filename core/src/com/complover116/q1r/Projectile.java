@@ -38,6 +38,12 @@ GameWorld.ents.add(new Particle(x, y, 8, 16, this.color, 0, 0, false, false));
 		for(int i = 0; i < GameWorld.players.size(); i ++) {
 			if(GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x,this.y, 16,16))&&GameWorld.players.get(i).color!=this.color) {
 				this.isDead = true;
+				for(int j = 0; j < GameManager.players.size(); j ++) {
+					if(GameManager.players.get(i).ent.color == this.color) {
+						GameManager.players.get(i).score++;
+						GameManager.players.get(i).streak++;
+					}
+				}
 				if(this.x>GameWorld.players.get(i).x)
 				GameWorld.players.get(i).getHit(1, true);
 				else

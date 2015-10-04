@@ -12,18 +12,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class Q1R extends Game {
 	public static SpriteBatch batch;
 	public static ShapeRenderer shapeRenderer;
-    public static OrthographicCamera camera;
-    public static Viewport viewport;
+    	public static OrthographicCamera camera;
+    	public static Viewport viewport;
 	public static BitmapFont font;	
 	@Override
 	public void create () {
-font = new BitmapFont();
+	font = new BitmapFont();
         font.setColor(Color.WHITE);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,800,600);
         viewport = new FitViewport(800, 600, camera);
-		batch = new SpriteBatch();
-		shapeRenderer = new ShapeRenderer();
+	batch = new SpriteBatch();
+	shapeRenderer = new ShapeRenderer();
         Resources.loadVital();
         this.setScreen(new MainMenuScreen(this));
 	}

@@ -2,10 +2,15 @@ package com.complover116.q1r;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Application.ApplicationType;
 
 public class Player {
-	
+	int score = 0;
+	int streak = 0;
+	int trickshots = 0;
 	
 	/***
 	 * This is a bot.
@@ -41,7 +46,7 @@ public class Player {
 	
 	public Player(PlayerEnt entity, int cont) {
 		connectionType = CONNECTION_LOCAL;
-		
+		entity.ply = this;
 		switch(cont) {
 		case 1:
 			this.key_up = Input.Keys.W;
@@ -62,6 +67,46 @@ public class Player {
 		}
 		this.ent = entity;
 		this.controlScheme = cont;
+	}
+	public void draw() {
+		Q1R.shapeRenderer.setColor(ent.colorFromID(ent.color));
+		int X = 0;
+		int Y = 0;
+		
+		switch(ent.color) {
+			case 1:
+				X = 0;
+				Y = 600;
+			break;
+			case 2:
+				X = 0;
+				Y = 80;
+			break;
+			case 3:
+				X = 780;
+				Y = 600;
+			break;
+			case 4:
+				X = 780;
+				Y = 80;
+			break;
+		}
+		Q1R.shapeRenderer.begin(ShapeType.Line);
+		for(int i = 0; i < 4; i++){
+			Q1R.shapeRenderer.rect(X, Y-20-i*20, 20, 20);
+		}
+		Q1R.shapeRenderer.end();
+		
+		Q1R.shapeRenderer.begin(ShapeType.Filled);
+		Color col = ent.colorFromID(ent.color);
+		for(int i = 0; i < 4; i++){
+			if(ent.health>i)
+				Q1R.shapeRenderer.rect(X, Y-20-i*20, 20, 20);
+		}
+		Q1R.shapeRenderer.end();
+		//Q1R.batch.begin();
+		//Q1R.font.draw(Q1R.batch, "Score:"+score, X, Y-100);
+		//Q1R.batch.end();
 	}
 	public void tick() {
 		if(this.connectionType == CONNECTION_LOCAL) {
