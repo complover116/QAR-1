@@ -9,48 +9,51 @@ import com.badlogic.gdx.graphics.GL20;
  */
 public class LobbyScreen implements Screen {
 
-	//TODO: Temporary!!!
+	// TODO: Temporary!!!
 	Q1R game;
+
 	public LobbyScreen(Q1R gmae) {
 		game = gmae;
 	}
-	
-    @Override
-    public void show() {
 
-    }
+	@Override
+	public void show() {
 
-    @Override
-    public void render(float delta) {
-    	Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Q1R.camera.update();
-        Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
-        Q1R.batch.begin();
-        Q1R.batch.draw(Resources.getImage("interface/lobbybackground"), 0, 0);
-        Q1R.batch.end();
-    }
+	}
 
-    @Override
-    public void resize(int width, int height) {Q1R.viewport.update(width, height);}
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Q1R.camera.update();
+		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
+		Q1R.batch.begin();
+		Q1R.batch.draw(Resources.getImage("interface/lobbybackground"), 0, 0);
+		Q1R.batch.end();
+	}
 
-    @Override
-    public void pause() {
+	@Override
+	public void resize(int width, int height) {
+		Q1R.viewport.update(width, height);
+	}
 
-    }
+	@Override
+	public void pause() {
 
-    @Override
-    public void resume() {
+	}
 
-    }
+	@Override
+	public void resume() {
 
-    @Override
-    public void hide() {
+	}
 
-    }
+	@Override
+	public void hide() {
 
-    @Override
-    public void dispose() {
+	}
 
-    }
+	@Override
+	public void dispose() {
+
+	}
 }
