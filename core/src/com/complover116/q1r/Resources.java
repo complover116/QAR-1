@@ -1,6 +1,7 @@
 package com.complover116.q1r;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -12,7 +13,10 @@ import java.util.HashMap;
 public class Resources {
 	public static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	public static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
-
+	
+	
+	public static Music Music_DM;
+	
 	public static void loadVital() {
 		textures.put("splashscreen", new Texture(Gdx.files.internal("img/Logo.png")));
 		textures.put("ERROR", new Texture(Gdx.files.internal("img/ERROR.png")));
@@ -63,6 +67,15 @@ public class Resources {
 				Gdx.app.error("Resources", "Failed loading " + soundname);
 				MainMenuScreen.loaded = -1;
 			}
+		}
+		Gdx.app.log("Resources", "Loading music...");
+		try {
+			Music_DM = Gdx.audio.newMusic(Gdx.files.internal("sound/music/Q1R_DM.ogg"));
+			
+			Music_DM.setLooping(true);
+		} catch (Exception e) {
+			Gdx.app.error("Resources", "Failed loading music!");
+			MainMenuScreen.loaded = -1;
 		}
 		try {
 			Thread.sleep(100);
