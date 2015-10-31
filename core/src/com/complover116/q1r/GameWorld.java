@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GameWorld {
 
-	public static AndroidButton buttons[] = new AndroidButton[5];
+	public static AndroidButton buttons[] = new AndroidButton[6];
 	/***
 	 * Contains the current map data
 	 */
@@ -55,6 +55,9 @@ public class GameWorld {
 
 		// RESTART
 		buttons[4] = new AndroidButton(new Rectangle(0, 500, 100, 100));
+		
+		// MENU
+		buttons[5] = new AndroidButton(new Rectangle(600, 500, 200, 100));
 
 		// Debug entities go there
 		// ents.add(new Projectile(100,200,200,100));
@@ -111,6 +114,7 @@ public class GameWorld {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH) || buttons[4].isPressed) {
 			GameManager.prepareLocal();
 		}
+		
 		for (int i = players.size() - 1; i > -1; i--) {
 			if (players.get(i).isDead)
 				players.remove(i);

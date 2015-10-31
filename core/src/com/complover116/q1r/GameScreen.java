@@ -80,7 +80,7 @@ public class GameScreen implements Screen {
 		GameWorld.render();
 		
 		//MENU CODE
-		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)&&!menuShown){
+		if((GameWorld.buttons[5].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
 		menuShown = true;
 		Resources.Music_DM.pause();
 		Resources.Music_Offline.play();
