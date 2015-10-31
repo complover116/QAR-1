@@ -61,6 +61,7 @@ public class MainMenuScreen implements Screen {
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Settings"));
 		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Resume"));
+		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Restart"));
 		curScreen = 0;
 	}
 
@@ -149,6 +150,10 @@ public class MainMenuScreen implements Screen {
 						state = -1;
 						nextMode = 25565;
 					}
+					if (newselect == 3) {
+						state = -1;
+						nextMode = 1337;
+					}
 				}
 				if (curScreen == 1) {
 					if (newselect == 0) {
@@ -213,6 +218,10 @@ public class MainMenuScreen implements Screen {
 			}
 			if (nextMode == 11) {
 				SoundMenu();
+			}
+			if (nextMode == 1337) {
+				GameManager.prepareLocal();
+				nextMode = 25565;
 			}
 			if (nextMode == 25565) {
 			Resources.Music_Offline.stop();

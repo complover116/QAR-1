@@ -2,6 +2,7 @@ interface/Exit
 interface/Settings
 interface/Play
 interface/Resume
+interface/Restart
 interface/Back
 interface/Audio
 interface/Video
