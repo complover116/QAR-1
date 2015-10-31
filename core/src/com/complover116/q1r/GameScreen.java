@@ -4,15 +4,18 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.Input;
 
 public class GameScreen implements Screen {
 	Q1R game;
 
 	int WIDTH = 0;
 	int HEIGHT = 0;
-
+	
 	double time = 5;
-
+	
+	static boolean menuShown = false;
+	
 	public GameScreen(Q1R game) {
 		this.game = game;
 
@@ -29,6 +32,7 @@ public class GameScreen implements Screen {
 
 		for (int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
+		if(!menuShown)
 		GameWorld.update(delta);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -47,7 +51,7 @@ public class GameScreen implements Screen {
 		Q1R.viewport.update(WIDTH, HEIGHT);
 		Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
-
+		//TICK TIMES CALCULATION
 		double spaaps = 0;
 		for (int i = 0; i < 99; i++) {
 			spaaps += Settings.ttimes[i];
@@ -72,8 +76,16 @@ public class GameScreen implements Screen {
 			Q1R.batch.setColor(1, 1, 1, 1);
 			time -= delta;
 		}
-
+		
 		GameWorld.render();
+		
+		//MENU CODE
+		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)&&!menuShown){
+		menuShown = true;
+		Resources.Music_DM.pause();
+		Resources.Music_Offline.play();
+		}
+		if(menuShown) {MainMenuScreen.renderOverlay(delta, true);}
 	}
 
 	@Override
