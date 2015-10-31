@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
@@ -113,7 +113,7 @@ public class MainMenuScreen implements Screen {
 	public static void renderOverlay(float deltaT, boolean ingame) {
 		int newselect = -1;
 		if (state == 0) {
-			Vector3 unp = Q1R.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
+			Vector2 unp = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 			for (int i = 0; i < buttons.size(); i++) {
 				if (buttons.get(i).rect.contains(unp.x, unp.y)) {
 					if (buttons.get(i) instanceof CustomButton) {
