@@ -18,7 +18,7 @@ public class AndroidButton {
 		if (!this.isPressed) {
 			for (int i = 0; i < 4; i++) {
 				if (Gdx.input.isTouched(i)) {
-					Vector2 pos = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(i)+Q1R.viewport.getLeftGutterWidth(), Gdx.input.getY(i)));
+					Vector2 pos = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i)));
 					if (bounds.contains(pos.x, pos.y)) {
 						this.pointerID = i;
 						this.isPressed = true;
@@ -31,7 +31,7 @@ public class AndroidButton {
 				this.isPressed = false;
 			} else {
 				Vector2 pos = Q1R.viewport
-						.unproject(new Vector2(Gdx.input.getX(this.pointerID)+Q1R.viewport.getLeftGutterWidth(), Gdx.input.getY(this.pointerID)));
+						.unproject(new Vector2(Gdx.input.getX(this.pointerID), Gdx.input.getY(this.pointerID)));
 				if (!bounds.contains(pos.x, pos.y)) {
 					this.isPressed = false;
 				}
