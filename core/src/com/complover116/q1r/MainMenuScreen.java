@@ -81,6 +81,7 @@ public class MainMenuScreen implements Screen {
 			public void mouseMove(float X, float Y) {
 				if (Gdx.input.isTouched() && X > 65 && X < 65 + 170) {
 					Settings.musicVolume = (X - 65) / 170 * 100;
+					Resources.updateMusicVolume();
 				}
 			}
 		});

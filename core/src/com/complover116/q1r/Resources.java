@@ -21,7 +21,9 @@ public class Resources {
 		textures.put("splashscreen", new Texture(Gdx.files.internal("img/Logo.png")));
 		textures.put("ERROR", new Texture(Gdx.files.internal("img/ERROR.png")));
 	}
-
+	public static void updateMusicVolume() {
+		Music_DM.setVolume(Settings.musicVolume / (float) 100);
+	}
 	public static void load() {
 
 		Gdx.app.log("Resources", "Loading image list...");
