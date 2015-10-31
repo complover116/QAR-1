@@ -116,14 +116,12 @@ public class GameWorld {
 				players.remove(i);
 			else
 				players.get(i).tickPhysics(deltaT);
-			;
 		}
 		for (int i = ents.size() - 1; i > -1; i--) {
 			if (ents.get(i).isDead)
 				ents.remove(i);
 			else
 				ents.get(i).tick(deltaT);
-			;
 		}
 	}
 }

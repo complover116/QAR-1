@@ -195,6 +195,11 @@ public class MainMenuScreen implements Screen {
 			state = 0;
 		if (state == -1 && allready) {
 			if (nextMode == -100) {
+				if(ingame) {
+					Q1R.game.setScreen(Q1R.MMS);
+					Resources.Music_DM.stop();
+					MainMenu();
+				} else
 				Gdx.app.exit();
 			}
 			if (nextMode == 2) {
@@ -221,6 +226,7 @@ public class MainMenuScreen implements Screen {
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);
 				Q1R.game.setScreen(new GameScreen(Q1R.game));
+				GameScreen.menuShown = false;
 				GameMenu();
 				}
 			}
