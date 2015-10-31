@@ -22,7 +22,9 @@ public class AI {
 
 		// AIMING
 		for (int i = 0; i < GameWorld.players.size(); i++) {
+			
 			PlayerEnt target = GameWorld.players.get(i);
+			if(target.color != ply.color){
 			double goalHeading = Math.atan2(target.x - ply.x, target.y - ply.y);
 			double fireDir;
 			int xvel = 0;
@@ -33,6 +35,7 @@ public class AI {
 			fireDir = Math.atan2(ply.velX + xvel, ply.velY);
 			if (fireDir < goalHeading + accuracy && fireDir > goalHeading - accuracy) {
 				ply.fire = true;
+			}
 			}
 		}
 	}
