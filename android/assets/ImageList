@@ -13,6 +13,7 @@ interface/SliderScale
 interface/SliderSlide
 interface/lobbybackground
 interface/AndroidControls
+controls/menu
 player1
 player2
 player3

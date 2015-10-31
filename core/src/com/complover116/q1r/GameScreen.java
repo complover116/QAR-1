@@ -12,7 +12,7 @@ public class GameScreen implements Screen {
 	int WIDTH = 0;
 	int HEIGHT = 0;
 	
-	double time = 5;
+	double time = 0;
 	
 	static boolean menuShown = false;
 	
@@ -78,6 +78,10 @@ public class GameScreen implements Screen {
 		}
 		
 		GameWorld.render();
+		
+		Q1R.batch.begin();
+		Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
+		Q1R.batch.end();
 		
 		//MENU CODE
 		if((GameWorld.buttons[4].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){

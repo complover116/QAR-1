@@ -54,7 +54,7 @@ public class GameWorld {
 		buttons[3] = new AndroidButton(new Rectangle(400, 0, 400, 300));
 
 		// MENU
-		buttons[4] = new AndroidButton(new Rectangle(0, 500, 100, 100));
+		buttons[4] = new AndroidButton(new Rectangle(32, 536, 64, 64));
 
 		// Debug entities go there
 		// ents.add(new Projectile(100,200,200,100));
