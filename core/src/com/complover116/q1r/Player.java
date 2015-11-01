@@ -111,9 +111,9 @@ public class Player {
 	public void tick() {
 		if (this.connectionType == CONNECTION_LOCAL) {
 			if (Gdx.app.getType() == ApplicationType.Android) {
-				if (Gdx.input.getPitch()<-4) {
+				if (Gdx.input.getPitch()<-Settings.tiltSensitivity) {
 					ent.moveDir = 1;
-				} else if (Gdx.input.getPitch()>4) {
+				} else if (Gdx.input.getPitch()>Settings.tiltSensitivity) {
 					ent.moveDir = -1;
 				} else {
 					ent.moveDir = 0;

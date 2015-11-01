@@ -8,7 +8,9 @@ public class Settings {
 
 	public static float soundVolume = 50;
 	public static float musicVolume = 50;
-
+	
+	public static float tiltSensitivity = 4;
+	
 	public static float ticktime = 0;
 
 	public static double[] ttimes = new double[100];
