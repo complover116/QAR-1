@@ -19,7 +19,7 @@ public class Q1R extends Game {
 	public static BitmapFont font;
 	
 	public static MainMenuScreen MMS;
-	
+	public static GameScreen GS;
 	
 	@Override
 	public void create() {
@@ -33,6 +33,7 @@ public class Q1R extends Game {
 		Resources.loadVital();
 		game = this;
 		MMS = new MainMenuScreen();
+		GS = new GameScreen();
 		this.setScreen(MMS);
 	}
 

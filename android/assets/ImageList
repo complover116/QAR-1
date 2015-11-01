@@ -14,6 +14,14 @@ interface/SliderSlide
 interface/lobbybackground
 interface/AndroidControls
 controls/menu
+controls/left
+controls/left_on
+controls/right
+controls/right_on
+controls/jump
+controls/jump_on
+controls/fire
+controls/fire_on
 player1
 player2
 player3

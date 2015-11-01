@@ -5,9 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
-	Q1R game;
 
 	int WIDTH = 0;
 	int HEIGHT = 0;
@@ -16,24 +16,38 @@ public class GameScreen implements Screen {
 	
 	static boolean menuShown = false;
 	
-	public GameScreen(Q1R game) {
-		this.game = game;
+	public static AndroidButton buttons[] = new AndroidButton[5];
+	
+	public GameScreen() {
+		
+		
+		// LEFT
+		buttons[0] = new AndroidButton(new Rectangle(0, 64, 64, 64));
+		// RIGHT
+		buttons[1] = new AndroidButton(new Rectangle(64, 64, 64, 64));
+		// JUMP
+		buttons[2] = new AndroidButton(new Rectangle(736, 64, 64, 64));
+		// FIRE
+		buttons[3] = new AndroidButton(new Rectangle(672, 0, 64, 64));
 
+		// MENU
+		buttons[4] = new AndroidButton(new Rectangle(32, 536, 64, 64));
 	}
 
 	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
+	public void show() {}
 
 	@Override
 	public void render(float delta) {
 
 		for (int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
-		if(!menuShown)
-		GameWorld.update(delta);
+		if(!menuShown){
+			for (int i = 0; i < buttons.length; i++) {
+				buttons[i].update();
+			}
+			GameWorld.update(delta);
+		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Q1R.camera.update();
@@ -47,7 +61,8 @@ public class GameScreen implements Screen {
 		// PLAYER INFO RENDER CODE
 		for (int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).draw();
-
+		
+		
 		Q1R.viewport.update(WIDTH, HEIGHT);
 		Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
@@ -79,12 +94,36 @@ public class GameScreen implements Screen {
 		
 		GameWorld.render();
 		
-		Q1R.batch.begin();
-		Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
-		Q1R.batch.end();
+		//TODO: If android only
+		if(Gdx.app.getType() == ApplicationType.Android) {
+			Q1R.batch.begin();
+			Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
+			if(buttons[0].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/left_on"), 0, 64);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/left"), 0, 64);
+			
+			if(buttons[1].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/right_on"), 64, 64);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/right"), 64, 64);
+			
+			if(buttons[2].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/jump_on"), 736, 64);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/jump"), 736, 64);
+			
+			if(buttons[3].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/fire_on"), 672, 0);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/fire"), 672, 0);
+			
+			Q1R.batch.end();
+		}
+		
 		
 		//MENU CODE
-		if((GameWorld.buttons[4].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
+		if((buttons[4].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
 		menuShown = true;
 		Resources.Music_DM.pause();
 		Resources.Music_Offline.play();
@@ -100,27 +139,15 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
+	public void resume() {}
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
+	public void hide() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
+	public void dispose() {}
 
 }

@@ -234,7 +234,7 @@ public class MainMenuScreen implements Screen {
 				GameManager.prepareLocal();
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);
-				Q1R.game.setScreen(new GameScreen(Q1R.game));
+				Q1R.game.setScreen(Q1R.GS);
 				GameScreen.menuShown = false;
 				GameMenu();
 				}
