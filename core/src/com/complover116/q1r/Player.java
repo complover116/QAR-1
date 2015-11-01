@@ -111,17 +111,17 @@ public class Player {
 	public void tick() {
 		if (this.connectionType == CONNECTION_LOCAL) {
 			if (Gdx.app.getType() == ApplicationType.Android) {
-				if (GameScreen.buttons[1].isPressed) {
+				if (Gdx.input.getPitch()<-4) {
 					ent.moveDir = 1;
-				} else if (GameScreen.buttons[0].isPressed) {
+				} else if (Gdx.input.getPitch()>4) {
 					ent.moveDir = -1;
 				} else {
 					ent.moveDir = 0;
 				}
-				if (GameScreen.buttons[2].isPressed) {
+				if (GameScreen.buttons[0].isPressed) {
 					ent.jump = true;
 				}
-				if (GameScreen.buttons[3].isPressed) {
+				if (GameScreen.buttons[1].isPressed) {
 					ent.fire = true;
 				}
 			} else {

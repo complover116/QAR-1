@@ -16,22 +16,17 @@ public class GameScreen implements Screen {
 	
 	static boolean menuShown = false;
 	
-	public static AndroidButton buttons[] = new AndroidButton[5];
+	public static AndroidButton buttons[] = new AndroidButton[3];
 	
 	public GameScreen() {
 		
 		
 		// LEFT
-		buttons[0] = new AndroidButton(new Rectangle(0, 64, 64, 64));
+		buttons[0] = new AndroidButton(new Rectangle(0, 0, 128, 128));
 		// RIGHT
-		buttons[1] = new AndroidButton(new Rectangle(64, 64, 64, 64));
-		// JUMP
-		buttons[2] = new AndroidButton(new Rectangle(736, 64, 64, 64));
-		// FIRE
-		buttons[3] = new AndroidButton(new Rectangle(672, 0, 64, 64));
-
+		buttons[1] = new AndroidButton(new Rectangle(672, 0, 128, 128));
 		// MENU
-		buttons[4] = new AndroidButton(new Rectangle(32, 536, 64, 64));
+		buttons[2] = new AndroidButton(new Rectangle(32, 536, 64, 64));
 	}
 
 	@Override
@@ -98,22 +93,13 @@ public class GameScreen implements Screen {
 		if(Gdx.app.getType() == ApplicationType.Android) {
 			Q1R.batch.begin();
 			Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
+			
 			if(buttons[0].isPressed)
-			Q1R.batch.draw(Resources.getImage("controls/left_on"), 0, 64);
+			Q1R.batch.draw(Resources.getImage("controls/jump_on"), 0, 0);
 			else
-			Q1R.batch.draw(Resources.getImage("controls/left"), 0, 64);
+			Q1R.batch.draw(Resources.getImage("controls/jump"), 0, 0);
 			
 			if(buttons[1].isPressed)
-			Q1R.batch.draw(Resources.getImage("controls/right_on"), 64, 64);
-			else
-			Q1R.batch.draw(Resources.getImage("controls/right"), 64, 64);
-			
-			if(buttons[2].isPressed)
-			Q1R.batch.draw(Resources.getImage("controls/jump_on"), 736, 64);
-			else
-			Q1R.batch.draw(Resources.getImage("controls/jump"), 736, 64);
-			
-			if(buttons[3].isPressed)
 			Q1R.batch.draw(Resources.getImage("controls/fire_on"), 672, 0);
 			else
 			Q1R.batch.draw(Resources.getImage("controls/fire"), 672, 0);
@@ -123,7 +109,7 @@ public class GameScreen implements Screen {
 		
 		
 		//MENU CODE
-		if((buttons[4].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
+		if((buttons[2].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
 		menuShown = true;
 		Resources.Music_DM.pause();
 		Resources.Music_Offline.play();

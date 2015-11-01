@@ -293,7 +293,16 @@ public class MainMenuScreen implements Screen {
 		
 		Q1R.batch.begin();
 		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
+		if(Gdx.input.getPitch()<-4)
+		Q1R.batch.draw(Resources.textures.get("player2"), 400+Gdx.input.getPitch(), 100);
+		else if (Gdx.input.getPitch()>4)
+		Q1R.batch.draw(Resources.textures.get("player3"), 400+Gdx.input.getPitch(), 100);
+		else
+		Q1R.batch.draw(Resources.textures.get("player1"), 400+Gdx.input.getPitch(), 100);
+		
 		Q1R.batch.end();
+		
+		
 		
 		renderOverlay(deltaT, false);
 	}
