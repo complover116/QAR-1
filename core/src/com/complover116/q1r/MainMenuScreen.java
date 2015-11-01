@@ -69,7 +69,22 @@ public class MainMenuScreen implements Screen {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Audio"));
-		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Video"));
+		buttons.add(new CustomButton(new Rectangle(546, 128, 256, 64), "interface/Sensitivity") {
+			@Override
+			public void draw(float X, float Y) {
+				Q1R.batch.draw(Resources.textures.get("interface/SliderScale"), X, Y);
+				Q1R.batch.draw(Resources.textures.get("interface/SliderSlide"),
+						X + 60 + (Settings.tiltSensitivity / 20 * 170), Y + 20);
+			}
+
+			@Override
+			public void mouseMove(float X, float Y) {
+				if (Gdx.input.isTouched() && X > 65 && X < 65 + 170) {
+					Settings.tiltSensitivity = (X - 65) / 170 * 20;
+					Resources.updateMusicVolume();
+				}
+			}
+		});
 		curScreen = 1;
 	}
 
