@@ -16,6 +16,7 @@ public class Resources {
 	
 	
 	public static Music Music_DM;
+	public static Music Music_Offline;
 	
 	public static void loadVital() {
 		textures.put("splashscreen", new Texture(Gdx.files.internal("img/Logo.png")));
@@ -23,6 +24,7 @@ public class Resources {
 	}
 	public static void updateMusicVolume() {
 		Music_DM.setVolume(Settings.musicVolume / (float) 100);
+		Music_Offline.setVolume(Settings.musicVolume / (float) 100);
 	}
 	public static void load() {
 
@@ -68,16 +70,20 @@ public class Resources {
 			} catch (Exception e) {
 				Gdx.app.error("Resources", "Failed loading " + soundname);
 				MainMenuScreen.loaded = -1;
+				return;
 			}
 		}
 		Gdx.app.log("Resources", "Loading music...");
 		try {
 			Music_DM = Gdx.audio.newMusic(Gdx.files.internal("sound/music/Q1R_DM.ogg"));
+			Music_Offline = Gdx.audio.newMusic(Gdx.files.internal("sound/music/Q1R_Offline.ogg"));
 			
+			Music_Offline.setLooping(true);
 			Music_DM.setLooping(true);
 		} catch (Exception e) {
 			Gdx.app.error("Resources", "Failed loading music!");
 			MainMenuScreen.loaded = -1;
+			return;
 		}
 		try {
 			Thread.sleep(100);

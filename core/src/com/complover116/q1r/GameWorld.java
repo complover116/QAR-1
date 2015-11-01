@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GameWorld {
 
-	public static AndroidButton buttons[] = new AndroidButton[5];
+	
 	/***
 	 * Contains the current map data
 	 */
@@ -44,18 +44,6 @@ public class GameWorld {
 		players.add(new PlayerEnt(3));
 		players.add(new PlayerEnt(4));
 
-		// LEFT
-		buttons[0] = new AndroidButton(new Rectangle(0, 0, 200, 300));
-		// RIGHT
-		buttons[1] = new AndroidButton(new Rectangle(200, 0, 200, 300));
-		// JUMP
-		buttons[2] = new AndroidButton(new Rectangle(400, 300, 400, 300));
-		// FIRE
-		buttons[3] = new AndroidButton(new Rectangle(400, 0, 400, 300));
-
-		// RESTART
-		buttons[4] = new AndroidButton(new Rectangle(0, 500, 100, 100));
-
 		// Debug entities go there
 		// ents.add(new Projectile(100,200,200,100));
 	}
@@ -64,14 +52,15 @@ public class GameWorld {
 
 		// RENDER PLATFORMS
 		Q1R.shapeRenderer.begin(ShapeType.Line);
-		/*
-		 * Q1R.shapeRenderer.setColor(0, 1, 1, 1); for(int i = 0; i <
-		 * buttons.length; i ++) { if(buttons[i].isPressed)
-		 * Q1R.shapeRenderer.setColor(1, 0, 0, 1); else
-		 * Q1R.shapeRenderer.setColor(0, 1, 1, 0.5f);
-		 * Q1R.shapeRenderer.rect(buttons[i].bounds.x, buttons[i].bounds.y,
-		 * buttons[i].bounds.width, buttons[i].bounds.height); }
-		 */
+		
+		//RENDER DEBUG BUTTON OUTLINE
+		/*Q1R.shapeRenderer.setColor(0, 1, 1, 1); for(int i = 0; i <
+		buttons.length; i ++) { if(buttons[i].isPressed)
+		Q1R.shapeRenderer.setColor(1, 0, 0, 1); else
+		Q1R.shapeRenderer.setColor(0, 1, 1, 0.5f);
+		Q1R.shapeRenderer.rect(buttons[i].bounds.x, buttons[i].bounds.y,
+		buttons[i].bounds.width, buttons[i].bounds.height); }
+		*/
 		Q1R.shapeRenderer.setColor(1, 1, 1, 1);
 		for (int i = 0; i < platforms.size(); i++) {
 			Platform plat = platforms.get(i);
@@ -104,26 +93,23 @@ public class GameWorld {
 	}
 
 	public static void update(double deltaT) {
-		for (int i = 0; i < buttons.length; i++) {
-			buttons[i].update();
-		}
-		// Check if restarting
-		if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH) || buttons[4].isPressed) {
+		
+		// Check if restarting (DEPRECATED, now restart using the menu)
+		/*if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH) || buttons[4].isPressed) {
 			GameManager.prepareLocal();
-		}
+		}*/
+		
 		for (int i = players.size() - 1; i > -1; i--) {
 			if (players.get(i).isDead)
 				players.remove(i);
 			else
 				players.get(i).tickPhysics(deltaT);
-			;
 		}
 		for (int i = ents.size() - 1; i > -1; i--) {
 			if (ents.get(i).isDead)
 				ents.remove(i);
 			else
 				ents.get(i).tick(deltaT);
-			;
 		}
 	}
 }

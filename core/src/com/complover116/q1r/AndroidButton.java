@@ -2,7 +2,7 @@ package com.complover116.q1r;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 public class AndroidButton {
 	public Rectangle bounds;
@@ -18,7 +18,7 @@ public class AndroidButton {
 		if (!this.isPressed) {
 			for (int i = 0; i < 4; i++) {
 				if (Gdx.input.isTouched(i)) {
-					Vector3 pos = Q1R.camera.unproject(new Vector3(Gdx.input.getX(i), Gdx.input.getY(i), 0));
+					Vector2 pos = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i)));
 					if (bounds.contains(pos.x, pos.y)) {
 						this.pointerID = i;
 						this.isPressed = true;
@@ -30,8 +30,8 @@ public class AndroidButton {
 			if (!Gdx.input.isTouched(this.pointerID)) {
 				this.isPressed = false;
 			} else {
-				Vector3 pos = Q1R.camera
-						.unproject(new Vector3(Gdx.input.getX(this.pointerID), Gdx.input.getY(this.pointerID), 0));
+				Vector2 pos = Q1R.viewport
+						.unproject(new Vector2(Gdx.input.getX(this.pointerID), Gdx.input.getY(this.pointerID)));
 				if (!bounds.contains(pos.x, pos.y)) {
 					this.isPressed = false;
 				}

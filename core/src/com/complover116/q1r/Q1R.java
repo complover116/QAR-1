@@ -10,12 +10,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class Q1R extends Game {
+	public static Q1R game;
+	
 	public static SpriteBatch batch;
 	public static ShapeRenderer shapeRenderer;
 	public static OrthographicCamera camera;
 	public static Viewport viewport;
 	public static BitmapFont font;
-
+	
+	public static MainMenuScreen MMS;
+	public static GameScreen GS;
+	
 	@Override
 	public void create() {
 		font = new BitmapFont();
@@ -26,7 +31,10 @@ public class Q1R extends Game {
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		Resources.loadVital();
-		this.setScreen(new MainMenuScreen(this));
+		game = this;
+		MMS = new MainMenuScreen();
+		GS = new GameScreen();
+		this.setScreen(MMS);
 	}
 
 	@Override
