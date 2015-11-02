@@ -1,4 +1,4 @@
-package com.complover116.q1r;
+package com.complover116.q1r.core;
 
 /**
  * Created by complover116 on 01.06.2015 for QAR-1 Reloaded

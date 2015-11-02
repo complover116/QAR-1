@@ -2,7 +2,7 @@ package com.complover116.q1r.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.complover116.q1r.Q1R;
+import com.complover116.q1r.core.Q1R;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
