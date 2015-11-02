@@ -3,7 +3,7 @@ package com.complover116.q1r.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.complover116.q1r.Q1R;
+import com.complover116.q1r.core.Q1R;
 
 public class HtmlLauncher extends GwtApplication {
 

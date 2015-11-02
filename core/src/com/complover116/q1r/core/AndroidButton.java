@@ -1,4 +1,4 @@
-package com.complover116.q1r;
+package com.complover116.q1r.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;

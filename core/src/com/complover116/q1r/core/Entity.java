@@ -1,4 +1,4 @@
-package com.complover116.q1r;
+package com.complover116.q1r.core;
 
 public abstract class Entity {
 	public abstract void tick(double deltaT);

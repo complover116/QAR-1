@@ -1,4 +1,4 @@
-package com.complover116.q1r;
+package com.complover116.q1r.core;
 
 import java.util.ArrayList;
 
