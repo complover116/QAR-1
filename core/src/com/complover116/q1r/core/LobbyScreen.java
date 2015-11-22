@@ -28,7 +28,9 @@ public class LobbyScreen implements Screen {
 		Q1R.camera.update();
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
 		Q1R.batch.begin();
-		Q1R.batch.draw(Resources.getImage("interface/lobbybackground"), 0, 0);
+		
+		
+		
 		Q1R.batch.end();
 	}
 

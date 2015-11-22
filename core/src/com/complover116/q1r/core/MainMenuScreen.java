@@ -307,18 +307,18 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		
-		if(Gdx.app.getType() == ApplicationType.Android){
+		
 		Q1R.batch.begin();
 		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
+		if(Gdx.app.getType() == ApplicationType.Android){
 		if(Gdx.input.getPitch()<-Settings.tiltSensitivity)
 		Q1R.batch.draw(Resources.textures.get("controls/right_on"), 400-Gdx.input.getPitch()*2, 100);
 		else if (Gdx.input.getPitch()>Settings.tiltSensitivity)
 		Q1R.batch.draw(Resources.textures.get("controls/left_on"), 400-Gdx.input.getPitch()*2, 100);
 		else
 		Q1R.batch.draw(Resources.textures.get("controls/fire_on"), 400-Gdx.input.getPitch()*2, 100);
-		
-		Q1R.batch.end();
 		}
+		Q1R.batch.end();
 		
 		
 		renderOverlay(deltaT, false);
