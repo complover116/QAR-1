@@ -2,6 +2,7 @@ package com.complover116.q1r.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -306,6 +307,7 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		
+		if(Gdx.app.getType() == ApplicationType.Android){
 		Q1R.batch.begin();
 		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
 		if(Gdx.input.getPitch()<-Settings.tiltSensitivity)
@@ -316,7 +318,7 @@ public class MainMenuScreen implements Screen {
 		Q1R.batch.draw(Resources.textures.get("controls/fire_on"), 400-Gdx.input.getPitch()*2, 100);
 		
 		Q1R.batch.end();
-		
+		}
 		
 		
 		renderOverlay(deltaT, false);
