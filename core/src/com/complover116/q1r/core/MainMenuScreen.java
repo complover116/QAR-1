@@ -56,7 +56,14 @@ public class MainMenuScreen implements Screen {
 		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play"));
 		curScreen = 0;
 	}
-	
+	public static void LobbyMenu() {
+		buttons.clear();
+		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
+		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play-Offline"));
+		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play-Host"));
+		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Play-Join"));
+		curScreen = 42;
+	}
 	public static void GameMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
@@ -185,6 +192,16 @@ public class MainMenuScreen implements Screen {
 						nextMode = 12;
 					}
 				}
+				if (curScreen == 42) {
+					if (newselect == 0) {
+						state = -1;
+						nextMode = 1;
+					}
+					if (newselect == 1) {
+						nextMode = 25566;
+						state = -1;
+					}
+				}
 				if (curScreen == 11) {
 					if (newselect == 0) {
 						state = -1;
@@ -240,20 +257,28 @@ public class MainMenuScreen implements Screen {
 				nextMode = 25565;
 			}
 			if (nextMode == 25565) {
-			Resources.Music_Offline.stop();
+			
 			if(ingame){
+			Resources.Music_Offline.stop();
 			Resources.Music_DM.play();
 			GameScreen.menuShown = false;
 			}
 			else{
-				// TODO:TEMP! Replace with LobbyScreen once that is ready!;
+				LobbyMenu();
+				Q1R.game.setScreen(Q1R.LS);
+				
+				
+				}
+			}
+			if(nextMode == 25566){
+				//This is for starting a local game
 				GameManager.prepareLocal();
+				Resources.Music_Offline.stop();
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);
 				Q1R.game.setScreen(Q1R.GS);
 				GameScreen.menuShown = false;
 				GameMenu();
-				}
 			}
 			state = 1;
 		}
@@ -311,6 +336,8 @@ public class MainMenuScreen implements Screen {
 		Q1R.batch.begin();
 		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
 		if(Gdx.app.getType() == ApplicationType.Android){
+			
+		//TODO: TEMP!
 		if(Gdx.input.getPitch()<-Settings.tiltSensitivity)
 		Q1R.batch.draw(Resources.textures.get("controls/right_on"), 400-Gdx.input.getPitch()*2, 100);
 		else if (Gdx.input.getPitch()>Settings.tiltSensitivity)

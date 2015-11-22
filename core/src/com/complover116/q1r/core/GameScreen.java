@@ -74,18 +74,6 @@ public class GameScreen implements Screen {
 		Q1R.batch.begin();
 		Q1R.font.draw(Q1R.batch, "Tick Time:" + Math.floor(Settings.ticktime * 100) / 100, 50, 50);
 		Q1R.batch.end();
-		if (Gdx.app.getType() == ApplicationType.Android && time > 0) {
-
-			Q1R.batch.begin();
-			if (time > 1)
-				Q1R.batch.setColor(1, 1, 1, 1);
-			else
-				Q1R.batch.setColor(1, 1, 1, (float) time);
-			Q1R.batch.draw(Resources.getImage("interface/AndroidControls"), 0, 0);
-			Q1R.batch.end();
-			Q1R.batch.setColor(1, 1, 1, 1);
-			time -= delta;
-		}
 		
 		GameWorld.render();
 		
