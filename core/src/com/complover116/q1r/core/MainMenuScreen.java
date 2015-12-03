@@ -196,6 +196,7 @@ public class MainMenuScreen implements Screen {
 					if (newselect == 0) {
 						state = -1;
 						nextMode = 1;
+						Q1R.game.setScreen(Q1R.MMS);
 					}
 					if (newselect == 1) {
 						nextMode = 25566;
