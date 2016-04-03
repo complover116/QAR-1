@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Color;
 
 public class GameWorld {
 
@@ -38,10 +39,7 @@ public class GameWorld {
 
 		platforms.add(new Platform(new Rectangle(100, 300, 600, 10), 0));
 		platforms.add(new Platform(new Rectangle(400, 310, 10, 100), 0));
-		players.add(new PlayerEnt(1));
-		players.add(new PlayerEnt(2));
-		players.add(new PlayerEnt(3));
-		players.add(new PlayerEnt(4));
+		
 
 		// Debug entities go there
 		// ents.add(new Projectile(100,200,200,100));
@@ -72,6 +70,8 @@ public class GameWorld {
 		Q1R.batch.begin();
 		for (int i = 0; i < players.size(); i++) {
 			Q1R.batch.draw(Resources.getImage(players.get(i).getImage()), players.get(i).x, players.get(i).y);
+			
+			
 			/*
 			 * Q1R.font.setColor(PlayerEnt.colorFromID(players.get(i).color));
 			 * Q1R.font.draw(Q1R.batch, ""+players.get(i).ply.score,
@@ -82,6 +82,20 @@ public class GameWorld {
 		Q1R.batch.end();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Q1R.shapeRenderer.begin(ShapeType.Filled);
+		for (int j = 0; j < players.size(); j++) {
+		
+			if(players.get(j).time > 1000) {
+				float size = ((players.get(j).time - 1000)*100);
+				float x = players.get(j).x+16;
+				float y = players.get(j).y+16;
+				for (int i = 0; i < 10; i += 1) {
+				Color col = PlayerEnt.colorFromID(players.get(j).color);
+				Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
+				Q1R.shapeRenderer.ellipse(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
+						size + size / 5 * i);
+			}
+			}
+		}
 		// RENDER ENTITIES
 		for (int i = 0; i < ents.size(); i++)
 			ents.get(i).draw();
@@ -97,6 +111,15 @@ public class GameWorld {
 		/*if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSLASH) || buttons[4].isPressed) {
 			GameManager.prepareLocal();
 		}*/
+		
+			for(int i = 0; i < GameManager.players.size(); i ++) {
+				if(GameManager.players.get(i).ent.isDead) {
+					PlayerEnt ent = new PlayerEnt(i+1);
+					GameWorld.players.add(ent);
+					GameManager.players.get(i).ent = ent;
+					ent.ply = GameManager.players.get(i);
+				}
+			}
 		
 		for (int i = players.size() - 1; i > -1; i--) {
 			if (players.get(i).isDead)

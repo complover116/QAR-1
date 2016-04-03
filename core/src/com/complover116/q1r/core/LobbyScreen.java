@@ -10,12 +10,16 @@ import com.badlogic.gdx.graphics.GL20;
  * Created by complover116 on 23.06.2015 for QAR-1 Reloaded
  */
 public class LobbyScreen implements Screen {
+	public static final byte PLAYER_OPEN = 0;
+	public static final byte PLAYER_BOT = 1;
+	public static final byte PLAYER_CLOSED = 2;
+	public static final byte PLAYER_LOCAL = 3;
 	public ArrayList<GElement> gElements = new ArrayList<GElement>();
 	public LobbyScreen() {
-		gElements.add(new GSelector(0, 500, true, new String[]{"------", "Local Player", "BOT"}, 30, 200));
-		gElements.add(new GSelector(200, 500, true, new String[]{"------", "Local Player", "BOT"}, 30, 200));
-		gElements.add(new GSelector(400, 500, true, new String[]{"------", "BOT"}, 30, 200));
-		gElements.add(new GSelector(600, 500, true, new String[]{"------", "BOT"}, 30, 200));
+		gElements.add(new GSelector(0, 500, true, new String[]{"------", "BOT", "-CLOSED-", "Local Player"}, 30, 200));
+		gElements.add(new GSelector(200, 500, true, new String[]{"------", "BOT", "-CLOSED-","Local Player"}, 30, 200));
+		gElements.add(new GSelector(400, 500, true, new String[]{"------", "BOT", "-CLOSED-"}, 30, 200));
+		gElements.add(new GSelector(600, 500, true, new String[]{"------", "BOT", "-CLOSED-"}, 30, 200));
 	}
 
 	@Override

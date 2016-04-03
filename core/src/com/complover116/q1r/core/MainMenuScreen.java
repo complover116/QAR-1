@@ -173,10 +173,10 @@ public class MainMenuScreen implements Screen {
 						state = -1;
 						nextMode = 25565;
 					}
-					if (newselect == 3) {
+					/*if (newselect == 3) {
 						state = -1;
 						nextMode = 1337;
-					}
+					}*/
 				}
 				if (curScreen == 1) {
 					if (newselect == 0) {
@@ -253,10 +253,10 @@ public class MainMenuScreen implements Screen {
 			if (nextMode == 11) {
 				SoundMenu();
 			}
-			if (nextMode == 1337) {
-				GameManager.prepareLocal();
+			/*if (nextMode == 1337) {
+				GameMaFnager.prepareLocal();
 				nextMode = 25565;
-			}
+			}*/
 			if (nextMode == 25565) {
 			
 			if(ingame){
@@ -273,7 +273,12 @@ public class MainMenuScreen implements Screen {
 			}
 			if(nextMode == 25566){
 				//This is for starting a local game
-				GameManager.prepareLocal();
+				GameParams pars = new GameParams();
+				pars.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
+				pars.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
+				pars.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
+				pars.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+				GameManager.prepareLocal(pars);
 				Resources.Music_Offline.stop();
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);

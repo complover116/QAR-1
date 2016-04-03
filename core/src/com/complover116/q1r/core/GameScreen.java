@@ -14,6 +14,11 @@ public class GameScreen implements Screen {
 	
 	double time = 0;
 	
+	static float gameSpeed = 1;
+	
+	float lag = 0;
+	int lagamount = 0;
+	
 	static boolean menuShown = false;
 	
 	public static AndroidButton buttons[] = new AndroidButton[3];
@@ -34,14 +39,26 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-
+		if(lag>0)lag -= delta;
+		if(delta > 0.03) {
+			lagamount = (int)Math.ceil(0.03/delta*100);
+			delta = 0.03f;
+			lag = 1;
+		}
+		if(gameSpeed < 1) {
+			gameSpeed += delta/2;
+		}
+		if(gameSpeed > 1) {
+			gameSpeed = 1;
+		}
+		float inGameDelta = delta*gameSpeed;
 		for (int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
 		if(!menuShown){
 			for (int i = 0; i < buttons.length; i++) {
 				buttons[i].update();
 			}
-			GameWorld.update(delta);
+			GameWorld.update(inGameDelta);
 		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -72,6 +89,9 @@ public class GameScreen implements Screen {
 		Settings.ticktime = (float) (spaaps / 10);
 
 		Q1R.batch.begin();
+		if(lag>0) {
+			Q1R.font.draw(Q1R.batch, "LAG ("+lagamount+"% game speed)", 50, 80);
+		}
 		Q1R.font.draw(Q1R.batch, "Tick Time:" + Math.floor(Settings.ticktime * 100) / 100, 50, 50);
 		Q1R.batch.end();
 		
