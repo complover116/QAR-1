@@ -24,6 +24,7 @@ public class AI {
 		for (int i = 0; i < GameWorld.players.size(); i++) {
 			
 			PlayerEnt target = GameWorld.players.get(i);
+			if(!target.spawned) continue;
 			if(target.color != ply.color){
 			double goalHeading = Math.atan2(target.x - ply.x, target.y - ply.y);
 			double fireDir;

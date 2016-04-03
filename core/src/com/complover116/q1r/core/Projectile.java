@@ -40,7 +40,7 @@ public class Projectile extends Entity {
 			}
 		}
 		for (int i = 0; i < GameWorld.players.size(); i++) {
-			if (GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x, this.y, 16, 16))
+			if (GameWorld.players.get(i).spawned && GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x, this.y, 16, 16))
 					&& GameWorld.players.get(i).color != this.color) {
 				this.isDead = true;
 				ply.score++;
