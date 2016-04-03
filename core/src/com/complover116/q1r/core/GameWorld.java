@@ -24,12 +24,13 @@ public class GameWorld {
 	 * Contains reference to any non-player entity to be ticked and drawn
 	 */
 	public static ArrayList<Entity> ents = new ArrayList<Entity>();
-
+	
+	public static int leadingScore = 0;
 	public static void init() {
 		platforms.clear();
 		players.clear();
 		ents.clear();
-
+		leadingScore = 0;
 		platforms.add(new Platform(new Rectangle(0, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(790, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(0, 0, 800, 10), 0));
@@ -118,6 +119,9 @@ public class GameWorld {
 					GameWorld.players.add(ent);
 					GameManager.players.get(i).ent = ent;
 					ent.ply = GameManager.players.get(i);
+				}
+				if(GameManager.players.get(i).score > leadingScore) {
+					leadingScore = GameManager.players.get(i).score;
 				}
 			}
 		

@@ -12,7 +12,7 @@ public class GSelector extends GElement {
 	AndroidButton buttons[];
 	int size;
 	int sizeX;
-	String options[] = {"------", "Local Player", "BOT"};
+	String options[] = {"ERROR:", "Options", "Undefined"};
 	int selection = 0;
 	public GSelector(float x, float y, boolean down, String options[], int size, int sizeX) {
 		super(x, y);

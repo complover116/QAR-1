@@ -57,7 +57,7 @@ public class PlayerEnt {
 				xvel = -600;
 			else
 				xvel = 600;
-			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel + this.velX, this.velY, this.color));
+			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel + this.velX, this.velY, this.color, ply));
 		}
 	}
 
@@ -168,6 +168,10 @@ public class PlayerEnt {
 			}
 			this.isDead = true;
 			Resources.playSound("explode");
+		}
+		if(ply.streak>1) {
+			GameWorld.ents.add(new Particle(x+(float)Math.random()*32, y+30, ply.streak, 4, this.color, 0,
+						(float) (Math.random() * 100), false, false));
 		}
 	}
 
