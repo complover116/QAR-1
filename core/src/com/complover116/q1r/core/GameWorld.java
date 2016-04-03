@@ -26,11 +26,15 @@ public class GameWorld {
 	public static ArrayList<Entity> ents = new ArrayList<Entity>();
 	
 	public static int leadingScore = 0;
+	public static int secondScore = 0;
+	
 	public static void init() {
 		platforms.clear();
 		players.clear();
 		ents.clear();
 		leadingScore = 0;
+		secondScore = 0;
+		
 		platforms.add(new Platform(new Rectangle(0, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(790, 0, 10, 600), 0));
 		platforms.add(new Platform(new Rectangle(0, 0, 800, 10), 0));
@@ -96,6 +100,18 @@ public class GameWorld {
 						size + size / 5 * i);
 			}
 			}
+			
+			if(players.get(j).ply.score > secondScore && players.get(j).spawned) {
+				float size = (float)Math.random()*10 + 2*(players.get(j).ply.score - secondScore < 12 ? players.get(j).ply.score - secondScore : 12);
+				float x = players.get(j).x+16;
+				float y = players.get(j).y+16;
+				for (int i = 0; i < 10; i += 1) {
+				Color col = PlayerEnt.colorFromID(players.get(j).color);
+				Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
+				Q1R.shapeRenderer.rect(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
+						size + size / 5 * i);
+			}
+			}
 		}
 		// RENDER ENTITIES
 		for (int i = 0; i < ents.size(); i++)
@@ -122,6 +138,9 @@ public class GameWorld {
 				}
 				if(GameManager.players.get(i).score > leadingScore) {
 					leadingScore = GameManager.players.get(i).score;
+				}
+				if(GameManager.players.get(i).score > secondScore && GameManager.players.get(i).score < leadingScore) {
+					secondScore = GameManager.players.get(i).score;
 				}
 			}
 		

@@ -170,7 +170,7 @@ public class PlayerEnt {
 			Resources.playSound("explode");
 		}
 		if(ply.streak>1) {
-			GameWorld.ents.add(new Particle(x+(float)Math.random()*32, y+30, ply.streak, 4, this.color, 0,
+			GameWorld.ents.add(new Particle(x+(float)Math.random()*32, y+30, ply.streak<5 ? ply.streak : 5, 4, this.color, 0,
 						(float) (Math.random() * 100), false, false));
 		}
 	}
