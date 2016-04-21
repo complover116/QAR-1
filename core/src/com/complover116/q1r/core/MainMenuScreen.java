@@ -134,7 +134,9 @@ public class MainMenuScreen implements Screen {
 	}
 	
 	public static void renderOverlay(float deltaT, boolean ingame) {
-		int newselect = -1;
+		int newselect = curselect;
+		
+		
 		if (state == 0) {
 			Vector2 unp = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 			for (int i = 0; i < buttons.size(); i++) {
@@ -152,7 +154,12 @@ public class MainMenuScreen implements Screen {
 			curselect = newselect;
 			Resources.playSound("hurt2");
 		}
-		if (Gdx.input.isTouched()) {
+		boolean menu = false;
+		for(int i = 0; i < GameManager.players.size(); i ++){
+			if(GameManager.players.get(i).controller != null && GameManager.players.get(i).controller.getButton(0))
+				menu = true;
+		}
+		if (Gdx.input.isTouched() || menu) {
 			if (newselect > -1 && !lastClick) {
 				lastClick = true;
 				Resources.playSound("fire1");

@@ -117,12 +117,22 @@ public class GameScreen implements Screen {
 		
 		
 		//MENU CODE
-		if((buttons[2].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
+		boolean menu = false;
+		
+		for(int i = 0; i < GameManager.players.size(); i ++){
+			if(GameManager.players.get(i).controller != null && GameManager.players.get(i).controller.getButton(7))
+				menu = true;
+		}
+		
+		if((menu||buttons[2].isPressed||Gdx.input.isKeyPressed(Input.Keys.ESCAPE))&&!menuShown){
 		menuShown = true;
 		Resources.Music_DM.pause();
 		Resources.Music_Offline.play();
 		}
-		if(menuShown) {MainMenuScreen.renderOverlay(delta, true);}
+		if(menuShown) {
+			MainMenuScreen.renderOverlay(delta, true);
+			
+		}
 	}
 
 	@Override
