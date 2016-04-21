@@ -153,7 +153,7 @@ public class PlayerEnt {
 			this.velY = 0;
 		}
 		if(time == -1337) {
-			time = -3;
+			time = -4;
 		}
 		if(time > 1000) {
 			for (int i = 0; i < 1; i++) {
@@ -172,6 +172,9 @@ public class PlayerEnt {
 		if(ply.streak>1) {
 			GameWorld.ents.add(new Particle(x+(float)Math.random()*32, y+30, ply.streak<5 ? ply.streak : 5, 4, this.color, 0,
 						(float) (Math.random() * 100), false, false));
+		}
+		if(y < -100) {
+			getHit(1, false);
 		}
 	}
 
