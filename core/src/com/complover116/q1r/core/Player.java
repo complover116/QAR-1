@@ -3,13 +3,16 @@ package com.complover116.q1r.core;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class Player {
 	int score = 0;
 	int streak = 0;
 	int trickshots = 0;
-
+	
+	Controller controller;
+	
 	/***
 	 * This is a bot.
 	 */
@@ -125,6 +128,22 @@ public class Player {
 					ent.fire = true;
 				}
 			} else {
+				//Hardcoded for xbox 360 controllers
+				if(controller != null){
+				if(controller.getButton(0)) {
+					ent.jump = true;
+				}
+				if(controller.getButton(2)) {
+					ent.fire = true;
+				}
+				if(controller.getAxis(1)>0.5) {
+					ent.moveDir = 1;
+				} else if(controller.getAxis(1)<-0.5){
+					ent.moveDir = -1;
+				} else {
+					ent.moveDir = 0;
+				}
+				} else {
 				if (Gdx.input.isKeyJustPressed(key_up)) {
 					ent.jump = true;
 				}
@@ -136,6 +155,7 @@ public class Player {
 					ent.moveDir = 0;
 				if (Gdx.input.isKeyJustPressed(key_down)) {
 					ent.fire = true;
+				}
 				}
 			}
 		} else if (this.connectionType == CONNECTION_BOT) {

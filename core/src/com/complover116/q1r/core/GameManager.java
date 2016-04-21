@@ -3,6 +3,8 @@ package com.complover116.q1r.core;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 
 public class GameManager {
 	public static volatile ArrayList<Player> players = new ArrayList<Player>();
@@ -20,6 +22,7 @@ public class GameManager {
 	public static void prepareLocal(GameParams pars) {
 		players.clear();
 		Gdx.app.log("GameManager", "Preparing local client...");
+	
 		GameWorld.init();
 		
 		for(int i = 0; i < 4; i ++) {
@@ -36,5 +39,20 @@ public class GameManager {
 				break;
 			}
 		} 
+		Gdx.app.log("GameManager", "Connecting controllers...");
+		for (Controller controller : Controllers.getControllers()) {
+		    Gdx.app.log("Controllers", controller.getName());
+		    for(int i = 0; i < players.size(); i ++ )
+			{
+				if(players.get(i).connectionType == Player.CONNECTION_LOCAL) {
+					if(players.get(i).controller == null) {
+						Gdx.app.log("GameManager", "Controller "+controller.getName()+" mapped to player "+(i+1));
+						players.get(i).controller = controller;
+						break;
+					}
+				}
+			}
+		}
+		
 	}
 }
