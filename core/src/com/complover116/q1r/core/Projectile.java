@@ -12,7 +12,9 @@ public class Projectile extends Entity {
 	int color;
 
 	double time = 0;
-
+	
+	Player ply;
+	
 	public void tick(double deltaT) {
 		this.x += this.velX * deltaT;
 		this.y += this.velY * deltaT;
@@ -38,16 +40,12 @@ public class Projectile extends Entity {
 			}
 		}
 		for (int i = 0; i < GameWorld.players.size(); i++) {
-			if (GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x, this.y, 16, 16))
+			if (GameWorld.players.get(i).spawned && GameWorld.players.get(i).getBB().overlaps(new Rectangle(this.x, this.y, 16, 16))
 					&& GameWorld.players.get(i).color != this.color) {
 				this.isDead = true;
-				for (int j = 0; j < GameManager.players.size(); j++) {
-					if (GameManager.players.get(i).ent.color == this.color) {
-						GameManager.players.get(i).score++;
-						GameManager.players.get(i).streak++;
-					}
-				}
-				if (this.x > GameWorld.players.get(i).x)
+				ply.score++;
+				ply.streak++;
+				if (this.x > GameWorld.players.get(i).x+16)
 					GameWorld.players.get(i).getHit(1, true);
 				else
 					GameWorld.players.get(i).getHit(1, false);
@@ -70,11 +68,12 @@ public class Projectile extends Entity {
 		Q1R.shapeRenderer.rect(x - 8, y - 8, 16, 16);
 	}
 
-	public Projectile(float x, float y, float velX, float velY, int color) {
+	public Projectile(float x, float y, float velX, float velY, int color, Player ply) {
 		this.x = x;
 		this.y = y;
 		this.velX = velX;
 		this.velY = velY;
 		this.color = color;
+		this.ply = ply;
 	}
 }

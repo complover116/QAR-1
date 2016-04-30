@@ -56,7 +56,14 @@ public class MainMenuScreen implements Screen {
 		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play"));
 		curScreen = 0;
 	}
-	
+	public static void LobbyMenu() {
+		buttons.clear();
+		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
+		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play-Offline"));
+		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play-Host"));
+		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Play-Join"));
+		curScreen = 42;
+	}
 	public static void GameMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
@@ -127,7 +134,9 @@ public class MainMenuScreen implements Screen {
 	}
 	
 	public static void renderOverlay(float deltaT, boolean ingame) {
-		int newselect = -1;
+		int newselect = curselect;
+		
+		
 		if (state == 0) {
 			Vector2 unp = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 			for (int i = 0; i < buttons.size(); i++) {
@@ -145,7 +154,12 @@ public class MainMenuScreen implements Screen {
 			curselect = newselect;
 			Resources.playSound("hurt2");
 		}
-		if (Gdx.input.isTouched()) {
+		boolean menu = false;
+		for(int i = 0; i < GameManager.players.size(); i ++){
+			if(GameManager.players.get(i).controller != null && GameManager.players.get(i).controller.getButton(0))
+				menu = true;
+		}
+		if (Gdx.input.isTouched() || menu) {
 			if (newselect > -1 && !lastClick) {
 				lastClick = true;
 				Resources.playSound("fire1");
@@ -166,10 +180,10 @@ public class MainMenuScreen implements Screen {
 						state = -1;
 						nextMode = 25565;
 					}
-					if (newselect == 3) {
+					/*if (newselect == 3) {
 						state = -1;
 						nextMode = 1337;
-					}
+					}*/
 				}
 				if (curScreen == 1) {
 					if (newselect == 0) {
@@ -183,6 +197,17 @@ public class MainMenuScreen implements Screen {
 					if (newselect == 2) {
 						state = -1;
 						nextMode = 12;
+					}
+				}
+				if (curScreen == 42) {
+					if (newselect == 0) {
+						state = -1;
+						nextMode = 1;
+						Q1R.game.setScreen(Q1R.MMS);
+					}
+					if (newselect == 1) {
+						nextMode = 25566;
+						state = -1;
 					}
 				}
 				if (curScreen == 11) {
@@ -235,25 +260,38 @@ public class MainMenuScreen implements Screen {
 			if (nextMode == 11) {
 				SoundMenu();
 			}
-			if (nextMode == 1337) {
-				GameManager.prepareLocal();
+			/*if (nextMode == 1337) {
+				GameMaFnager.prepareLocal();
 				nextMode = 25565;
-			}
+			}*/
 			if (nextMode == 25565) {
-			Resources.Music_Offline.stop();
+			
 			if(ingame){
+			Resources.Music_Offline.stop();
 			Resources.Music_DM.play();
 			GameScreen.menuShown = false;
 			}
 			else{
-				// TODO:TEMP! Replace with LobbyScreen once that is ready!;
-				GameManager.prepareLocal();
+				LobbyMenu();
+				Q1R.game.setScreen(Q1R.LS);
+				
+				
+				}
+			}
+			if(nextMode == 25566){
+				//This is for starting a local game
+				GameParams pars = new GameParams();
+				pars.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
+				pars.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
+				pars.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
+				pars.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+				GameManager.prepareLocal(pars);
+				Resources.Music_Offline.stop();
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);
 				Q1R.game.setScreen(Q1R.GS);
 				GameScreen.menuShown = false;
 				GameMenu();
-				}
 			}
 			state = 1;
 		}
@@ -307,18 +345,20 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		
-		if(Gdx.app.getType() == ApplicationType.Android){
+		
 		Q1R.batch.begin();
 		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
+		if(Gdx.app.getType() == ApplicationType.Android){
+			
+		//TODO: TEMP!
 		if(Gdx.input.getPitch()<-Settings.tiltSensitivity)
 		Q1R.batch.draw(Resources.textures.get("controls/right_on"), 400-Gdx.input.getPitch()*2, 100);
 		else if (Gdx.input.getPitch()>Settings.tiltSensitivity)
 		Q1R.batch.draw(Resources.textures.get("controls/left_on"), 400-Gdx.input.getPitch()*2, 100);
 		else
 		Q1R.batch.draw(Resources.textures.get("controls/fire_on"), 400-Gdx.input.getPitch()*2, 100);
-		
-		Q1R.batch.end();
 		}
+		Q1R.batch.end();
 		
 		
 		renderOverlay(deltaT, false);

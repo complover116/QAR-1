@@ -7,7 +7,8 @@ public class PlayerEnt {
 
 	Player ply;
 
-	int time = 0;
+	float time = -1337;
+	boolean spawned = false;
 
 	public static Color colorFromID(int colorid) {
 		switch (colorid) {
@@ -20,7 +21,7 @@ public class PlayerEnt {
 		case 4:
 			return Color.YELLOW;
 		default:
-			return Color.BLACK;
+			return Color.WHITE;
 		}
 	}
 
@@ -56,11 +57,34 @@ public class PlayerEnt {
 				xvel = -600;
 			else
 				xvel = 600;
-			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel + this.velX, this.velY, this.color));
+			GameWorld.ents.add(new Projectile(this.x + 16, this.y + 16, xvel + this.velX, this.velY, this.color, ply));
 		}
 	}
 
 	public void tickPhysics(double deltaT) {
+	if(time != -1337) {
+		if(time < 0&&time > -2) {
+			for (int i = 0; i < 5; i++) {
+				float dx = (float)Math.random()*400-200;
+				float dy = (float)Math.random()*400-200;
+				
+			GameWorld.ents.add(new Particle(x+16+dx, y+16+dy, 8, 8/(0-time), this.color, -dx/(0-time),
+					-dy/(0-time), false, false));
+			}
+		}
+		if(!spawned && time > 0) {
+			spawned = true;
+			for (int i = 0; i < 60; i++) {
+				float dx = (float)Math.random()*200-100;
+				float dy = (float)Math.random()*200-100;
+			GameWorld.ents.add(new Particle(x+16, y+16, 8, 8, this.color, -dx,
+					-dy, false, false));
+			}
+		}
+		
+		time += deltaT;
+	}
+		if(!spawned&&time!=-1337) return;
 		if (this.fireDelay >= 0)
 			this.fireDelay = this.fireDelay - deltaT;
 
@@ -128,9 +152,36 @@ public class PlayerEnt {
 			this.y = topCollision;
 			this.velY = 0;
 		}
+		if(time == -1337) {
+			time = -4;
+		}
+		if(time > 1000) {
+			for (int i = 0; i < 1; i++) {
+				GameWorld.ents.add(new Particle(x+16, y+16, 8, 4, this.color, (float) (Math.random() * 800 - 400),
+						(float) (Math.random() * 1000 - 400), false, true));
+			}
+		}
+		if(time > 1000.5) {
+			for (int i = 0; i < 150; i++) {
+				GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float) (Math.random() * 800 - 400),
+						(float) (Math.random() * 800 - 100), false, true));
+			}
+			this.isDead = true;
+			Resources.playSound("explode");
+		}
+		if(ply.streak>1) {
+			GameWorld.ents.add(new Particle(x+(float)Math.random()*32, y+30, ply.streak<5 ? ply.streak : 5, 4, this.color, 0,
+						(float) (Math.random() * 100), false, false));
+		}
+		if(y < -100) {
+			getHit(1, false);
+		}
 	}
 
 	public String getImage() {
+		if(!spawned) {
+			return "null";
+		}
 		if (facingLeft)
 			return "player" + color + "_left";
 		else
@@ -155,12 +206,10 @@ public class PlayerEnt {
 		this.velY = 800;
 		this.health = this.health - amount;
 		if (this.health <= 0) {
-			for (int i = 0; i < 50; i++) {
-				GameWorld.ents.add(new Particle(x, y, 8, 4, this.color, (float) (Math.random() * 800 - 400),
-						(float) (Math.random() * 800 - 100), false, true));
+			this.time = 1000;
+			if(true) {
+				GameScreen.gameSpeed = 0.05f;
 			}
-			this.isDead = true;
-			Resources.playSound("explode");
 		}
 	}
 }

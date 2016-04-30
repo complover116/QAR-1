@@ -1,6 +1,9 @@
 interface/Exit
 interface/Settings
 interface/Play
+interface/Play-Offline
+interface/Play-Host
+interface/Play-Join
 interface/Resume
 interface/Restart
 interface/Back
@@ -11,8 +14,6 @@ interface/Music
 interface/SFX
 interface/SliderScale
 interface/SliderSlide
-interface/lobbybackground
-interface/AndroidControls
 controls/menu
 controls/left
 controls/left_on
@@ -30,3 +31,4 @@ player1_left
 player2_left
 player3_left
 player4_left
+null
