@@ -27,9 +27,12 @@ public class NetConnection {
 	NetPacket sentPackets[] = new NetPacket[256];
 	float awaitingAck[] = new float[256];
 	
+	boolean dead = false;
+	
 	byte nextPacketID = -127;
 	
 	void update() {
+		if(dead)return;
 		float deltaT = ((float)(System.nanoTime() - lastCalledTick))/(float)1000000000;
 		lastCalledTick = System.nanoTime();
 		
@@ -50,6 +53,11 @@ public class NetConnection {
 		if(timeSinceLastPacketSent>NetConstants.MAX_TIME_BETWEEN_PACKETS) {
 			Gdx.app.log("Network", "Sending a keepalive packet to "+addr.toString()+":"+port);
 			sendPacket(new NetPacket(false));
+		}
+		
+		if(timeSinceLastPacketReceived>NetConstants.HARD_TIMEOUT) {
+			Gdx.app.log("Network", "Connection to "+addr.toString()+":"+port+" timed out");
+			dead = true;
 		}
 		
 	}

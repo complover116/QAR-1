@@ -46,7 +46,7 @@ public class NetServer {
 				return;
 			}
 			
-			byte[] buf = new byte[256];
+			byte[] buf = new byte[64];
 			DatagramPacket dataIn = new DatagramPacket(buf, buf.length);
 			Gdx.app.log("Network", "Server started!");
 			while(NetServer.serverRunning) {
@@ -78,6 +78,10 @@ public class NetServer {
 				
 				for(int i = 0; i < clients.size(); i++) {
 					clients.get(i).update();
+					if(clients.get(i).dead) {
+						Gdx.app.log("Network", "Disconnecting client "+clients.get(i).addr.toString()+":"+clients.get(i).port);
+						clients.remove(i);
+					}
 				}
 			}
 			Gdx.app.log("Network", "Server shutting down...");

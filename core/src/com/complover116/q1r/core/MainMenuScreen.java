@@ -216,6 +216,12 @@ public class MainMenuScreen implements Screen {
 						//TEMP!!!!
 						NetServer.startServer();
 					}
+					if (newselect == 3) {
+						state = -1;
+						
+						//TEMP!!!!
+						NetClient.startClient();
+					}
 				}
 				if (curScreen == 11) {
 					if (newselect == 0) {
