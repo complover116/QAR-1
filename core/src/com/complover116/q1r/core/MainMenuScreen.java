@@ -204,10 +204,17 @@ public class MainMenuScreen implements Screen {
 						state = -1;
 						nextMode = 1;
 						Q1R.game.setScreen(Q1R.MMS);
+						NetServer.serverRunning = false;
 					}
 					if (newselect == 1) {
 						nextMode = 25566;
 						state = -1;
+					}
+					if (newselect == 2) {
+						state = -1;
+						
+						//TEMP!!!!
+						NetServer.startServer();
 					}
 				}
 				if (curScreen == 11) {

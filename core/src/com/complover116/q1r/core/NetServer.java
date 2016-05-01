@@ -1,3 +1,5 @@
+package com.complover116.q1r.core;
+
 import java.net.*;
 import com.badlogic.gdx.Gdx;
 import java.util.ArrayList;
@@ -17,18 +19,25 @@ import java.util.ArrayList;
 * 2) Tick the connections
 * 3) Sort through outbound data, split it into packets and send each packet to a connection
 ***/
-class NetServer {
+public class NetServer {
 	static DatagramSocket sock;
 	
 	static ArrayList<NetConnection> clients = new ArrayList<NetConnection>();
 	
-	static volatile boolean serverRunning = true;
+	static volatile boolean serverRunning = false;
 	
-	
+	public static void startServer() {
+		if(serverRunning) {
+			Gdx.app.log("Network", "Ignoring call to startServer() because a server is already running");
+			return;
+		}
+		new Thread(new NetServerThread(), "Server Thread").start();
+	}
 	public static class NetServerThread implements Runnable {
 		@Override
 		public void run() {
 			Gdx.app.log("Network", "Server initializing...");
+			NetServer.serverRunning = true;
 			try {
 			sock = new DatagramSocket(26655);
 			sock.setSoTimeout(10);
@@ -48,12 +57,14 @@ class NetServer {
 						if(clients.get(i).addr.equals(dataIn.getAddress()) && clients.get(i).port == dataIn.getPort()) {
 							clients.get(i).timeSinceLastPacketReceived = 0;
 							isFromClient = true;
+							Gdx.app.log("Network", "Received a packet from "+clients.get(i).addr.toString()+":"+clients.get(i).port);
 							break;
 						}
 					}
 					
 					if(!isFromClient) {
-						//Check if this is a connection request
+						clients.add(new NetConnection(dataIn.getAddress(), dataIn.getPort(), sock));
+						Gdx.app.log("Network", "Received a packet from unknown machine, adding "+dataIn.getAddress().toString()+":"+dataIn.getPort()+" to the list of clients");
 					}
 					
 					
@@ -65,7 +76,9 @@ class NetServer {
 					NetServer.serverRunning = false;
 				}
 				
-				
+				for(int i = 0; i < clients.size(); i++) {
+					clients.get(i).update();
+				}
 			}
 			Gdx.app.log("Network", "Server shutting down...");
 			

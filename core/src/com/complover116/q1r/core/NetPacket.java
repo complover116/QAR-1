@@ -1,3 +1,5 @@
+package com.complover116.q1r.core;
+
 /***
 *			PACKETS
 * Packets are 64-byte sized 
@@ -17,6 +19,7 @@ public class NetPacket {
 	
 	boolean isSystem;
 	
+	
 	byte ID;
 	
 	public NetPacket(byte[] b) {
@@ -24,6 +27,10 @@ public class NetPacket {
 		this.isReplyPacket = (b[0] & 2) != 0;
 		this.isSystem = (b[0] & 4) != 0;
 		this.ID = b[1];
+	}
+	
+	public NetPacket(boolean important) {
+		this.isImportant = important;
 	}
 	
 	public byte[] toBytes() {
