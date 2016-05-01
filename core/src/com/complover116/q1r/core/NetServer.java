@@ -57,7 +57,9 @@ public class NetServer {
 						if(clients.get(i).addr.equals(dataIn.getAddress()) && clients.get(i).port == dataIn.getPort()) {
 							clients.get(i).timeSinceLastPacketReceived = 0;
 							isFromClient = true;
-							Gdx.app.log("Network", "Received a packet from "+clients.get(i).addr.toString()+":"+clients.get(i).port);
+							clients.get(i).process(buf);
+							//Then process the little chunks using a separate class
+							
 							break;
 						}
 					}

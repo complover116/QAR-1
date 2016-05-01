@@ -1,6 +1,7 @@
 package com.complover116.q1r.core;
 
 import java.net.*;
+import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 
 /***
@@ -27,9 +28,11 @@ public class NetConnection {
 	NetPacket sentPackets[] = new NetPacket[256];
 	float awaitingAck[] = new float[256];
 	
+	ArrayList<Byte> acksToSend = new ArrayList<Byte>();
+	
 	boolean dead = false;
 	
-	byte nextPacketID = -127;
+	byte nextPacketID = -128;
 	
 	void update() {
 		if(dead)return;
@@ -44,14 +47,18 @@ public class NetConnection {
 		for(int i = 0; i < 256; i ++) {
 			if(awaitingAck[i] >= 0){
 				awaitingAck[i] += deltaT;
-				
+				if(awaitingAck[i]>NetConstants.PACKET_ACK_TIMEOUT) {
+					awaitingAck[i] = -1;
+					Gdx.app.log("Network", "No ack received for important packet "+i+", resending");
+					sendPacket(sentPackets[i]);
+				}
 			}
 		}
 		//Send packets in queue, if no packets in queue and time...PacketSent > 1 then send a keepalive
 		
 		
 		if(timeSinceLastPacketSent>NetConstants.MAX_TIME_BETWEEN_PACKETS) {
-			Gdx.app.log("Network", "Sending a keepalive packet to "+addr.toString()+":"+port);
+			Gdx.app.debug("Network", "Sending a keepalive packet to "+addr.toString()+":"+port);
 			sendPacket(new NetPacket(false));
 		}
 		
@@ -68,15 +75,49 @@ public class NetConnection {
 		this.outSock = outSock;
 		
 		lastCalledTick = System.nanoTime();
+		for(int i = 0; i < 256; i ++) {
+			awaitingAck[i] = -1;
+		}
+	}
+	
+	void process(byte[] buf) {
+		NetPacket packet = new NetPacket(buf);
+		if(packet.isImportant) {
+		    Gdx.app.debug("Network", "Importand packet received, will send ack for "+(packet.ID+128));
+			acksToSend.add(packet.ID);
+		}
+		if(packet.hasAck1) {
+			awaitingAck[packet.ack1+128] = -1;
+			//Gdx.app.log("Network", "Received ack for "+(packet.ack1+128));
+		}
+		if(packet.hasAck2) {
+			awaitingAck[packet.ack2+128] = -1;
+		}
+		//Then split the data into chunks
 	}
 	
 	public void sendPacket(NetPacket packet) {
 		timeSinceLastPacketSent = 0;
 		if(packet.isImportant) {
-			sentPackets[nextPacketID+127] = packet;
-			awaitingAck[nextPacketID+127] = 0;
+			sentPackets[nextPacketID+128] = packet;
+			awaitingAck[nextPacketID+128] = 0;
 			packet.ID = nextPacketID;
 			nextPacketID++;
+		}
+		for(int i = 0; i < acksToSend.size(); i ++) {
+			if(!packet.hasAck1) {
+				packet.hasAck1 = true;
+				packet.ack1 = acksToSend.get(i);
+				//Gdx.app.log("Network", "Attaching ack for "+(acksToSend.get(i)+128));
+				acksToSend.remove(i);
+				continue;
+			}
+			if(!packet.hasAck2) {
+				packet.hasAck2 = true;
+				packet.ack2 = acksToSend.get(i);
+				acksToSend.remove(i);
+				continue;
+			}
 		}
 		try{
 		outSock.send(new DatagramPacket(packet.toBytes(), 64, addr, port));

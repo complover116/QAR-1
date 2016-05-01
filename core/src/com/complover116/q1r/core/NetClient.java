@@ -52,6 +52,9 @@ public class NetClient {
 					sock.receive(dataIn);
 					if(dataIn.getAddress().equals(addr) && dataIn.getPort() == port) {
 						server.timeSinceLastPacketReceived = 0;
+						server.process(buf);
+						//Then process the little chunks using a separate class
+						
 					} else {
 						Gdx.app.log("Network", "Ignored packet from "+dataIn.getAddress().toString()+":"+dataIn.getPort()+" (Not the server)");
 					}
