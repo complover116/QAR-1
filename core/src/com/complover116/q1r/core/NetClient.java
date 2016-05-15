@@ -63,7 +63,7 @@ public class NetClient {
 					
 				} catch (Exception e) {
 					e.printStackTrace();
-					NetServer.serverRunning = false;
+					NetClient.clientRunning = false;
 				}
 				server.update();
 				if(server.dead) {
