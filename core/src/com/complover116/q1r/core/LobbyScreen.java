@@ -38,7 +38,30 @@ public class LobbyScreen implements Screen {
 		Q1R.batch.draw(Resources.getImage("player2"), 225, 525);
 		Q1R.batch.draw(Resources.getImage("player3"), 425, 525);
 		Q1R.batch.draw(Resources.getImage("player4"), 625, 525);
+		
+		if(GameManager.isHosting) {
+			Q1R.font.draw(Q1R.batch, "Server online, "+NetServer.clients.size()+" clients connected", 10, 200);
+			for(int i = 0; i < NetServer.clients.size(); i++) {
+				if(NetServer.clients.get(i).timeSinceLastPacketReceived > NetConstant.SOFT_TIMEOUT) {
+					Q1R.font.draw(Q1R.batch, 1+i+") "+NetServer.clients.get(i).toString() + " ("+Math.round((NetConstants.HARD_TIMEOUT-NetServer.clients.get(i).timeSinceLastPacketReceived)*10)/10+"s to timeout)", 10, 170-i*30);
+				} else
+				Q1R.font.draw(Q1R.batch, 1+i+") "+NetServer.clients.get(i).toString(), 10, 170-i*30);
+			}
+		}
+		if(GameManager.isClient) {
+			if(NetClient.clientRunning)
+			if(NetClient.connected) {
+				Q1R.font.draw(Q1R.batch, "Connected to "+NetClient.server.toString(), 10, 200);
+			} else 
+				Q1R.font.draw(Q1R.batch, "Connecting...", 10, 200);
+			else
+				if(NetClient.connected) {
+				Q1R.font.draw(Q1R.batch, "Connection lost!", 10, 200);
+			} else 
+				Q1R.font.draw(Q1R.batch, "Connection failed!", 10, 200);
+		}
 		Q1R.batch.end();
+		
 		for(int i = 0; i < gElements.size(); i ++) {
 			gElements.get(i).render();
 		}

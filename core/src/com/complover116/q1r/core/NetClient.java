@@ -11,6 +11,7 @@ public class NetClient {
 	static int port = 26655;
 	
 	static volatile boolean clientRunning = false;
+	static volatile boolean connected = false;
 	
 	public static void startClient() {
 		if(clientRunning) {
@@ -51,6 +52,7 @@ public class NetClient {
 				try{
 					sock.receive(dataIn);
 					if(dataIn.getAddress().equals(addr) && dataIn.getPort() == port) {
+						connected = true;
 						server.timeSinceLastPacketReceived = 0;
 						server.process(buf);
 						//Then process the little chunks using a separate class

@@ -34,6 +34,10 @@ public class NetConnection {
 	
 	byte nextPacketID = -128;
 	
+	public String toString() {
+		return ""+addr.toString()+":"+port;
+	}
+	
 	void update() {
 		if(dead)return;
 		float deltaT = ((float)(System.nanoTime() - lastCalledTick))/(float)1000000000;

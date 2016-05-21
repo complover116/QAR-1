@@ -56,6 +56,12 @@ public class MainMenuScreen implements Screen {
 		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play"));
 		curScreen = 0;
 	}
+	public static void InLobbyMenu(boolean remote) {
+		buttons.clear();
+		curScreen = 10667;
+		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
+		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play"));
+	}
 	public static void LobbyMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
@@ -199,28 +205,45 @@ public class MainMenuScreen implements Screen {
 						nextMode = 12;
 					}
 				}
-				if (curScreen == 42) {
-					if (newselect == 0) {
+				if (curScreen == 10667) {
+					if(newselect == 0) {
 						state = -1;
 						nextMode = 1;
 						Q1R.game.setScreen(Q1R.MMS);
 						NetServer.serverRunning = false;
+						NetClient.clientRunning = false;
+					}
+					if(newselect == 1) {
+						state = -1;
+						nextMode = 25566;
+					}
+				}
+				if (curScreen == 42) {
+					if (newselect == 0) {
+						state = -1;
+						nextMode = 1;
 					}
 					if (newselect == 1) {
-						nextMode = 25566;
+						nextMode = 10667;
 						state = -1;
+						GameManager.isHosting = false;
+						GameManager.isClient = false;
 					}
 					if (newselect == 2) {
 						state = -1;
-						
+						nextMode = 10667;
 						//TEMP!!!!
 						NetServer.startServer();
+						GameManager.isHosting = true;
+						GameManager.isClient = false;
 					}
 					if (newselect == 3) {
 						state = -1;
-						
+						nextMode = 10667;
 						//TEMP!!!!
 						NetClient.startClient();
+						GameManager.isClient = true;
+						GameManager.isHosting = false;
 					}
 				}
 				if (curScreen == 11) {
@@ -277,6 +300,10 @@ public class MainMenuScreen implements Screen {
 				GameMaFnager.prepareLocal();
 				nextMode = 25565;
 			}*/
+			if (nextMode == 10667) {
+				Q1R.game.setScreen(Q1R.LS);
+				InLobbyMenu(false);
+			}
 			if (nextMode == 25565) {
 			
 			if(ingame){
@@ -286,7 +313,7 @@ public class MainMenuScreen implements Screen {
 			}
 			else{
 				LobbyMenu();
-				Q1R.game.setScreen(Q1R.LS);
+				
 				
 				
 				}

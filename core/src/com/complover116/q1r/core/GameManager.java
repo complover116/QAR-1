@@ -18,6 +18,10 @@ public class GameManager {
 	final static byte OFFLINE = FLAG_ISHOST + FLAG_DOLOCAL;
 
 	public static byte mode = OFFLINE;
+	
+	public static boolean isHosting = false;
+	
+	public static boolean isClient = false;
 
 	public static void prepareLocal(GameParams pars) {
 		players.clear();
