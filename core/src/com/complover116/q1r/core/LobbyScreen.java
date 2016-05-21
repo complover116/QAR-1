@@ -42,7 +42,7 @@ public class LobbyScreen implements Screen {
 		if(GameManager.isHosting) {
 			Q1R.font.draw(Q1R.batch, "Server online, "+NetServer.clients.size()+" clients connected", 10, 200);
 			for(int i = 0; i < NetServer.clients.size(); i++) {
-				if(NetServer.clients.get(i).timeSinceLastPacketReceived > NetConstant.SOFT_TIMEOUT) {
+				if(NetServer.clients.get(i).timeSinceLastPacketReceived > NetConstants.SOFT_TIMEOUT) {
 					Q1R.font.draw(Q1R.batch, 1+i+") "+NetServer.clients.get(i).toString() + " ("+Math.round((NetConstants.HARD_TIMEOUT-NetServer.clients.get(i).timeSinceLastPacketReceived)*10)/10+"s to timeout)", 10, 170-i*30);
 				} else
 				Q1R.font.draw(Q1R.batch, 1+i+") "+NetServer.clients.get(i).toString(), 10, 170-i*30);
