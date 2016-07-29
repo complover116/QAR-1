@@ -1,4 +1,5 @@
 package com.complover116.q1r.core;
+import com.badlogic.gdx.Gdx;
 
 
 /***
@@ -15,9 +16,48 @@ public class NetDataChunk {
 	byte data[];
 	byte length;
 	
+	public static final byte ID_GAMECONFIG = 1;
 	
 	public NetDataChunk(byte[] data) {
 		length = (byte)data.length;
 		this.data = data;
+	}
+	
+	public NetDataChunk() {
+		
+	}
+	
+	public static void process(NetDataChunk chunk) {
+		switch(chunk.data[0]) {
+			case ID_GAMECONFIG:
+				GameConfig.onReceive(chunk);
+				return;
+			default:
+				Gdx.app.log("Network", "ERROR: Unknown data chunk ID "+chunk.data[0]+"!");
+				return;
+		}
+	}
+	
+	public void onReceive() {};
+	
+	//All the possible chunk types are here
+	public static class GameConfig extends NetDataChunk {
+		public GameConfig(byte data[]) {super(data);}
+		public GameConfig() {
+			data = new byte[5];
+			data[0] = ID_GAMECONFIG;
+			data[1] = GameParams.players[0];
+			data[2] = GameParams.players[1];
+			data[3] = GameParams.players[2];
+			data[4] = GameParams.players[3];
+			length = (byte)data.length;
+		}
+		public static void onReceive(NetDataChunk chunk) {
+			GameParams.players[0] = chunk.data[1];
+			GameParams.players[1] = chunk.data[2];
+			GameParams.players[2] = chunk.data[3];
+			GameParams.players[3] = chunk.data[4];
+		}
+		
 	}
 }

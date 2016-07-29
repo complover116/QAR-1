@@ -23,14 +23,14 @@ public class GameManager {
 	
 	public static boolean isClient = false;
 
-	public static void prepareLocal(GameParams pars) {
+	public static void prepareLocal() {
 		players.clear();
 		Gdx.app.log("GameManager", "Preparing local client...");
 	
 		GameWorld.init();
 		
 		for(int i = 0; i < 4; i ++) {
-			switch(pars.players[i]) {
+			switch(GameParams.players[i]) {
 				case LobbyScreen.PLAYER_LOCAL:
 					PlayerEnt ent = new PlayerEnt(i+1);
 					GameWorld.players.add(ent);

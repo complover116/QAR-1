@@ -145,15 +145,20 @@ public class MainMenuScreen implements Screen {
 		
 		if (state == 0) {
 			Vector2 unp = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+			boolean flag = false;
 			for (int i = 0; i < buttons.size(); i++) {
 				if (buttons.get(i).rect.contains(unp.x, unp.y)) {
 					if (buttons.get(i) instanceof CustomButton) {
 						((CustomButton) buttons.get(i)).mouseMove(unp.x - buttons.get(i).rect.getX(),
 								unp.y - buttons.get(i).rect.getY());
 					} else {
+						flag = true;
 						newselect = i;
 					}
 				}
+			}
+			if(!flag) {
+				newselect = -1;
 			}
 		}
 		if (newselect != curselect) {
@@ -320,12 +325,13 @@ public class MainMenuScreen implements Screen {
 			}
 			if(nextMode == 25566){
 				//This is for starting a local game
-				GameParams pars = new GameParams();
-				pars.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
-				pars.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
-				pars.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
-				pars.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
-				GameManager.prepareLocal(pars);
+				//GameParams pars = new GameParams();
+				
+				GameParams.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
+				GameParams.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
+				GameParams.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
+				GameParams.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+				GameManager.prepareLocal();
 				Resources.Music_Offline.stop();
 				Resources.Music_DM.play();
 				//Resources.Music_DM.setPosition(85);
