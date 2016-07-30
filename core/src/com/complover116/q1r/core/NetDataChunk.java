@@ -17,6 +17,7 @@ public class NetDataChunk {
 	
 	public static final byte ID_GAMECONFIG = 1;
 	public static final byte ID_GAMESTATEUPDATE = 2;
+	public static final byte ID_PLAYERPOSVEL = 1;
 	
 	public NetDataChunk(byte[] data) {
 		length = (byte)data.length;
@@ -35,6 +36,9 @@ public class NetDataChunk {
 				return;
 			case ID_GAMESTATEUPDATE:
 				GameStateUpdate.onReceive(chunk);
+				return;
+			case ID_PLAYERPOSVEL:
+				PlayerPosVel.onReceive(chunk);
 				return;
 			default:
 				Gdx.app.log("Network", "ERROR: Unknown data chunk ID "+chunk.data[0]+"!");
@@ -69,7 +73,7 @@ public class NetDataChunk {
 		public static final byte STATE_START = 1;
 		public static final byte STATE_PAUSE = 2;
 		public GameStateUpdate(byte state) {
-			data = new byte[5];
+			data = new byte[2];
 			data[0] = ID_GAMESTATEUPDATE;
 			data[1] = state;
 			length = (byte)data.length;
@@ -80,6 +84,19 @@ public class NetDataChunk {
 					GameManager.gameStarting = true;
 				break;
 			}
+		}
+		
+	}
+	
+	public static class PlayerPosVel extends NetDataChunk {
+		public PlayerPosVel(byte data[]) {super(data);}
+		public PlayerPosVel() {
+			data = new byte[5];
+			data[0] = ID_PLAYERPOSVEL;
+			length = (byte)data.length;
+		}
+		public static void onReceive(NetDataChunk chunk) {
+			
 		}
 		
 	}

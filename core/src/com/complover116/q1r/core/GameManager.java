@@ -48,6 +48,9 @@ public class GameManager {
 				case LobbyScreen.PLAYER_BOT:
 					PlayerEnt ent2 = new PlayerEnt(i+1);
 					GameWorld.players.add(ent2);
+					if(GameManager.isClient)
+					players.add(new Player(ent2, 0));
+					else
 					players.add(new Player(ent2, 5));
 				break;
 			}
