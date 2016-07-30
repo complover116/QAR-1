@@ -61,7 +61,16 @@ public class LobbyScreen implements Screen {
 				Q1R.font.draw(Q1R.batch, "Connection failed!", 10, 200);
 		}
 		Q1R.batch.end();
-		
+		if(GameManager.isClient)
+		{
+			for(int i = 0; i < 4; i ++)
+			((GSelector)Q1R.LS.gElements.get(i)).selection = GameParams.players[i];
+		} else {
+				GameParams.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
+				GameParams.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
+				GameParams.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
+				GameParams.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+		}
 		for(int i = 0; i < gElements.size(); i ++) {
 			gElements.get(i).render();
 		}

@@ -26,7 +26,13 @@ public class GameManager {
 	public static void prepareLocal() {
 		players.clear();
 		Gdx.app.log("GameManager", "Preparing local client...");
-	
+		Resources.Music_Offline.stop();
+		Resources.Music_DM.play();
+		//Resources.Music_DM.setPosition(85);
+		Q1R.game.setScreen(Q1R.GS);
+		GameScreen.menuShown = false;
+		GameMenu();
+		
 		GameWorld.init();
 		
 		for(int i = 0; i < 4; i ++) {

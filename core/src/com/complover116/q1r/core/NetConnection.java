@@ -30,6 +30,8 @@ public class NetConnection {
 	
 	ArrayList<Byte> acksToSend = new ArrayList<Byte>();
 	
+	ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
+	
 	boolean dead = false;
 	
 	byte nextPacketID = -128;
@@ -63,7 +65,14 @@ public class NetConnection {
 		
 		if(timeSinceLastPacketSent>NetConstants.MAX_TIME_BETWEEN_PACKETS) {
 			Gdx.app.debug("Network", "Sending a keepalive packet to "+addr.toString()+":"+port);
-			sendPacket(new NetPacket(false));
+			if(GameManager.isHosting) {
+				NetPacket pack = new NetPacket(false);
+				pack.pack(new NetDataChunk.GameConfig());
+				sendPacket(pack);
+				//Gdx.app.log("Network", "Hosting!");
+			} else {
+				sendPacket(new NetPacket(false));
+			}
 		}
 		
 		if(timeSinceLastPacketReceived>NetConstants.HARD_TIMEOUT) {
@@ -98,6 +107,9 @@ public class NetConnection {
 			awaitingAck[packet.ack2+128] = -1;
 		}
 		//Then split the data into chunks
+		for(int i = 0; i < packet.payload.size(); i ++){
+			NetDataChunk.process(packet.payload.get(i));
+		}
 	}
 	
 	public void sendPacket(NetPacket packet) {

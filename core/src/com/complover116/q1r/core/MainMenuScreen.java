@@ -327,17 +327,9 @@ public class MainMenuScreen implements Screen {
 				//This is for starting a local game
 				//GameParams pars = new GameParams();
 				
-				GameParams.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
-				GameParams.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
-				GameParams.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
-				GameParams.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+				
 				GameManager.prepareLocal();
-				Resources.Music_Offline.stop();
-				Resources.Music_DM.play();
-				//Resources.Music_DM.setPosition(85);
-				Q1R.game.setScreen(Q1R.GS);
-				GameScreen.menuShown = false;
-				GameMenu();
+				
 			}
 			state = 1;
 		}
