@@ -33,6 +33,14 @@ public class NetServer {
 		}
 		new Thread(new NetServerThread(), "Server Thread").start();
 	}
+	public static void broadcast(NetDataChunk chunk) {
+		for(NetConnection client : clients)
+			client.queueChunk(chunk);
+	}
+	public static void broadcastImportant(NetDataChunk chunk) {
+		for(NetConnection client : clients)
+			client.queueImportantChunk(chunk);
+	}
 	public static class NetServerThread implements Runnable {
 		@Override
 		public void run() {

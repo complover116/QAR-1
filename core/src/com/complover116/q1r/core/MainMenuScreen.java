@@ -327,9 +327,12 @@ public class MainMenuScreen implements Screen {
 				//This is for starting a local game
 				//GameParams pars = new GameParams();
 				
-				
-				GameManager.prepareLocal();
-				
+				GameManager.gameStarting = true;
+				if(GameManager.isHosting) {
+					//Tell everyone that the game is starting!
+					NetServer.broadcastImportant(new NetDataChunk.GameStateUpdate(
+					NetDataChunk.GameStateUpdate.STATE_START));
+				}
 			}
 			state = 1;
 		}
@@ -350,6 +353,11 @@ public class MainMenuScreen implements Screen {
 			}
 		}
 		Q1R.batch.end();
+		if(GameManager.gameStarting) {
+			GameMenu();
+			GameManager.prepareLocal();
+			GameManager.gameStarting = false;
+		}
 	}
 	
 	public void render(float deltaT) {

@@ -17,6 +17,9 @@ public class GameManager {
 
 	final static byte OFFLINE = FLAG_ISHOST + FLAG_DOLOCAL;
 
+
+	public static volatile boolean gameStarting = false;
+	
 	public static byte mode = OFFLINE;
 	
 	public static boolean isHosting = false;
@@ -31,7 +34,7 @@ public class GameManager {
 		//Resources.Music_DM.setPosition(85);
 		Q1R.game.setScreen(Q1R.GS);
 		GameScreen.menuShown = false;
-		GameMenu();
+		
 		
 		GameWorld.init();
 		

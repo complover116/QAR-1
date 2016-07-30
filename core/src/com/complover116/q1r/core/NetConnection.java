@@ -31,6 +31,7 @@ public class NetConnection {
 	ArrayList<Byte> acksToSend = new ArrayList<Byte>();
 	
 	ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
+	ArrayList<NetDataChunk> importantChunksToSend = new ArrayList<NetDataChunk>();
 	
 	boolean dead = false;
 	
@@ -38,6 +39,13 @@ public class NetConnection {
 	
 	public String toString() {
 		return ""+addr.toString()+":"+port;
+	}
+	
+	void queueChunk(NetDataChunk chunk) {
+		chunksToSend.add(chunk);
+	}
+	void queueImportantChunk(NetDataChunk chunk) {
+		importantChunksToSend.add(chunk);
 	}
 	
 	void update() {
@@ -61,18 +69,35 @@ public class NetConnection {
 			}
 		}
 		//Send packets in queue, if no packets in queue and time...PacketSent > 1 then send a keepalive
+		if(chunksToSend.size()>0) {
+			NetPacket packet = new NetPacket(false);
+			while(chunksToSend.size()>0) {
+				if(packet.pack(chunksToSend.get(0)))
+				chunksToSend.remove(0);
+				else{
+					Gdx.app.log("Network", "WARNING:Send queue overload!");
+					break;
+				}
+			}
+			sendPacket(packet);
+		}
 		
+		if(importantChunksToSend.size()>0) {
+			NetPacket packet = new NetPacket(true);
+			while(importantChunksToSend.size()>0) {
+				if(packet.pack(importantChunksToSend.get(0)))
+				importantChunksToSend.remove(0);
+				else{
+					Gdx.app.log("Network", "WARNING:Send queue overload!");
+					break;
+				}
+			}
+			sendPacket(packet);
+		}
 		
 		if(timeSinceLastPacketSent>NetConstants.MAX_TIME_BETWEEN_PACKETS) {
 			Gdx.app.debug("Network", "Sending a keepalive packet to "+addr.toString()+":"+port);
-			if(GameManager.isHosting) {
-				NetPacket pack = new NetPacket(false);
-				pack.pack(new NetDataChunk.GameConfig());
-				sendPacket(pack);
-				//Gdx.app.log("Network", "Hosting!");
-			} else {
-				sendPacket(new NetPacket(false));
-			}
+			sendPacket(new NetPacket(false));
 		}
 		
 		if(timeSinceLastPacketReceived>NetConstants.HARD_TIMEOUT) {

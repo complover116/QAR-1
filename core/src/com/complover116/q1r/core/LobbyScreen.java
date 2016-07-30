@@ -66,10 +66,16 @@ public class LobbyScreen implements Screen {
 			for(int i = 0; i < 4; i ++)
 			((GSelector)Q1R.LS.gElements.get(i)).selection = GameParams.players[i];
 		} else {
-				GameParams.players[0] = (byte)((GSelector)Q1R.LS.gElements.get(0)).selection;
-				GameParams.players[1] = (byte)((GSelector)Q1R.LS.gElements.get(1)).selection;
-				GameParams.players[2] = (byte)((GSelector)Q1R.LS.gElements.get(2)).selection;
-				GameParams.players[3] = (byte)((GSelector)Q1R.LS.gElements.get(3)).selection;
+				boolean configChanged = false;
+				for(int i = 0; i < 4; i ++) {
+					if(GameParams.players[i] != (byte)((GSelector)Q1R.LS.gElements.get(i)).selection){
+						GameParams.players[i] = (byte)((GSelector)Q1R.LS.gElements.get(i)).selection;
+						configChanged = true;
+					}
+				}
+				if(GameManager.isHosting){
+					NetServer.broadcast(new NetDataChunk.GameConfig());
+				}
 		}
 		for(int i = 0; i < gElements.size(); i ++) {
 			gElements.get(i).render();
@@ -78,6 +84,7 @@ public class LobbyScreen implements Screen {
 		
 		
 		MainMenuScreen.renderOverlay(delta, false);
+		
 	}
 
 	@Override

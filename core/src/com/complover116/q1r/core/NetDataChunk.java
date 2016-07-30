@@ -1,7 +1,6 @@
 package com.complover116.q1r.core;
 import com.badlogic.gdx.Gdx;
 
-
 /***
 *					DATA CHUNKS
 * Data chunks are the actual payload of the packets
@@ -34,6 +33,9 @@ public class NetDataChunk {
 				//Gdx.app.log("Network", "Received ID_GAMECONFIG");
 				GameConfig.onReceive(chunk);
 				return;
+			case ID_GAMESTATEUPDATE:
+				GameStateUpdate.onReceive(chunk);
+				return;
 			default:
 				Gdx.app.log("Network", "ERROR: Unknown data chunk ID "+chunk.data[0]+"!");
 				return;
@@ -64,16 +66,18 @@ public class NetDataChunk {
 	}
 	public static class GameStateUpdate extends NetDataChunk {
 		public GameStateUpdate(byte data[]) {super(data);}
-		public GameStateUpdate() {
+		public static final byte STATE_START = 1;
+		public static final byte STATE_PAUSE = 2;
+		public GameStateUpdate(byte state) {
 			data = new byte[5];
 			data[0] = ID_GAMESTATEUPDATE;
-			data[1] = 1;
+			data[1] = state;
 			length = (byte)data.length;
 		}
 		public static void onReceive(NetDataChunk chunk) {
 			switch(chunk.data[1]) {
 				case 1:
-					GameManager.prepareLocal();
+					GameManager.gameStarting = true;
 				break;
 			}
 		}
