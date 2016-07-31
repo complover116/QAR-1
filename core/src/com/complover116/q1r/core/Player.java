@@ -112,6 +112,7 @@ public class Player {
 	}
 
 	public void tick() {
+	if(!GameManager.isClient)
 		if (this.connectionType == CONNECTION_LOCAL) {
 			if (Gdx.app.getType() == ApplicationType.Android) {
 				if (Gdx.input.getPitch()<-Settings.tiltSensitivity) {

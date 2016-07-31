@@ -1,5 +1,6 @@
 package com.complover116.q1r.core;
 import com.badlogic.gdx.Gdx;
+import java.nio.ByteBuffer;
 
 /***
 *					DATA CHUNKS
@@ -17,7 +18,7 @@ public class NetDataChunk {
 	
 	public static final byte ID_GAMECONFIG = 1;
 	public static final byte ID_GAMESTATEUPDATE = 2;
-	public static final byte ID_PLAYERPOSVEL = 1;
+	public static final byte ID_PLAYERPOSVEL = 3;
 	
 	public NetDataChunk(byte[] data) {
 		length = (byte)data.length;
@@ -89,15 +90,44 @@ public class NetDataChunk {
 	}
 	
 	public static class PlayerPosVel extends NetDataChunk {
+		/*
+		* 1 - Player id (1-4)
+		* 2-5 - player x
+		* 6-9 - player y
+		* 10-13 - player velx
+		* 14-17 - player vely
+		* 18 - movDir
+		* 19 bytes!
+		*/
 		public PlayerPosVel(byte data[]) {super(data);}
-		public PlayerPosVel() {
-			data = new byte[5];
-			data[0] = ID_PLAYERPOSVEL;
+		public PlayerPosVel(byte id) {
+			data = new byte[20];
+			ByteBuffer.wrap(data).put(ID_PLAYERPOSVEL)
+			.put(id).putFloat(GameManager.players.get(id).ent.x)
+			.putFloat(GameManager.players.get(id).ent.y)
+			.putFloat(GameManager.players.get(id).ent.velX)
+			.putFloat(GameManager.players.get(id).ent.velY)
+			.put(GameManager.players.get(id).ent.moveDir)
+			.put(GameManager.players.get(id).ent.inControl ? (byte)1 : (byte)0);
 			length = (byte)data.length;
 		}
 		public static void onReceive(NetDataChunk chunk) {
-			
+			ByteBuffer in = ByteBuffer.wrap(chunk.data);
+			//Skip the packet ID
+			in.get();
+			byte id = in.get();
+			if(GameManager.players.size()<=id) return;
+			if(GameManager.players.get(id).ent != null) {
+				GameManager.players.get(id).ent.x = in.getFloat();
+				GameManager.players.get(id).ent.y = in.getFloat();
+				GameManager.players.get(id).ent.velX = in.getFloat();
+				GameManager.players.get(id).ent.velY = in.getFloat();
+				GameManager.players.get(id).ent.moveDir = in.get();
+				GameManager.players.get(id).ent.inControl = in.get()==1;
+			}
 		}
 		
+		
 	}
+	
 }

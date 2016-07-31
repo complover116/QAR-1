@@ -13,7 +13,7 @@ import java.util.ArrayList;
 *
 * The rest 56 bytes contain payload data in chunks
 * 
-* Each chunk has a tiny header of 1 byte determining its size?
+* Each chunk has a tiny header of 1 byte determining its size
 ***/
 public class NetPacket {
 	
@@ -44,7 +44,7 @@ public class NetPacket {
 		//payload = new NetDataChunk[b[4]];
 		for(int k = 0; k < b[4]; k++) {
 			
-			byte data[] = new byte[i];
+			byte data[] = new byte[b[i]];
 			for(int j = 0; j < b[i]; j++) {
 				data[j] = b[j+i+1];
 			}

@@ -85,7 +85,7 @@ public class NetServer {
 					e.printStackTrace();
 					NetServer.serverRunning = false;
 				}
-				
+				HostNetworking.tick();
 				for(int i = 0; i < clients.size(); i++) {
 					clients.get(i).update();
 					if(clients.get(i).dead) {

@@ -75,7 +75,7 @@ public class NetConnection {
 				if(packet.pack(chunksToSend.get(0)))
 				chunksToSend.remove(0);
 				else{
-					Gdx.app.log("Network", "WARNING:Send queue overload!");
+					//Gdx.app.log("Network", "WARNING:Send queue overload!");
 					break;
 				}
 			}

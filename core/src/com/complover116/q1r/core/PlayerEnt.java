@@ -25,14 +25,16 @@ public class PlayerEnt {
 		}
 	}
 
-	float x = (float) (Math.random() * 700 + 50);
-	float y = (float) (Math.random() * 500 + 50);
-	float velX = 0;
-	float velY = 0;
+	volatile float x = (float) (Math.random() * 700 + 50);
+	volatile float y = (float) (Math.random() * 500 + 50);
+	volatile float velX = 0;
+	volatile float velY = 0;
+	volatile boolean movementUpdated = false;
 
 	// INPUT VARIABLES!
 	// Volatile because they are accessed from network threads
 	volatile byte moveDir = 0;
+	volatile byte prevMoveDir = 0;
 	volatile boolean jump = true;
 	volatile boolean fire = false;
 
@@ -41,7 +43,7 @@ public class PlayerEnt {
 	int color = 1;
 	double fireDelay = 1;
 	int health = 4;
-	boolean inControl = true;
+	volatile boolean inControl = true;
 	boolean isDead = false;
 
 	Rectangle getBB() {
@@ -98,14 +100,23 @@ public class PlayerEnt {
 		if (this.jump && this.jumpsleft > 0) {
 			this.jumpsleft--;
 			this.velY = 750;
+			this.movementUpdated = true;
 		}
 		this.jump = false;
-
+		
+		if(GameManager.isHosting) {
+			if(this.moveDir != this.prevMoveDir) {
+				this.prevMoveDir = this.moveDir;
+				this.movementUpdated = true;
+			}
+		}
+		
 		if (this.moveDir == 1)
 			this.facingLeft = false;
 		if (this.moveDir == -1)
 			this.facingLeft = true;
 
+		//if(!GameManager.isClient)
 		if (this.inControl)
 			this.velX = this.moveDir * 500;
 		else
@@ -193,6 +204,11 @@ public class PlayerEnt {
 	}
 
 	public void getHit(int amount, boolean left) {
+	
+		if(GameManager.isHosting) {
+			this.movementUpdated = true;
+		}
+		
 		ply.streak = 0;
 		Resources.playSound("hurtnew" + (int) (Math.random() * 3 + 1));
 		for (int i = 0; i < 20; i++) {
