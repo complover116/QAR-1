@@ -19,6 +19,7 @@ public class NetDataChunk {
 	public static final byte ID_GAMECONFIG = 1;
 	public static final byte ID_GAMESTATEUPDATE = 2;
 	public static final byte ID_PLAYERPOSVEL = 3;
+	public static final byte ID_FIREEVENT = 3;
 	
 	public NetDataChunk(byte[] data) {
 		length = (byte)data.length;
@@ -127,6 +128,22 @@ public class NetDataChunk {
 			}
 		}
 		
+		
+	}
+	
+	public static class FireEvent extends NetDataChunk {
+		public FireEvent(byte data[]) {super(data);}
+		public FireEvent(float x, float y, float velX, float velY, byte player) {
+			data = new byte[18];
+			ByteBuffer.wrap(data).put(ID_FIREEVENT)
+			.putFloat(x).putFloat(y)
+			.putFloat(velX).putFloat(velY)
+			.put(player);
+			length = (byte)data.length;
+		}
+		public static void onReceive(NetDataChunk chunk) {
+			
+		}
 		
 	}
 	

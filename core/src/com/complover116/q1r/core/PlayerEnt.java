@@ -223,7 +223,7 @@ public class PlayerEnt {
 		this.health = this.health - amount;
 		if (this.health <= 0) {
 			this.time = 1000;
-			if(true) {
+			if(!GameManager.isHosting && !GameManager.isClient) {
 				GameScreen.gameSpeed = 0.05f;
 			}
 		}

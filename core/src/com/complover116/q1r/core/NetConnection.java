@@ -29,8 +29,7 @@ public class NetConnection {
 	float awaitingAck[] = new float[256];
 	
 	ArrayList<Byte> acksToSend = new ArrayList<Byte>();
-	
-	ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
+	volatile ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
 	ArrayList<NetDataChunk> importantChunksToSend = new ArrayList<NetDataChunk>();
 	
 	boolean dead = false;
