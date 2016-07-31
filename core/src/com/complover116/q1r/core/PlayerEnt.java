@@ -52,6 +52,9 @@ public class PlayerEnt {
 
 	void fire() {
 		if (fireDelay < 0) {
+			if(GameManager.isHosting) {
+				NetServer.broadcast(new NetDataChunk.FireEvent(ply.ID));
+			}
 			this.fireDelay = 0.5;
 			Resources.playSound("firenew" + (int) (Math.random() * 3 + 1));
 			int xvel = 0;

@@ -43,15 +43,15 @@ public class GameManager {
 				case LobbyScreen.PLAYER_LOCAL:
 					PlayerEnt ent = new PlayerEnt(i+1);
 					GameWorld.players.add(ent);
-					players.add(new Player(ent, i+1));
+					players.add(new Player(ent, i+1, (byte)players.size()));
 				break;
 				case LobbyScreen.PLAYER_BOT:
 					PlayerEnt ent2 = new PlayerEnt(i+1);
 					GameWorld.players.add(ent2);
 					if(GameManager.isClient)
-					players.add(new Player(ent2, 0));
+					players.add(new Player(ent2, 0, (byte)players.size()));
 					else
-					players.add(new Player(ent2, 5));
+					players.add(new Player(ent2, 5, (byte)players.size()));
 				break;
 			}
 		} 

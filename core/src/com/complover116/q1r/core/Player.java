@@ -43,11 +43,14 @@ public class Player {
 
 	public byte connectionType;
 
+	byte ID;
+	
 	PlayerEnt ent;
 
-	public Player(PlayerEnt entity, int cont) {
+	public Player(PlayerEnt entity, int cont, byte ID) {
 		connectionType = CONNECTION_LOCAL;
 		entity.ply = this;
+		this.ID = ID;
 		switch (cont) {
 		case 1:
 			this.key_up = Input.Keys.W;
