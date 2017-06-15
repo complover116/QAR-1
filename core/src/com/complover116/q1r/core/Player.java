@@ -73,6 +73,10 @@ public class Player {
 		this.controlScheme = cont;
 	}
 
+	/***
+	*	This code is shit and will be replaced
+	*   it is still here for reference
+	***/
 	public void draw() {
 		Q1R.shapeRenderer.setColor(PlayerEnt.colorFromID(ent.color));
 		int X = 0;

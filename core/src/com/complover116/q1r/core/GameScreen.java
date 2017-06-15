@@ -5,12 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
+	private static final int BUTTON_JUMP = 0;
+	private static final int BUTTON_FIRE = 1;
 
 	int WIDTH = 0;
 	int HEIGHT = 0;
+	int RIGHTBORDER = 0;
 	
 	double time = 0;
 	
@@ -25,12 +29,11 @@ public class GameScreen implements Screen {
 	
 	public GameScreen() {
 		
-		
-		// LEFT
-		buttons[0] = new AndroidButton(new Rectangle(0, 0, 128, 128));
+		buttons[BUTTON_JUMP] = new AndroidButton(new Rectangle(WIDTH-128, 128, 128, 128));
 		// RIGHT
-		buttons[1] = new AndroidButton(new Rectangle(672, 0, 128, 128));
+		buttons[BUTTON_FIRE] = new AndroidButton(new Rectangle(WIDTH-128, 0, 128, 128));
 		// MENU
+		// This will be replaced
 		buttons[2] = new AndroidButton(new Rectangle(32, 536, 64, 64));
 	}
 
@@ -58,6 +61,7 @@ public class GameScreen implements Screen {
 			for (int i = 0; i < buttons.length; i++) {
 				buttons[i].update();
 			}
+			//This pretty much updates the entire world
 			GameWorld.update(inGameDelta);
 		}
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -71,13 +75,36 @@ public class GameScreen implements Screen {
 		Q1R.batch.getProjectionMatrix().idt().setToOrtho2D(0, 0, WIDTH, HEIGHT);
 		Q1R.batch.getTransformMatrix().idt();
 		// PLAYER INFO RENDER CODE
-		for (int i = 0; i < GameManager.players.size(); i++)
-			GameManager.players.get(i).draw();
+		//Will be replaced by pop-up text and by visual effects
+		/*for (int i = 0; i < GameManager.players.size(); i++)
+			GameManager.players.get(i).draw();*/
 		
-		
+			
+
 		Q1R.viewport.update(WIDTH, HEIGHT);
 		Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
+
+
+		//TODO: If android only
+		//if(Gdx.app.getType() == ApplicationType.Android) {
+			Q1R.batch.begin();
+			Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
+			
+			if(buttons[0].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/jump_on"), RIGHTBORDER-128, 128);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/jump"), RIGHTBORDER-128, 128);
+			
+			if(buttons[1].isPressed)
+			Q1R.batch.draw(Resources.getImage("controls/fire_on"), RIGHTBORDER-128, 0);
+			else
+			Q1R.batch.draw(Resources.getImage("controls/fire"), RIGHTBORDER-128, 0);
+			
+			Q1R.batch.end();
+		//}			
+
+		
 		//TICK TIMES CALCULATION
 		double spaaps = 0;
 		for (int i = 0; i < 99; i++) {
@@ -97,23 +124,7 @@ public class GameScreen implements Screen {
 		
 		GameWorld.render();
 		
-		//TODO: If android only
-		if(Gdx.app.getType() == ApplicationType.Android) {
-			Q1R.batch.begin();
-			Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
-			
-			if(buttons[0].isPressed)
-			Q1R.batch.draw(Resources.getImage("controls/jump_on"), 0, 0);
-			else
-			Q1R.batch.draw(Resources.getImage("controls/jump"), 0, 0);
-			
-			if(buttons[1].isPressed)
-			Q1R.batch.draw(Resources.getImage("controls/fire_on"), 672, 0);
-			else
-			Q1R.batch.draw(Resources.getImage("controls/fire"), 672, 0);
-			
-			Q1R.batch.end();
-		}
+		
 		
 		
 		//MENU CODE
@@ -140,6 +151,12 @@ public class GameScreen implements Screen {
 		Q1R.viewport.update(width, height);
 		WIDTH = width;
 		HEIGHT = height;
+		RIGHTBORDER = (int)(Q1R.viewport.getWorldWidth()/2)+400;
+		if(buttons[BUTTON_JUMP] != null)
+		buttons[BUTTON_JUMP].bounds = new Rectangle(RIGHTBORDER-128, 128, 128, 128);
+		if(buttons[BUTTON_FIRE] != null)
+		buttons[BUTTON_FIRE].bounds = new Rectangle(RIGHTBORDER-128, 0, 128, 128);
+		
 	}
 
 	@Override

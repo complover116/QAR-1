@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "QAR-1";
         config.width = 800;
-        config.height = 600;
+        config.height = 450;
         config.resizable = true;
 		new LwjglApplication(new Q1R(), config);
 	}

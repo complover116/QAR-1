@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,7 +28,7 @@ public class Q1R extends Game {
 		font.setColor(Color.WHITE);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 600);
-		viewport = new FitViewport(800, 600, camera);
+		viewport = new ExtendViewport(800, 600, camera);
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		Resources.loadVital();
