@@ -63,6 +63,11 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
     }
+	android {
+    	lintOptions {
+    	    disable 'LintError'
+    	}
+	}
 }
 
 project(":html") {
