@@ -37,24 +37,15 @@ class GameManager {
 		
 		
 		GameWorld.init();
-		
-		for(int i = 0; i < 4; i ++) {
-			switch(GameParams.players[i]) {
-				case LobbyScreen.PLAYER_LOCAL:
-					PlayerEnt ent = new PlayerEnt(i+1);
-					GameWorld.players.add(ent);
-					players.add(new Player(ent, i+1, (byte)players.size()));
-				break;
-				case LobbyScreen.PLAYER_BOT:
-					PlayerEnt ent2 = new PlayerEnt(i+1);
-					GameWorld.players.add(ent2);
-					if(GameManager.isClient)
-					players.add(new Player(ent2, 0, (byte)players.size()));
-					else
-					players.add(new Player(ent2, 5, (byte)players.size()));
-				break;
-			}
-		} 
+
+		//TODO:Currently hardcoded to 1 player and 1 bot
+		PlayerEnt ent = new PlayerEnt(1);
+		GameWorld.players.add(ent);
+		players.add(new Player(ent, 1, (byte)players.size()));
+		PlayerEnt ent2 = new PlayerEnt(2);
+		GameWorld.players.add(ent2);
+		players.add(new Player(ent2, 5, (byte)players.size()));
+
 		Gdx.app.log("GameManager", "Connecting controllers...");
 		for (Controller controller : Controllers.getControllers()) {
 		    Gdx.app.log("Controllers", controller.getName());

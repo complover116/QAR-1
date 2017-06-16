@@ -20,7 +20,6 @@ public class Q1R extends Game {
 	
 	public static MainMenuScreen MMS;
 	public static GameScreen GS;
-	public static LobbyScreen LS;
 	
 	@Override
 	public void create() {
@@ -35,7 +34,6 @@ public class Q1R extends Game {
 		game = this;
 		MMS = new MainMenuScreen();
 		GS = new GameScreen();
-		LS = new LobbyScreen();
 		this.setScreen(MMS);
 	}
 

@@ -189,7 +189,7 @@ public class MainMenuScreen implements Screen {
 					}
 					if (newselect == 2) {
 						state = -1;
-						nextMode = 25565;
+						nextMode = 25566;
 					}
 					/*if (newselect == 3) {
 						state = -1;
@@ -306,8 +306,8 @@ public class MainMenuScreen implements Screen {
 				nextMode = 25565;
 			}*/
 			if (nextMode == 10667) {
-				Q1R.game.setScreen(Q1R.LS);
-				InLobbyMenu(false);
+				state = -1;
+				nextMode = 25566;
 			}
 			if (nextMode == 25565) {
 			
@@ -325,14 +325,8 @@ public class MainMenuScreen implements Screen {
 			}
 			if(nextMode == 25566){
 				//This is for starting a local game
-				//GameParams pars = new GameParams();
 				
 				GameManager.gameStarting = true;
-				if(GameManager.isHosting) {
-					//Tell everyone that the game is starting!
-					NetServer.broadcastImportant(new NetDataChunk.GameStateUpdate(
-					NetDataChunk.GameStateUpdate.STATE_START));
-				}
 			}
 			state = 1;
 		}

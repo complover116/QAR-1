@@ -32,10 +32,6 @@ class NetDataChunk {
 	
 	public static void process(NetDataChunk chunk) {
 		switch(chunk.data[0]) {
-			case ID_GAMECONFIG:
-				//Gdx.app.log("Network", "Received ID_GAMECONFIG");
-				GameConfig.onReceive(chunk);
-				return;
 			case ID_GAMESTATEUPDATE:
 				GameStateUpdate.onReceive(chunk);
 				return;
@@ -53,25 +49,6 @@ class NetDataChunk {
 	public void onReceive() {}
 
     //All the possible chunk types are here
-	public static class GameConfig extends NetDataChunk {
-		public GameConfig(byte data[]) {super(data);}
-		public GameConfig() {
-			data = new byte[5];
-			data[0] = ID_GAMECONFIG;
-			data[1] = GameParams.players[0];
-			data[2] = GameParams.players[1];
-			data[3] = GameParams.players[2];
-			data[4] = GameParams.players[3];
-			length = (byte)data.length;
-		}
-		public static void onReceive(NetDataChunk chunk) {
-			GameParams.players[0] = chunk.data[1];
-			GameParams.players[1] = chunk.data[2];
-			GameParams.players[2] = chunk.data[3];
-			GameParams.players[3] = chunk.data[4];
-		}
-		
-	}
 	public static class GameStateUpdate extends NetDataChunk {
 		public GameStateUpdate(byte data[]) {super(data);}
 		public static final byte STATE_START = 1;
