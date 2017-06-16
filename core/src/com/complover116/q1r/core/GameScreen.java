@@ -58,8 +58,8 @@ public class GameScreen implements Screen {
 		for (int i = 0; i < GameManager.players.size(); i++)
 			GameManager.players.get(i).tick();
 		if(!menuShown){
-			for (int i = 0; i < buttons.length; i++) {
-				buttons[i].update();
+			for (AndroidButton button : buttons) {
+				button.update();
 			}
 			//This pretty much updates the entire world
 			GameWorld.update(inGameDelta);
@@ -87,7 +87,7 @@ public class GameScreen implements Screen {
 
 
 		//TODO: If android only
-		//if(Gdx.app.getType() == ApplicationType.Android) {
+		if(Gdx.app.getType() == ApplicationType.Android) {
 			Q1R.batch.begin();
 			Q1R.batch.draw(Resources.getImage("controls/menu"), 32, 536);
 			
@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
 			Q1R.batch.draw(Resources.getImage("controls/fire"), RIGHTBORDER-128, 0);
 			
 			Q1R.batch.end();
-		//}			
+		}
 
 		
 		//TICK TIMES CALCULATION
