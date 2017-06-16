@@ -2,7 +2,7 @@ package com.complover116.q1r.core;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class Platform {
+class Platform {
 	private int type;
 	public Rectangle bounds;
 

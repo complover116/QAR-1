@@ -39,8 +39,4 @@ public class Q1R extends Game {
 		this.setScreen(MMS);
 	}
 
-	@Override
-	public void render() {
-		super.render();
-	}
 }

@@ -5,15 +5,15 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Projectile extends Entity {
 
-	float x;
-	float y;
-	float velX;
-	float velY;
-	int color;
+	private float x;
+	private float y;
+	private float velX;
+	private float velY;
+	private int color;
 
-	double time = 0;
+	private double time = 0;
 	
-	Player ply;
+	private Player ply;
 	
 	public void tick(double deltaT) {
 		this.x += this.velX * deltaT;

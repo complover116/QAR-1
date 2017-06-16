@@ -1,10 +1,10 @@
 package com.complover116.q1r.core;
 
-public class AI {
+class AI {
 
-	static double accuracy = 0.03;
+	private static final double accuracy = 0.03;
 
-	public static void tickFor(PlayerEnt ply, double deltaT) {
+	static void tickFor(PlayerEnt ply, double deltaT) {
 		// JOIN CODE
 
 		// RANDOM JUMPS
@@ -28,7 +28,7 @@ public class AI {
 			if(target.color != ply.color){
 			double goalHeading = Math.atan2(target.x - ply.x, target.y - ply.y);
 			double fireDir;
-			int xvel = 0;
+			int xvel;
 			if (ply.facingLeft)
 				xvel = -600;
 			else

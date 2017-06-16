@@ -3,12 +3,12 @@ package com.complover116.q1r.core;
 import java.net.*;
 import com.badlogic.gdx.Gdx;
 
-public class NetClient {
+class NetClient {
 
 	static NetConnection server;
-	static DatagramSocket sock;
-	static InetAddress addr;
-	static int port = 26655;
+	private static DatagramSocket sock;
+	private static InetAddress addr;
+	private static int port = 26655;
 	
 	static volatile boolean clientRunning = false;
 	static volatile boolean connected = false;

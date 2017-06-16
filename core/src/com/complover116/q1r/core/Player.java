@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
-public class Player {
+class Player {
 	int score = 0;
 	int streak = 0;
 	int trickshots = 0;
@@ -16,18 +16,18 @@ public class Player {
 	/***
 	 * This is a bot.
 	 */
-	final static byte CONNECTION_BOT = -1;
+	private final static byte CONNECTION_BOT = -1;
 	/***
 	 * Player is playing on the same machine
 	 */
 	final static byte CONNECTION_LOCAL = 0;
 	// TODO:Local control keys
-	int key_up;
-	int key_left;
-	int key_right;
-	int key_down;
+	private int key_up;
+	private int key_left;
+	private int key_right;
+	private int key_down;
 
-	int controlScheme = 1;
+	private int controlScheme = 1;
 	/***
 	 * We have direct connection to the player machine, and we are not the host
 	 */
@@ -65,9 +65,7 @@ public class Player {
 			this.key_right = Input.Keys.RIGHT;
 			break;
 		case 5:
-			if (true) {
-				connectionType = CONNECTION_BOT;
-			}
+			connectionType = CONNECTION_BOT;
 		}
 		this.ent = entity;
 		this.controlScheme = cont;

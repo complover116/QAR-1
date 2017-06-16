@@ -5,29 +5,28 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
 	private static final int BUTTON_JUMP = 0;
 	private static final int BUTTON_FIRE = 1;
 
-	int WIDTH = 0;
-	int HEIGHT = 0;
-	int RIGHTBORDER = 0;
+	private int WIDTH = 0;
+	private int HEIGHT = 0;
+	private int RIGHTBORDER = 0;
 	
 	double time = 0;
 	
 	static float gameSpeed = 1;
 	
-	float lag = 0;
-	int lagamount = 0;
+	private float lag = 0;
+	private int lagamount = 0;
 	
 	static boolean menuShown = false;
 	
-	public static AndroidButton buttons[] = new AndroidButton[3];
+	static AndroidButton buttons[] = new AndroidButton[3];
 	
-	public GameScreen() {
+	GameScreen() {
 		
 		buttons[BUTTON_JUMP] = new AndroidButton(new Rectangle(WIDTH-128, 128, 128, 128));
 		// RIGHT

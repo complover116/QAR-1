@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.Color;
 
-public class GameWorld {
+class GameWorld {
 
 	
 	/***
@@ -25,8 +25,8 @@ public class GameWorld {
 	 */
 	public static ArrayList<Entity> ents = new ArrayList<Entity>();
 	
-	public static int leadingScore = 0;
-	public static int secondScore = 0;
+	private static int leadingScore = 0;
+	private static int secondScore = 0;
 	
 	public static void init() {
 		platforms.clear();
@@ -64,58 +64,56 @@ public class GameWorld {
 		buttons[i].bounds.width, buttons[i].bounds.height); }
 		*/
 		Q1R.shapeRenderer.setColor(1, 1, 1, 1);
-		for (int i = 0; i < platforms.size(); i++) {
-			Platform plat = platforms.get(i);
-			Q1R.shapeRenderer.rect(plat.bounds.getX(), plat.bounds.getY(), plat.bounds.getWidth(),
-					plat.bounds.getHeight());
-		}
+        for (Platform plat : platforms) {
+            Q1R.shapeRenderer.rect(plat.bounds.getX(), plat.bounds.getY(), plat.bounds.getWidth(),
+                    plat.bounds.getHeight());
+        }
 		Q1R.shapeRenderer.end();
 
 		// RENDER PLAYER ENTITIES
 		Q1R.batch.begin();
-		for (int i = 0; i < players.size(); i++) {
-			Q1R.batch.draw(Resources.getImage(players.get(i).getImage()), players.get(i).x, players.get(i).y);
-			
+        for (PlayerEnt player1 : players) {
+            Q1R.batch.draw(Resources.getImage(player1.getImage()), player1.x, player1.y);
+
 			
 			/*
 			 * Q1R.font.setColor(PlayerEnt.colorFromID(players.get(i).color));
 			 * Q1R.font.draw(Q1R.batch, ""+players.get(i).ply.score,
 			 * players.get(i).x+10, players.get(i).y+40);
 			 */
-		}
+        }
 
 		Q1R.batch.end();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Q1R.shapeRenderer.begin(ShapeType.Filled);
-		for (int j = 0; j < players.size(); j++) {
-		
-			if(players.get(j).time > 1000) {
-				float size = ((players.get(j).time - 1000)*100);
-				float x = players.get(j).x+16;
-				float y = players.get(j).y+16;
-				for (int i = 0; i < 10; i += 1) {
-				Color col = PlayerEnt.colorFromID(players.get(j).color);
-				Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
-				Q1R.shapeRenderer.ellipse(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
-						size + size / 5 * i);
-			}
-			}
-			
-			if(players.get(j).ply.score > secondScore && players.get(j).spawned) {
-				float size = (float)Math.random()*10 + 2*(players.get(j).ply.score - secondScore < 12 ? players.get(j).ply.score - secondScore : 12);
-				float x = players.get(j).x+16;
-				float y = players.get(j).y+16;
-				for (int i = 0; i < 10; i += 1) {
-				Color col = PlayerEnt.colorFromID(players.get(j).color);
-				Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
-				Q1R.shapeRenderer.rect(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
-						size + size / 5 * i);
-			}
-			}
-		}
+        for (PlayerEnt player : players) {
+
+            if (player.time > 1000) {
+                float size = ((player.time - 1000) * 100);
+                float x = player.x + 16;
+                float y = player.y + 16;
+                for (int i = 0; i < 10; i += 1) {
+                    Color col = PlayerEnt.colorFromID(player.color);
+                    Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
+                    Q1R.shapeRenderer.ellipse(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
+                            size + size / 5 * i);
+                }
+            }
+
+            if (player.ply.score > secondScore && player.spawned) {
+                float size = (float) Math.random() * 10 + 2 * (player.ply.score - secondScore < 12 ? player.ply.score - secondScore : 12);
+                float x = player.x + 16;
+                float y = player.y + 16;
+                for (int i = 0; i < 10; i += 1) {
+                    Color col = PlayerEnt.colorFromID(player.color);
+                    Q1R.shapeRenderer.setColor(col.r, col.g, col.b, (float) 0.1);
+                    Q1R.shapeRenderer.rect(x - size / 2 - size / 10 * i, y - size / 2 - size / 10 * i, size + size / 5 * i,
+                            size + size / 5 * i);
+                }
+            }
+        }
 		// RENDER ENTITIES
-		for (int i = 0; i < ents.size(); i++)
-			ents.get(i).draw();
+        for (Entity ent : ents) ent.draw();
 
 		Q1R.shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);

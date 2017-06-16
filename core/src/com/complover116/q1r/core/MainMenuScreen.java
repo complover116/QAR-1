@@ -15,13 +15,13 @@ import java.util.ArrayList;
 public class MainMenuScreen implements Screen {
 
 	static volatile String loadStep;
-	static public ArrayList<Button> buttons = new ArrayList<Button>();
-	static int curselect = -1;
-	static int nextMode = 0;
-	static int state = 1;
-	static int curScreen = 0;
+	private static ArrayList<Button> buttons = new ArrayList<Button>();
+	private static int curselect = -1;
+	private static int nextMode = 0;
+	private static int state = 1;
+	private static int curScreen = 0;
 	static volatile byte loaded = 1;
-	static boolean lastClick = false;
+	private static boolean lastClick = false;
 
 	static class Button {
 		Rectangle rect;
@@ -49,20 +49,20 @@ public class MainMenuScreen implements Screen {
 		MainMenu();
 	}
 
-	public static void MainMenu() {
+	private static void MainMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Settings"));
 		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play"));
 		curScreen = 0;
 	}
-	public static void InLobbyMenu(boolean remote) {
+	private static void InLobbyMenu(boolean remote) {
 		buttons.clear();
 		curScreen = 10667;
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play"));
 	}
-	public static void LobbyMenu() {
+	private static void LobbyMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play-Offline"));
@@ -70,7 +70,7 @@ public class MainMenuScreen implements Screen {
 		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Play-Join"));
 		curScreen = 42;
 	}
-	public static void GameMenu() {
+	private static void GameMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Settings"));
@@ -79,7 +79,7 @@ public class MainMenuScreen implements Screen {
 		curScreen = 0;
 	}
 
-	public static void SettingsMenu() {
+	private static void SettingsMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
 		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Audio"));
@@ -102,7 +102,7 @@ public class MainMenuScreen implements Screen {
 		curScreen = 1;
 	}
 
-	public static void SoundMenu() {
+	private static void SoundMenu() {
 		buttons.clear();
 		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
 		buttons.add(new CustomButton(new Rectangle(546, 64, 256, 64), "interface/Music") {

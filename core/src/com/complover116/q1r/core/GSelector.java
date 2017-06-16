@@ -8,11 +8,11 @@ public class GSelector extends GElement {
 	/***
 	 * THIS IS NOT WORKING YET!
 	 */
-	boolean down;
-	AndroidButton buttons[];
-	int size;
-	int sizeX;
-	String options[] = {"ERROR:", "Options", "Undefined"};
+    private boolean down;
+	private AndroidButton[] buttons;
+	private int size;
+	private int sizeX;
+	private String[] options = {"ERROR:", "Options", "Undefined"};
 	int selection = 0;
 	public GSelector(float x, float y, boolean down, String options[], int size, int sizeX) {
 		super(x, y);

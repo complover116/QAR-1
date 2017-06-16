@@ -3,18 +3,18 @@ package com.complover116.q1r.core;
 import com.badlogic.gdx.graphics.Color;
 
 public class Particle extends Entity {
-	float x;
-	float y;
-	float size;
-	float fadeSpeed;
-	int color;
+	private float x;
+	private float y;
+	private float size;
+	private float fadeSpeed;
+	private int color;
 
-	boolean gravity = false;
+	private boolean gravity = false;
 
-	float velX;
-	float velY;
+	private float velX;
+	private float velY;
 
-	boolean glow = true;
+	private boolean glow = true;
 
 	public void draw() {
 		if (this.size <= 0)
@@ -75,7 +75,7 @@ public class Particle extends Entity {
 		this.glow = glow;
 	}
 
-	public Particle(float x, float y, float size, float fadeSpeed, int color) {
+	private Particle(float x, float y, float size, float fadeSpeed, int color) {
 		this(x, y, size, fadeSpeed, color, 0, 0);
 
 	}

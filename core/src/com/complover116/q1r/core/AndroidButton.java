@@ -4,13 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class AndroidButton {
-	public Rectangle bounds;
-	public volatile boolean isPressed = false;
+class AndroidButton {
+	Rectangle bounds;
+	volatile boolean isPressed = false;
 
-	int pointerID = 0;
+	private int pointerID = 0;
 
-	public AndroidButton(Rectangle bounds) {
+	AndroidButton(Rectangle bounds) {
 		this.bounds = bounds;
 	}
 

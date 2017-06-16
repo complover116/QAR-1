@@ -15,18 +15,18 @@ import java.util.ArrayList;
 * 
 * Each chunk has a tiny header of 1 byte determining its size
 ***/
-public class NetPacket {
+class NetPacket {
 	
 	boolean isImportant;
-	boolean isReplyPacket;
+	private boolean isReplyPacket;
 	
-	boolean isSystem;
+	private boolean isSystem;
 	
 	boolean hasAck1, hasAck2;
 	
 	byte ID, ack1, ack2;
 	
-	byte remainingSpace = 56;
+	private byte remainingSpace = 56;
 	
 	ArrayList<NetDataChunk> payload = new ArrayList<NetDataChunk>();
 	
@@ -73,13 +73,13 @@ public class NetPacket {
 		b[4] = (byte)payload.size();
 		
 		int pos = 8;
-		for(int i = 0; i < payload.size(); i ++) {
-			b[pos] = payload.get(i).length;
-			for(int j = 0; j < payload.get(i).length; j ++) {
-				b[pos+1+j] = payload.get(i).data[j];
-			}
-			pos += payload.get(i).length + 1;
-		}
+        for (NetDataChunk aPayload : payload) {
+            b[pos] = aPayload.length;
+            for (int j = 0; j < aPayload.length; j++) {
+                b[pos + 1 + j] = aPayload.data[j];
+            }
+            pos += aPayload.length + 1;
+        }
 		return b;
 	}
 }

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 * 2) Tick the connections
 * 3) Sort through outbound data, split it into packets and send each packet to a connection
 ***/
-public class NetServer {
-	static DatagramSocket sock;
+class NetServer {
+	private static DatagramSocket sock;
 	
 	static ArrayList<NetConnection> clients = new ArrayList<NetConnection>();
 	
@@ -61,16 +61,16 @@ public class NetServer {
 				try{
 					sock.receive(dataIn);
 					boolean isFromClient = false;
-					for(int i = 0; i < clients.size(); i++) {
-						if(clients.get(i).addr.equals(dataIn.getAddress()) && clients.get(i).port == dataIn.getPort()) {
-							clients.get(i).timeSinceLastPacketReceived = 0;
-							isFromClient = true;
-							clients.get(i).process(buf);
-							//Then process the little chunks using a separate class
-							
-							break;
-						}
-					}
+                    for (NetConnection client : clients) {
+                        if (client.addr.equals(dataIn.getAddress()) && client.port == dataIn.getPort()) {
+                            client.timeSinceLastPacketReceived = 0;
+                            isFromClient = true;
+                            client.process(buf);
+                            //Then process the little chunks using a separate class
+
+                            break;
+                        }
+                    }
 					
 					if(!isFromClient) {
 						clients.add(new NetConnection(dataIn.getAddress(), dataIn.getPort(), sock));

@@ -17,24 +17,24 @@ import com.badlogic.gdx.Gdx;
 * The connection is removed if no packets are received for HARD_TIMEOUT
 * If the connection is removed the player instance is also deleted (The player will have been timed out)
 ***/
-public class NetConnection {
+class NetConnection {
 	
-	DatagramSocket outSock;
+	private DatagramSocket outSock;
 	InetAddress addr;
 	int port;
-	long lastCalledTick = 0;
-	float timeSinceLastPacketSent = 1337;
+	private long lastCalledTick = 0;
+	private float timeSinceLastPacketSent = 1337;
 	float timeSinceLastPacketReceived = 0;
-	NetPacket sentPackets[] = new NetPacket[256];
-	float awaitingAck[] = new float[256];
+	private NetPacket[] sentPackets = new NetPacket[256];
+	private float[] awaitingAck = new float[256];
 	
-	ArrayList<Byte> acksToSend = new ArrayList<Byte>();
-	volatile ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
-	ArrayList<NetDataChunk> importantChunksToSend = new ArrayList<NetDataChunk>();
+	private ArrayList<Byte> acksToSend = new ArrayList<Byte>();
+	private volatile ArrayList<NetDataChunk> chunksToSend = new ArrayList<NetDataChunk>();
+	private ArrayList<NetDataChunk> importantChunksToSend = new ArrayList<NetDataChunk>();
 	
 	boolean dead = false;
 	
-	byte nextPacketID = -128;
+	private byte nextPacketID = -128;
 	
 	public String toString() {
 		return ""+addr.toString()+":"+port;
@@ -156,8 +156,7 @@ public class NetConnection {
 				packet.hasAck2 = true;
 				packet.ack2 = acksToSend.get(i);
 				acksToSend.remove(i);
-				continue;
-			}
+            }
 		}
 		try{
 		outSock.send(new DatagramPacket(packet.toBytes(), 64, addr, port));

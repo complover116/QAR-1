@@ -12,21 +12,21 @@ import java.nio.ByteBuffer;
 * Connections pack them into packets and send them to their destination
 * After unpacking they are handed over to the game code where they are processed
 ***/
-public class NetDataChunk {
+class NetDataChunk {
 	byte data[];
 	byte length;
 	
-	public static final byte ID_GAMECONFIG = 1;
-	public static final byte ID_GAMESTATEUPDATE = 2;
-	public static final byte ID_PLAYERPOSVEL = 3;
-	public static final byte ID_FIREEVENT = 4;
+	private static final byte ID_GAMECONFIG = 1;
+	private static final byte ID_GAMESTATEUPDATE = 2;
+	private static final byte ID_PLAYERPOSVEL = 3;
+	private static final byte ID_FIREEVENT = 4;
 	
 	public NetDataChunk(byte[] data) {
 		length = (byte)data.length;
 		this.data = data;
 	}
 	
-	public NetDataChunk() {
+	NetDataChunk() {
 		
 	}
 	
@@ -47,13 +47,12 @@ public class NetDataChunk {
 				return;
 			default:
 				Gdx.app.log("Network", "ERROR: Unknown data chunk ID "+chunk.data[0]+"!");
-				return;
 		}
 	}
 	
-	public void onReceive() {};
-	
-	//All the possible chunk types are here
+	public void onReceive() {}
+
+    //All the possible chunk types are here
 	public static class GameConfig extends NetDataChunk {
 		public GameConfig(byte data[]) {super(data);}
 		public GameConfig() {

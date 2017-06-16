@@ -1,22 +1,20 @@
 package com.complover116.q1r.core;
 
-import com.badlogic.gdx.Gdx;
-
 /***
 * Since networking is happening in a separate thread,
 * This class is used to collect information to send to clients
 * And to hold data about the things that need to be sent
 *
 ***/
-public class HostNetworking {
+class HostNetworking {
 	//float lastx[] = new float[4];
 	//float lasty[] = new float[4];
 	float lastvelX[] = new float[4];
 	float lastvelY[] = new float[4];
 	
 	
-	static long lastCalledTick = 0;
-	static float lastSentPlayerPos = 0;
+	private static long lastCalledTick = 0;
+	private static float lastSentPlayerPos = 0;
 	public static void tick() {
 	
 		float deltaT = ((float)(System.nanoTime() - lastCalledTick))/(float)1000000000;

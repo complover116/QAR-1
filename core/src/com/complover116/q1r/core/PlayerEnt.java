@@ -3,7 +3,7 @@ package com.complover116.q1r.core;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 
-public class PlayerEnt {
+class PlayerEnt {
 
 	Player ply;
 
@@ -34,14 +34,14 @@ public class PlayerEnt {
 	// INPUT VARIABLES!
 	// Volatile because they are accessed from network threads
 	volatile byte moveDir = 0;
-	volatile byte prevMoveDir = 0;
+	private volatile byte prevMoveDir = 0;
 	volatile boolean jump = true;
 	volatile boolean fire = false;
 
 	boolean facingLeft = false;
 	byte jumpsleft = 0;
 	int color = 1;
-	double fireDelay = 1;
+	private double fireDelay = 1;
 	int health = 4;
 	volatile boolean inControl = true;
 	boolean isDead = false;
@@ -57,7 +57,7 @@ public class PlayerEnt {
 			}
 			this.fireDelay = 0.5;
 			Resources.playSound("firenew" + (int) (Math.random() * 3 + 1));
-			int xvel = 0;
+			int xvel;
 			if (this.facingLeft)
 				xvel = -600;
 			else

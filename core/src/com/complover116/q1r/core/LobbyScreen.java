@@ -14,7 +14,7 @@ public class LobbyScreen implements Screen {
 	public static final byte PLAYER_BOT = 1;
 	public static final byte PLAYER_CLOSED = 2;
 	public static final byte PLAYER_LOCAL = 3;
-	public ArrayList<GElement> gElements = new ArrayList<GElement>();
+	private ArrayList<GElement> gElements = new ArrayList<GElement>();
 	public LobbyScreen() {
 		gElements.add(new GSelector(0, 500, true, new String[]{"------", "BOT", "-CLOSED-", "Local Player"}, 30, 200));
 		gElements.add(new GSelector(200, 500, true, new String[]{"------", "BOT", "-CLOSED-","Local Player"}, 30, 200));
@@ -70,15 +70,14 @@ public class LobbyScreen implements Screen {
 				for(int i = 0; i < 4; i ++) {
 					if(GameParams.players[i] != (byte)((GSelector)Q1R.LS.gElements.get(i)).selection){
 						GameParams.players[i] = (byte)((GSelector)Q1R.LS.gElements.get(i)).selection;
-						configChanged = true;
-					}
+                    }
 				}
 				if(GameManager.isHosting){
 					NetServer.broadcast(new NetDataChunk.GameConfig());
 				}
 		}
-		for(int i = 0; i < gElements.size(); i ++) {
-			gElements.get(i).render();
+		for (GElement gElement : gElements) {
+			gElement.render();
 		}
 		
 		

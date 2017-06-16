@@ -1,6 +1,6 @@
 package com.complover116.q1r.core;
 
-public class NetConstants {
+class NetConstants {
 
 	public static final float SOFT_TIMEOUT = 2;
 	

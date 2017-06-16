@@ -6,27 +6,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
 
-public class GameManager {
+class GameManager {
 	public static volatile ArrayList<Player> players = new ArrayList<Player>();
 
-	final static byte FLAG_ISHOST = 1;
-	final static byte FLAG_LISTEN = 2;
-	final static byte FLAG_SENDKEYS = 4;
-	final static byte FLAG_DOLOCAL = 8;
-	final static byte FLAG_DOREMOTE = 16;
+	private final static byte FLAG_ISHOST = 1;
+	private final static byte FLAG_LISTEN = 2;
+	private final static byte FLAG_SENDKEYS = 4;
+	private final static byte FLAG_DOLOCAL = 8;
+	private final static byte FLAG_DOREMOTE = 16;
 
-	final static byte OFFLINE = FLAG_ISHOST + FLAG_DOLOCAL;
+	private final static byte OFFLINE = FLAG_ISHOST + FLAG_DOLOCAL;
 
 
-	public static volatile boolean gameStarting = false;
+	static volatile boolean gameStarting = false;
 	
 	public static byte mode = OFFLINE;
 	
-	public static boolean isHosting = false;
+	static boolean isHosting = false;
 	
-	public static boolean isClient = false;
+	static boolean isClient = false;
 
-	public static void prepareLocal() {
+	static void prepareLocal() {
 		players.clear();
 		Gdx.app.log("GameManager", "Preparing local client...");
 		Resources.Music_Offline.stop();

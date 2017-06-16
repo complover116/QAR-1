@@ -10,9 +10,9 @@ import java.util.HashMap;
 /**
  * Created by complover116 on 25.05.2015 for QAR-1 Reloaded
  */
-public class Resources {
+class Resources {
 	public static HashMap<String, Texture> textures = new HashMap<String, Texture>();
-	public static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 	
 	
 	public static Music Music_DM;
