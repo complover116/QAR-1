@@ -215,8 +215,6 @@ public class MainMenuScreen implements Screen {
 						state = -1;
 						nextMode = 1;
 						Q1R.game.setScreen(Q1R.MMS);
-						NetServer.serverRunning = false;
-						NetClient.clientRunning = false;
 					}
 					if(newselect == 1) {
 						state = -1;
@@ -237,18 +235,10 @@ public class MainMenuScreen implements Screen {
 					if (newselect == 2) {
 						state = -1;
 						nextMode = 10667;
-						//TEMP!!!!
-						NetServer.startServer();
-						GameManager.isHosting = true;
-						GameManager.isClient = false;
 					}
 					if (newselect == 3) {
 						state = -1;
 						nextMode = 10667;
-						//TEMP!!!!
-						NetClient.startClient();
-						GameManager.isClient = true;
-						GameManager.isHosting = false;
 					}
 				}
 				if (curScreen == 11) {
