@@ -14,6 +14,15 @@ class Resources {
 	public static HashMap<String, Texture> textures = new HashMap<String, Texture>();
 	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
 	
+	private static final int LOADSTEP_IMAGELIST = 0;
+	private static final int LOADSTEP_IMAGES = 1;
+	private static final int LOADSTEP_SOUNDLIST = 2;
+	private static final int LOADSTEP_SOUNDS = 3;
+	private static final int LOADSTEP_MUSIC = 4;
+	private static int loadStep = LOADSTEP_IMAGELIST;
+	private static int loadIterator = 0;
+	private static String imglist[];
+	private static String soundlist[];
 	
 	public static Music Music_DM;
 	public static Music Music_Offline;
@@ -27,14 +36,17 @@ class Resources {
 		Music_Offline.setVolume(Settings.musicVolume / (float) 100);
 	}
 	public static void load() {
-
+		if(loadStep == LOADSTEP_IMAGELIST) {
 		Gdx.app.log("Resources", "Loading image list...");
 		String imglistRaw = Gdx.files.internal("ImageList").readString();
 
-		String imglist[] = imglistRaw.split("\n");
+		imglist = imglistRaw.split("\n");
 		Gdx.app.log("Resources", "Found " + imglist.length + " image declarations");
-
-		for (String imagename : imglist) {
+		loadStep = LOADSTEP_IMAGES;
+		return;
+		}
+		if(loadStep == LOADSTEP_IMAGES) {
+			String imagename = imglist[loadIterator];
 			imagename = imagename.trim();
 			MainMenuScreen.loadStep = "Loading " + imagename;
 			try {
@@ -52,16 +64,25 @@ class Resources {
 				}
 				return;
 			}
+			loadIterator++;
+			if(loadIterator==imglist.length) {
+				loadIterator = 0;
+				loadStep = LOADSTEP_SOUNDLIST;
+				return;
+			}
+			return;
 		}
-
+		if(loadStep == LOADSTEP_SOUNDLIST) {
 		Gdx.app.log("Resources", "Loading sound list...");
 
 		String soundlistRaw = Gdx.files.internal("SoundList").readString();
 
-		String soundlist[] = soundlistRaw.split("\n");
+		soundlist = soundlistRaw.split("\n");
 		Gdx.app.log("Resources", "Found " + soundlist.length + " sound declarations");
-
-		for (String soundname : soundlist) {
+		loadStep = LOADSTEP_SOUNDS;
+		}
+		if (loadStep == LOADSTEP_SOUNDS) {
+			String soundname = soundlist[loadIterator];
 			soundname = soundname.trim();
 			MainMenuScreen.loadStep = "Loading " + soundname;
 			try {
@@ -72,7 +93,15 @@ class Resources {
 				MainMenuScreen.loaded = -1;
 				return;
 			}
+			loadIterator++;
+			if(loadIterator==soundlist.length) {
+				loadIterator = 0;
+				loadStep = LOADSTEP_MUSIC;
+				return;
+			}
+			return;
 		}
+		if(loadStep == LOADSTEP_MUSIC) {
 		Gdx.app.log("Resources", "Loading music...");
 		try {
 			Music_DM = Gdx.audio.newMusic(Gdx.files.internal("sound/music/Q1R_DM.ogg"));
@@ -90,7 +119,8 @@ class Resources {
 		} catch (InterruptedException e) {
 
 		}
-		MainMenuScreen.loaded = 0;
+		MainMenuScreen.loaded = 3;
+		}
 	}
 
 	public static Texture getImage(String name) {

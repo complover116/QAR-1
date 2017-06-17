@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class MainMenuScreen implements Screen {
 
-	static volatile String loadStep;
+	static volatile String loadStep = "Loading the image list...";
 	static volatile byte loaded = 1;
 
 	float UI_StartButtonX = 0;
@@ -63,22 +63,24 @@ public class MainMenuScreen implements Screen {
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
 		Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
 
-		if (loaded == 2) {
+		if (loaded == 1) {
 			Resources.load();
 			for (int i = 0; i < 100; i++) {
 				Settings.ttimes[i] = 0;
 			}
-			if(loaded == 0)
-			Resources.Music_Offline.play();
+			Q1R.batch.begin();
+			Q1R.batch.draw(Resources.textures.get("splashscreen"), 208, 175);
+			Q1R.font.setColor(0,1,0,1);
+			Q1R.font.getData().setScale(2);
+			Q1R.font.draw(Q1R.batch, loadStep, 0, 60);
+			Q1R.batch.end();
 			// Settings.benchmark();
 			// loaded = 2;
 			return;
 		}
-		if (loaded == 1) {
-			Q1R.batch.begin();
-			Q1R.batch.draw(Resources.textures.get("splashscreen"), 208, 175);
-			Q1R.batch.end();
-			loaded = 2;
+		if(loaded == 3){
+			Resources.Music_Offline.play();
+			loaded = 4;
 			return;
 		}
 		if (loaded == -1) {
