@@ -29,20 +29,21 @@ public class MainMenuScreen implements Screen {
 	
 	
 	//The state machine!
-	static final int STATE_OFFLINE_IDLE = 0; // Offline mode: does not look for others at all
-	static final int STATE_ONLINE_PINGING = 1; // Listening for incoming pings and pinging
-	static final int STATE_ONLINE_NOTALONE = 2;
+	static final int STATE_OFFLINE_IDLE = 0; // Offline mode: network threads are halted
+	static final int STATE_GOING_ONLINE = 1; // Network threads starting
+	static final int STATE_ONLINE_PINGING = 2; // Listening for incoming pings and pinging
+	static final int STATE_ONLINE_NOTALONE = 3; // Receiving pings from someone else
 	
 	static int state = STATE_OFFLINE_IDLE;
 	
 	public MainMenuScreen() {
-
+		
 	}
 	
 	void startButtonPressed() {
 		switch(state) {
 			case STATE_OFFLINE_IDLE:
-				state = STATE_ONLINE_PINGING;
+				state = STATE_GOING_ONLINE;
 				UI_StartButtonColor = Color.RED;
 				UI_StartButtonPingSpeed = 0.5f;
 				break;
@@ -87,11 +88,11 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		
-		if(!startButtonPressed && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		if(!startButtonPressed && (Gdx.input.isKeyPressed(Input.Keys.SPACE)||Gdx.input.isTouched())) {
 			startButtonPressed = true;
 			startButtonPressed();
 		}
-		if(startButtonPressed && !Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		if(startButtonPressed && !(Gdx.input.isKeyPressed(Input.Keys.SPACE)||Gdx.input.isTouched())) {
 			startButtonPressed = false;
 			startButtonReleased();
 		}
@@ -105,7 +106,10 @@ public class MainMenuScreen implements Screen {
 		} else {
 			UI_StartButtonPing += (0.75f - UI_StartButtonPing)/10;
 		}
-		if(UI_StartButtonPing>1) UI_StartButtonPing -= 1;
+		if(UI_StartButtonPing>1) {
+			UI_StartButtonPing -= 1;
+			Resources.playSound("ui/ping_searching");
+		}
 		float startButtonRingMul = UI_StartButtonPing > 0.75? 1.1875f-(float)Math.pow(UI_StartButtonPing-0.75f, 2)*3 : 1+UI_StartButtonPing*0.25f;
 		float startButtonSizeMul = UI_StartButtonPing < 0.5 ? 1 - UI_StartButtonPing + UI_StartButtonPing*UI_StartButtonPing*2 : 1;
 		Gdx.gl.glEnable(GL20.GL_BLEND);

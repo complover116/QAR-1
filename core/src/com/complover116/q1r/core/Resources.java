@@ -65,7 +65,7 @@ class Resources {
 			soundname = soundname.trim();
 			MainMenuScreen.loadStep = "Loading " + soundname;
 			try {
-				sounds.put(soundname, Gdx.audio.newSound(Gdx.files.internal("sound/effects/" + soundname + ".wav")));
+				sounds.put(soundname, Gdx.audio.newSound(Gdx.files.internal("sound/effects/" + soundname + ".ogg")));
 				Gdx.app.log("Resources", "Loaded " + soundname);
 			} catch (Exception e) {
 				Gdx.app.error("Resources", "Failed loading " + soundname);
