@@ -140,7 +140,7 @@ public class GameScreen implements Screen {
 		Resources.Music_Offline.play();
 		}
 		if(menuShown) {
-			MainMenuScreen.renderOverlay(delta, true);
+			//MainMenuScreen.renderOverlay(delta, true);
 			
 		}
 	}

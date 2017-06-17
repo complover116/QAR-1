@@ -1,13 +1,11 @@
 package com.complover116.q1r.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Created by complover116 on 25.05.2015 for QAR-1 Reloaded
@@ -15,340 +13,54 @@ import java.util.ArrayList;
 public class MainMenuScreen implements Screen {
 
 	static volatile String loadStep;
-	private static ArrayList<Button> buttons = new ArrayList<Button>();
-	private static int curselect = -1;
-	private static int nextMode = 0;
-	private static int state = 1;
-	private static int curScreen = 0;
 	static volatile byte loaded = 1;
-	private static boolean lastClick = false;
 
-	static class Button {
-		Rectangle rect;
-		String img;
-		float offSetX = 256;
-
-		public Button(Rectangle ses, String image) {
-			rect = ses;
-			img = image;
-		}
-	}
-
-	static abstract class CustomButton extends Button {
-
-		public CustomButton(Rectangle ses, String image) {
-			super(ses, image);
-		}
-
-		public abstract void draw(float X, float Y);
-
-		public abstract void mouseMove(float X, float Y);
-	}
-
+	float UI_StartButtonX = 0;
+	float UI_StartButtonY = 0;
+	float UI_StartButtonSize = 0;
+	float UI_StartButtonGoalX = 400;
+	float UI_StartButtonGoalY = 300;
+	float UI_StartButtonGoalSize = 150;
+	float UI_StartButtonPingSpeed = 0; // s^-1
+	float UI_StartButtonPing = 0; // 0 to 1 - progress
+	Color UI_StartButtonColor = new Color(0.5f,0.5f,0.5f,1);
+	
+	boolean startButtonPressed = false;
+	
+	
+	//The state machine!
+	static final int STATE_OFFLINE_IDLE = 0; // Offline mode: does not look for others at all
+	static final int STATE_ONLINE_PINGING = 1; // Listening for incoming pings and pinging
+	static final int STATE_ONLINE_NOTALONE = 2;
+	
+	static int state = STATE_OFFLINE_IDLE;
+	
 	public MainMenuScreen() {
-		MainMenu();
-	}
 
-	private static void MainMenu() {
-		buttons.clear();
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
-		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Settings"));
-		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play"));
-		curScreen = 0;
-	}
-	private static void InLobbyMenu(boolean remote) {
-		buttons.clear();
-		curScreen = 10667;
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
-		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play"));
-	}
-	private static void LobbyMenu() {
-		buttons.clear();
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
-		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Play-Offline"));
-		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Play-Host"));
-		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Play-Join"));
-		curScreen = 42;
-	}
-	private static void GameMenu() {
-		buttons.clear();
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Exit"));
-		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Settings"));
-		buttons.add(new Button(new Rectangle(546, 128, 256, 64), "interface/Resume"));
-		buttons.add(new Button(new Rectangle(546, 192, 256, 64), "interface/Restart"));
-		curScreen = 0;
-	}
-
-	private static void SettingsMenu() {
-		buttons.clear();
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
-		buttons.add(new Button(new Rectangle(546, 64, 256, 64), "interface/Audio"));
-		buttons.add(new CustomButton(new Rectangle(546, 128, 256, 64), "interface/Sensitivity") {
-			@Override
-			public void draw(float X, float Y) {
-				Q1R.batch.draw(Resources.textures.get("interface/SliderScale"), X, Y);
-				Q1R.batch.draw(Resources.textures.get("interface/SliderSlide"),
-						X + 60 + (Settings.tiltSensitivity / 20 * 170), Y + 20);
-			}
-
-			@Override
-			public void mouseMove(float X, float Y) {
-				if (Gdx.input.isTouched() && X > 65 && X < 65 + 170) {
-					Settings.tiltSensitivity = (X - 65) / 170 * 20;
-					Resources.updateMusicVolume();
-				}
-			}
-		});
-		curScreen = 1;
-	}
-
-	private static void SoundMenu() {
-		buttons.clear();
-		buttons.add(new Button(new Rectangle(546, 0, 256, 64), "interface/Back"));
-		buttons.add(new CustomButton(new Rectangle(546, 64, 256, 64), "interface/Music") {
-			@Override
-			public void draw(float X, float Y) {
-				Q1R.batch.draw(Resources.textures.get("interface/SliderScale"), X, Y);
-				Q1R.batch.draw(Resources.textures.get("interface/SliderSlide"),
-						X + 60 + (Settings.musicVolume / 100 * 170), Y + 20);
-			}
-
-			@Override
-			public void mouseMove(float X, float Y) {
-				if (Gdx.input.isTouched() && X > 65 && X < 65 + 170) {
-					Settings.musicVolume = (X - 65) / 170 * 100;
-					Resources.updateMusicVolume();
-				}
-			}
-		});
-		buttons.add(new CustomButton(new Rectangle(546, 128, 256, 64), "interface/SFX") {
-			@Override
-			public void draw(float X, float Y) {
-				Q1R.batch.draw(Resources.textures.get("interface/SliderScale"), X, Y);
-				Q1R.batch.draw(Resources.textures.get("interface/SliderSlide"),
-						X + 60 + (Settings.soundVolume / 100 * 170), Y + 20);
-			}
-
-			@Override
-			public void mouseMove(float X, float Y) {
-				if (Gdx.input.isTouched() && X > 65 && X < 65 + 170) {
-					Settings.soundVolume = (X - 65) / 170 * 100;
-				}
-			}
-		});
-		curScreen = 11;
 	}
 	
-	public static void renderOverlay(float deltaT, boolean ingame) {
-		int newselect = curselect;
-		
-		
-		if (state == 0) {
-			Vector2 unp = Q1R.viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-			boolean flag = false;
-			for (int i = 0; i < buttons.size(); i++) {
-				if (buttons.get(i).rect.contains(unp.x, unp.y)) {
-					if (buttons.get(i) instanceof CustomButton) {
-						((CustomButton) buttons.get(i)).mouseMove(unp.x - buttons.get(i).rect.getX(),
-								unp.y - buttons.get(i).rect.getY());
-					} else {
-						flag = true;
-						newselect = i;
-					}
-				}
-			}
-			if(!flag) {
-				newselect = -1;
-			}
-		}
-		if (newselect != curselect) {
-			curselect = newselect;
-			Resources.playSound("hurt2");
-		}
-		boolean menu = false;
-		for(int i = 0; i < GameManager.players.size(); i ++){
-			if(GameManager.players.get(i).controller != null && GameManager.players.get(i).controller.getButton(0))
-				menu = true;
-		}
-		if (Gdx.input.isTouched() || menu) {
-			if (newselect > -1 && !lastClick) {
-				lastClick = true;
-				Resources.playSound("fire1");
-			}
-		} else {
-			if (lastClick) {
-				lastClick = false;
-				if (curScreen == 0) {
-					if (newselect == 0) {
-						state = -1;
-						nextMode = -100;
-					}
-					if (newselect == 1) {
-						state = -1;
-						nextMode = 2;
-					}
-					if (newselect == 2) {
-						state = -1;
-						nextMode = 25566;
-					}
-					/*if (newselect == 3) {
-						state = -1;
-						nextMode = 1337;
-					}*/
-				}
-				if (curScreen == 1) {
-					if (newselect == 0) {
-						state = -1;
-						nextMode = 1;
-					}
-					if (newselect == 1) {
-						state = -1;
-						nextMode = 11;
-					}
-					if (newselect == 2) {
-						state = -1;
-						nextMode = 12;
-					}
-				}
-				if (curScreen == 10667) {
-					if(newselect == 0) {
-						state = -1;
-						nextMode = 1;
-						Q1R.game.setScreen(Q1R.MMS);
-					}
-					if(newselect == 1) {
-						state = -1;
-						nextMode = 25566;
-					}
-				}
-				if (curScreen == 42) {
-					if (newselect == 0) {
-						state = -1;
-						nextMode = 1;
-					}
-					if (newselect == 1) {
-						nextMode = 10667;
-						state = -1;
-						GameManager.isHosting = false;
-						GameManager.isClient = false;
-					}
-					if (newselect == 2) {
-						state = -1;
-						nextMode = 10667;
-					}
-					if (newselect == 3) {
-						state = -1;
-						nextMode = 10667;
-					}
-				}
-				if (curScreen == 11) {
-					if (newselect == 0) {
-						state = -1;
-						nextMode = 2;
-					}
-				}
-			}
-		}
-		boolean allready = true;
-		for (int i = 0; i < buttons.size(); i++) {
-			if (state == 1) {
-				if (buttons.get(i).offSetX > 0) {
-					allready = false;
-					buttons.get(i).offSetX -= (1000 + i * 100) * deltaT;
-				} else {
-					buttons.get(i).offSetX = 0;
-				}
-			}
-			if (state == -1) {
-				if (buttons.get(i).offSetX < 300) {
-					allready = false;
-					buttons.get(i).offSetX += (1000 + i * 100) * deltaT;
-				} else {
-					buttons.get(i).offSetX = 300;
-				}
-			}
-		}
-		if (state == 1 && allready)
-			state = 0;
-		if (state == -1 && allready) {
-			if (nextMode == -100) {
-				if(ingame) {
-					Q1R.game.setScreen(Q1R.MMS);
-					Resources.Music_DM.stop();
-					MainMenu();
-				} else
-				Gdx.app.exit();
-			}
-			if (nextMode == 2) {
-				SettingsMenu();
-			}
-			if (nextMode == 1) {
-				if(ingame)
-				GameMenu();
-				else
-				MainMenu();
-			}
-			if (nextMode == 11) {
-				SoundMenu();
-			}
-			/*if (nextMode == 1337) {
-				GameMaFnager.prepareLocal();
-				nextMode = 25565;
-			}*/
-			if (nextMode == 10667) {
-				state = -1;
-				nextMode = 25566;
-			}
-			if (nextMode == 25565) {
-			
-			if(ingame){
-			Resources.Music_Offline.stop();
-			Resources.Music_DM.play();
-			GameScreen.menuShown = false;
-			}
-			else{
-				LobbyMenu();
-				
-				
-				
-				}
-			}
-			if(nextMode == 25566){
-				//This is for starting a local game
-				
-				GameManager.gameStarting = true;
-			}
-			state = 1;
-		}
-
-		Q1R.batch.begin();
-		
-		for (int i = 0; i < buttons.size(); i++) {
-			if (curselect == i) {
-				Q1R.batch.draw(Resources.textures.get(buttons.get(i).img),
-						buttons.get(i).rect.x - 32 + buttons.get(i).offSetX, buttons.get(i).rect.y);
-			} else {
-				Q1R.batch.draw(Resources.textures.get(buttons.get(i).img),
-						buttons.get(i).rect.x + buttons.get(i).offSetX, buttons.get(i).rect.y);
-				if (buttons.get(i) instanceof CustomButton) {
-					((CustomButton) buttons.get(i)).draw(buttons.get(i).rect.x + buttons.get(i).offSetX,
-							buttons.get(i).rect.y);
-				}
-			}
-		}
-		Q1R.batch.end();
-		if(GameManager.gameStarting) {
-			GameMenu();
-			GameManager.prepareLocal();
-			GameManager.gameStarting = false;
+	void startButtonPressed() {
+		switch(state) {
+			case STATE_OFFLINE_IDLE:
+				state = STATE_ONLINE_PINGING;
+				UI_StartButtonColor = Color.RED;
+				UI_StartButtonPingSpeed = 0.5f;
+				break;
+			case STATE_ONLINE_PINGING:
+				state = STATE_OFFLINE_IDLE;
+				UI_StartButtonColor = Color.GRAY;
+				UI_StartButtonPingSpeed = 0;
 		}
 	}
-	
+	void startButtonReleased() {
+		
+	}
 	public void render(float deltaT) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Q1R.camera.update();
 		Q1R.batch.setProjectionMatrix(Q1R.camera.combined);
+		Q1R.shapeRenderer.setProjectionMatrix(Q1R.camera.combined);
 
 		if (loaded == 2) {
 			Resources.load();
@@ -375,23 +87,37 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		
-		
-		Q1R.batch.begin();
-		Q1R.batch.draw(Resources.textures.get("interface/background"), (float)(Math.random()*4), (float)(Math.random()*0));
-		if(Gdx.app.getType() == ApplicationType.Android){
-			
-		//TODO: TEMP!
-		if(Gdx.input.getPitch()<-Settings.tiltSensitivity)
-		Q1R.batch.draw(Resources.textures.get("controls/right_on"), 400-Gdx.input.getPitch()*2, 100);
-		else if (Gdx.input.getPitch()>Settings.tiltSensitivity)
-		Q1R.batch.draw(Resources.textures.get("controls/left_on"), 400-Gdx.input.getPitch()*2, 100);
-		else
-		Q1R.batch.draw(Resources.textures.get("controls/fire_on"), 400-Gdx.input.getPitch()*2, 100);
+		if(!startButtonPressed && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			startButtonPressed = true;
+			startButtonPressed();
 		}
-		Q1R.batch.end();
+		if(startButtonPressed && !Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			startButtonPressed = false;
+			startButtonReleased();
+		}
 		
-		
-		renderOverlay(deltaT, false);
+		//Start button animation
+		UI_StartButtonX += (UI_StartButtonGoalX - UI_StartButtonX)/10;
+		UI_StartButtonY += (UI_StartButtonGoalY - UI_StartButtonY)/10;
+		UI_StartButtonSize += (UI_StartButtonGoalSize - UI_StartButtonSize)/10;
+		if(UI_StartButtonPingSpeed>0) {
+			UI_StartButtonPing += UI_StartButtonPingSpeed*deltaT;
+		} else {
+			UI_StartButtonPing += (0.75f - UI_StartButtonPing)/10;
+		}
+		if(UI_StartButtonPing>1) UI_StartButtonPing -= 1;
+		float startButtonRingMul = UI_StartButtonPing > 0.75? 1.1875f-(float)Math.pow(UI_StartButtonPing-0.75f, 2)*3 : 1+UI_StartButtonPing*0.25f;
+		float startButtonSizeMul = UI_StartButtonPing < 0.5 ? 1 - UI_StartButtonPing + UI_StartButtonPing*UI_StartButtonPing*2 : 1;
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+
+		Q1R.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		Q1R.shapeRenderer.setColor(UI_StartButtonColor);
+		Q1R.shapeRenderer.circle(UI_StartButtonX, UI_StartButtonY, UI_StartButtonSize*startButtonSizeMul);
+		Q1R.shapeRenderer.setColor(UI_StartButtonColor.r, UI_StartButtonColor.g, UI_StartButtonColor.b, UI_StartButtonColor.a*0.5f);
+		Q1R.shapeRenderer.circle(UI_StartButtonX, UI_StartButtonY, UI_StartButtonSize*startButtonRingMul);
+		Q1R.shapeRenderer.end();
+
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
 	public void dispose() {
