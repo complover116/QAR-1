@@ -44,13 +44,14 @@ public class MainMenuScreen implements Screen {
 		switch(state) {
 			case STATE_OFFLINE_IDLE:
 				state = STATE_GOING_ONLINE;
-				UI_StartButtonColor = Color.RED;
-				UI_StartButtonPingSpeed = 0.5f;
+				Network.start();
 				break;
 			case STATE_ONLINE_PINGING:
 				state = STATE_OFFLINE_IDLE;
-				UI_StartButtonColor = Color.GRAY;
-				UI_StartButtonPingSpeed = 0;
+				Network.stop();
+			case STATE_ONLINE_NOTALONE:
+				state = STATE_OFFLINE_IDLE;
+				Network.stop();
 		}
 	}
 	void startButtonReleased() {
@@ -89,7 +90,37 @@ public class MainMenuScreen implements Screen {
 			Q1R.batch.end();
 			return;
 		}
-		
+		switch (state) {
+			case STATE_OFFLINE_IDLE:
+				UI_StartButtonColor = Color.RED;
+				UI_StartButtonPingSpeed = 0;
+				break;
+			case STATE_GOING_ONLINE:
+				UI_StartButtonColor = Color.YELLOW;
+				UI_StartButtonPingSpeed = 0.25f;
+				break;
+			case STATE_ONLINE_PINGING:
+				UI_StartButtonColor = Color.GREEN;
+				UI_StartButtonPingSpeed = 0.5f;
+				break;
+			case STATE_ONLINE_NOTALONE:
+				UI_StartButtonColor = Color.CYAN;
+				UI_StartButtonPingSpeed = 1f;
+				break;
+		}
+		if(state == STATE_GOING_ONLINE && Network.status>=3) {
+			state = STATE_ONLINE_PINGING;
+		}
+		if((state == STATE_GOING_ONLINE || state == STATE_ONLINE_PINGING || state == STATE_ONLINE_NOTALONE)&&Network.status<0) {
+			//A network error has occurred
+			state = STATE_OFFLINE_IDLE;
+		}
+		if(state == STATE_ONLINE_PINGING && Network.peers.size()>0) {
+			state = STATE_ONLINE_NOTALONE;
+		}
+		if(state == STATE_ONLINE_NOTALONE && Network.peers.size() == 0) {
+			state = STATE_ONLINE_PINGING;
+		}
 		if(!startButtonPressed && (Gdx.input.isKeyPressed(Input.Keys.SPACE)||Gdx.input.isTouched())) {
 			startButtonPressed = true;
 			startButtonPressed();
@@ -110,7 +141,10 @@ public class MainMenuScreen implements Screen {
 		}
 		if(UI_StartButtonPing>1) {
 			UI_StartButtonPing -= 1;
-			Resources.playSound("ui/ping_searching");
+			if(state == STATE_ONLINE_NOTALONE)
+				Resources.playSound("ui/ping_notalone");
+			else
+				Resources.playSound("ui/ping_searching");
 		}
 		float startButtonRingMul = UI_StartButtonPing > 0.75? 1.1875f-(float)Math.pow(UI_StartButtonPing-0.75f, 2)*3 : 1+UI_StartButtonPing*0.25f;
 		float startButtonSizeMul = UI_StartButtonPing < 0.5 ? 1 - UI_StartButtonPing + UI_StartButtonPing*UI_StartButtonPing*2 : 1;
