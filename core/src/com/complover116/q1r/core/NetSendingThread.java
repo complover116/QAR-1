@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 
 public class NetSendingThread implements Runnable {
 	private static NetSendingThread instance;
+	private static Thread threadInstance;
 	private static volatile boolean isRunning = false;
 	
 	@Override
@@ -45,9 +46,11 @@ public class NetSendingThread implements Runnable {
 		}
 		isRunning = true;
 		instance = new NetSendingThread();
-		new Thread(instance, "Network sending thread").start();
+		threadInstance = new Thread(instance, "Network sending thread");
+		threadInstance.start();
 	}
 	static void stop() {
 		isRunning = false;
+		threadInstance.interrupt();
 	}
 }

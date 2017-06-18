@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -25,6 +26,10 @@ public class MainMenuScreen implements Screen {
 	float UI_StartButtonPing = 0; // 0 to 1 - progress
 	Color UI_StartButtonColor = new Color(0.5f,0.5f,0.5f,1);
 	
+	BitmapFont UI_StatusFont;
+	
+	String UI_StatusText = "IDLE";
+	
 	boolean startButtonPressed = false;
 	
 	
@@ -37,21 +42,14 @@ public class MainMenuScreen implements Screen {
 	static int state = STATE_OFFLINE_IDLE;
 	
 	public MainMenuScreen() {
-		
+		UI_StatusFont = new BitmapFont();
+		UI_StatusFont.getData().setScale(2);
 	}
 	
 	void startButtonPressed() {
 		switch(state) {
 			case STATE_OFFLINE_IDLE:
-				state = STATE_GOING_ONLINE;
-				Network.start();
 				break;
-			case STATE_ONLINE_PINGING:
-				state = STATE_OFFLINE_IDLE;
-				Network.stop();
-			case STATE_ONLINE_NOTALONE:
-				state = STATE_OFFLINE_IDLE;
-				Network.stop();
 		}
 	}
 	void startButtonReleased() {
@@ -81,6 +79,8 @@ public class MainMenuScreen implements Screen {
 		}
 		if(loaded == 3){
 			Resources.Music_Offline.play();
+			state = STATE_GOING_ONLINE;
+			Network.start();
 			loaded = 4;
 			return;
 		}
@@ -94,18 +94,22 @@ public class MainMenuScreen implements Screen {
 			case STATE_OFFLINE_IDLE:
 				UI_StartButtonColor = Color.RED;
 				UI_StartButtonPingSpeed = 0;
+				UI_StatusText = "Offline: make sure you are connected to wifi! Tap to try again.";
 				break;
 			case STATE_GOING_ONLINE:
 				UI_StartButtonColor = Color.YELLOW;
 				UI_StartButtonPingSpeed = 0.25f;
+				UI_StatusText = "Going online...";
 				break;
 			case STATE_ONLINE_PINGING:
-				UI_StartButtonColor = Color.GREEN;
+				UI_StartButtonColor = Color.YELLOW;
 				UI_StartButtonPingSpeed = 0.5f;
+				UI_StatusText = "Looking for other players on the network...";
 				break;
 			case STATE_ONLINE_NOTALONE:
-				UI_StartButtonColor = Color.CYAN;
+				UI_StartButtonColor = Color.GREEN;
 				UI_StartButtonPingSpeed = 1f;
+				UI_StatusText = "Quickplay ready: "+Network.peers.size()+" players found, hold the button to start!";
 				break;
 		}
 		if(state == STATE_GOING_ONLINE && Network.status>=3) {
@@ -156,8 +160,12 @@ public class MainMenuScreen implements Screen {
 		Q1R.shapeRenderer.setColor(UI_StartButtonColor.r, UI_StartButtonColor.g, UI_StartButtonColor.b, UI_StartButtonColor.a*0.5f);
 		Q1R.shapeRenderer.circle(UI_StartButtonX, UI_StartButtonY, UI_StartButtonSize*startButtonRingMul);
 		Q1R.shapeRenderer.end();
-
+		
 		Gdx.gl.glDisable(GL20.GL_BLEND);
+		Q1R.batch.begin();
+		UI_StatusFont.setColor(UI_StartButtonColor);
+		UI_StatusFont.draw(Q1R.batch, UI_StatusText, 20, 80);
+		Q1R.batch.end();
 	}
 
 	public void dispose() {
@@ -173,11 +181,13 @@ public class MainMenuScreen implements Screen {
 	}
 
 	public void pause() {
-
+		Network.stop();
+		state = STATE_OFFLINE_IDLE;
 	}
 
 	public void resume() {
-
+		state = STATE_GOING_ONLINE;
+		Network.start();
 	}
 
 	public void resize(int width, int height) {

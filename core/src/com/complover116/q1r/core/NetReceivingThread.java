@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 
 public class NetReceivingThread implements Runnable {
 	private static NetReceivingThread instance;
+	private static Thread threadInstance;
 	private static volatile boolean isRunning = false;
 	
 	int port;
@@ -85,9 +86,11 @@ public class NetReceivingThread implements Runnable {
 		}
 		isRunning = true;
 		instance = new NetReceivingThread(Network.PORT);
-		new Thread(instance, "Network receiving thread").start();
+		threadInstance = new Thread(instance, "Network receiving thread");
+		threadInstance.start();
 	}
 	static void stop(){
 		isRunning = false;
+		threadInstance.interrupt();
 	}
 }
