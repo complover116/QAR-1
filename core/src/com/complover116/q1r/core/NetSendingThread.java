@@ -21,7 +21,9 @@ public class NetSendingThread implements Runnable {
 			Gdx.app.log("Network", "Sending socket created");
 			Network.status += 1;
 			while(isRunning) {
-				sendingSocket.send(new DatagramPacket(new byte[Network.PACKET_LENGTH], Network.PACKET_LENGTH,
+				byte out[] = new byte[Network.PACKET_LENGTH];
+				out[0] = (byte) (Network.readyToPlay ? 1 : 0);
+				sendingSocket.send(new DatagramPacket(out, Network.PACKET_LENGTH,
 						InetAddress.getByName("255.255.255.255"), Network.PORT));
 				Thread.sleep(1000);
 			}

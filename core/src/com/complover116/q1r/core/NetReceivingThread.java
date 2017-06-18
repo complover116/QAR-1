@@ -43,6 +43,10 @@ public class NetReceivingThread implements Runnable {
 						if(peer.address.equals(packet.getAddress())) {
 							peer.timeLastHeard = System.nanoTime();
 							peerExists = true;
+							if(in[0] == 1) 
+								peer.readyToPlay = true;
+							else
+								peer.readyToPlay = false;
 						}
 						if((System.nanoTime() - peer.timeLastHeard) > Network.IDLE_TIMEOUT*1000000) {
 							Network.peers.remove(peer);

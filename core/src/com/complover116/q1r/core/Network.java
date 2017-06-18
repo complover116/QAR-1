@@ -13,7 +13,16 @@ public class Network {
 	public static final int PACKET_LENGTH = 64;
 	public static final ArrayList<NetPeer> peers = new ArrayList<NetPeer>();
 	static InetAddress localAddress;
+	static boolean readyToPlay = false;
+	static int players = 0;
 	public static volatile byte status = 0;
+	static int getPlayerCount() {
+		int result = 0;
+		for(NetPeer peer : peers) {
+			if(peer.readyToPlay) result ++;
+		}
+		return result;
+	}
 	public static void start() {
 		status = 0;
 		Gdx.app.log("Network", "Starting network services...");
@@ -33,6 +42,7 @@ public class Network {
 	}
 	public static void stop() {
 		Gdx.app.log("Network", "Stopping network services...");
+		Network.readyToPlay = false;
 		NetReceivingThread.stop();
 		NetSendingThread.stop();
 		peers.clear();

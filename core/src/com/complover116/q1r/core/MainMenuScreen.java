@@ -38,6 +38,9 @@ public class MainMenuScreen implements Screen {
 	static final int STATE_GOING_ONLINE = 1; // Network threads starting
 	static final int STATE_ONLINE_PINGING = 2; // Listening for incoming pings and pinging
 	static final int STATE_ONLINE_NOTALONE = 3; // Receiving pings from someone else
+	static final int STATE_ONLINE_JOINABLE = 4; // Someone wants to play
+	static final int STATE_PREGAME_READY = 5; // Holding the button and ready to play
+	static final int STATE_PREGAME_STARTING = 6; // Button released, game is starting!
 	
 	static int state = STATE_OFFLINE_IDLE;
 	
@@ -48,12 +51,23 @@ public class MainMenuScreen implements Screen {
 	
 	void startButtonPressed() {
 		switch(state) {
-			case STATE_OFFLINE_IDLE:
+			case STATE_ONLINE_NOTALONE:
+				state = STATE_PREGAME_READY;
+				Network.readyToPlay = true;
+				break;
+			case STATE_ONLINE_JOINABLE:
+				state = STATE_PREGAME_READY;
+				Network.readyToPlay = true;
 				break;
 		}
 	}
 	void startButtonReleased() {
-		
+		switch(state) {
+		case STATE_PREGAME_READY:
+			state = STATE_ONLINE_NOTALONE;
+			Network.readyToPlay = false;
+			break;
+	}
 	}
 	public void render(float deltaT) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -78,7 +92,7 @@ public class MainMenuScreen implements Screen {
 			return;
 		}
 		if(loaded == 3){
-			Resources.Music_Offline.play();
+			//Resources.Music_Offline.play();
 			state = STATE_GOING_ONLINE;
 			Network.start();
 			loaded = 4;
@@ -109,7 +123,17 @@ public class MainMenuScreen implements Screen {
 			case STATE_ONLINE_NOTALONE:
 				UI_StartButtonColor = Color.GREEN;
 				UI_StartButtonPingSpeed = 1f;
-				UI_StatusText = "Quickplay ready: "+Network.peers.size()+" players found, hold the button to start!";
+				UI_StatusText = "Quickplay ready: "+Network.peers.size()+" players found. Hold the button to start!";
+				break;
+			case STATE_ONLINE_JOINABLE:
+				UI_StartButtonColor = Color.BLUE;
+				UI_StartButtonPingSpeed = 1f;
+				UI_StatusText = "Game initiating: "+Network.getPlayerCount()+"/"+(Network.peers.size()+1)+" players. Hold the button to join!";
+				break;
+			case STATE_PREGAME_READY:
+				UI_StartButtonColor = Color.CYAN;
+				UI_StartButtonPingSpeed = 2f;
+				UI_StatusText = Network.getPlayerCount()+1+"/"+(Network.peers.size()+1)+" players connected, release the button simuntaneously to play!";
 				break;
 		}
 		if(state == STATE_GOING_ONLINE && Network.status>=3) {
@@ -122,8 +146,14 @@ public class MainMenuScreen implements Screen {
 		if(state == STATE_ONLINE_PINGING && Network.peers.size()>0) {
 			state = STATE_ONLINE_NOTALONE;
 		}
-		if(state == STATE_ONLINE_NOTALONE && Network.peers.size() == 0) {
+		if((state == STATE_ONLINE_NOTALONE || state == STATE_PREGAME_READY) && Network.peers.size() == 0) {
 			state = STATE_ONLINE_PINGING;
+		}
+		if(state == STATE_ONLINE_NOTALONE && Network.getPlayerCount() > 0) {
+			state = STATE_ONLINE_JOINABLE;
+		}
+		if((state == STATE_ONLINE_JOINABLE) && Network.getPlayerCount() == 0) {
+			state = STATE_ONLINE_NOTALONE;
 		}
 		if(!startButtonPressed && (Gdx.input.isKeyPressed(Input.Keys.SPACE)||Gdx.input.isTouched())) {
 			startButtonPressed = true;
@@ -145,7 +175,7 @@ public class MainMenuScreen implements Screen {
 		}
 		if(UI_StartButtonPing>1) {
 			UI_StartButtonPing -= 1;
-			if(state == STATE_ONLINE_NOTALONE)
+			if(state == STATE_ONLINE_JOINABLE || state == STATE_PREGAME_READY )
 				Resources.playSound("ui/ping_notalone");
 			else
 				Resources.playSound("ui/ping_searching");
