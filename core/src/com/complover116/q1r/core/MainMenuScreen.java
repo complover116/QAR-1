@@ -1,7 +1,5 @@
 package com.complover116.q1r.core;
 
-import java.util.spi.ResourceBundleControlProvider;
-
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
