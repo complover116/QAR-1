@@ -8,3 +8,5 @@ hurtnew2
 hurtnew3
 ui/ping_searching
 ui/ping_notalone
+ui/game_init_failed
+ui/game_init_success

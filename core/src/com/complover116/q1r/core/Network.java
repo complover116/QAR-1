@@ -15,16 +15,41 @@ public class Network {
 	static InetAddress localAddress;
 	static boolean readyToPlay = false;
 	static int players = 0;
-	public static volatile byte status = 0;
+	
+	static final int STATUS_OFFLINE = 0;
+	static final int STATUS_STARTING = 1;
+	static final int STATUS_STOPPING = 100;
+	static final int STATUS_PINGING = 4;
+	static final int STATUS_FINALIZING = 5;
+	static final int STATUS_CHECKING_CONNECTION = 3;
+	static final int ERROR_OWN_ADDR_UNKNOWN = -100;
+	static final int ERROR_RECEIVING_THREAD = -50;
+	static final int ERROR_SENDING_THREAD = -25;
+	static volatile int status = STATUS_OFFLINE;
 	static int getPlayerCount() {
 		int result = 0;
 		for(NetPeer peer : peers) {
-			if(peer.readyToPlay) result ++;
+			if(peer.status == NetPeer.STATUS_WILLINGTOPLAY || peer.status == NetPeer.STATUS_JOINING_GAME) result ++;
 		}
 		return result;
 	}
+	static int getJoiningPlayerCount() {
+		int result = 0;
+		for(NetPeer peer : peers) {
+			if(peer.status == NetPeer.STATUS_JOINING_GAME) result ++;
+		}
+		return result;
+	}
+	static void finalizeGame() {
+		//Forget the peers that are not playing with us
+		for(int i=0; i < Network.peers.size(); i ++) {
+			if(peers.get(i).status != NetPeer.STATUS_WILLINGTOPLAY)
+				peers.remove(i);
+		}
+		status = STATUS_FINALIZING;
+	}
 	public static void start() {
-		status = 0;
+		status = STATUS_STARTING;
 		Gdx.app.log("Network", "Starting network services...");
 		try {
 			Socket tmpSock = new Socket("192.168.1.1", 80);
@@ -35,7 +60,7 @@ public class Network {
 			NetSendingThread.start();
 		} catch (Exception e) {
 			Gdx.app.error("Network", "Could not determine own address - P2P impossible");
-			Network.status = -126;
+			Network.status = ERROR_OWN_ADDR_UNKNOWN;
 		}
 		
 		
@@ -46,6 +71,14 @@ public class Network {
 		NetReceivingThread.stop();
 		NetSendingThread.stop();
 		peers.clear();
-		status = 0;
+		status = STATUS_STOPPING;
+	}
+	/***
+	 * Restart the connection process
+	 */
+	static void reset() {
+		readyToPlay = false;
+		peers.clear();
+		status = STATUS_PINGING;
 	}
 }

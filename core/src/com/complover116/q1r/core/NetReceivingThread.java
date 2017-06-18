@@ -21,21 +21,16 @@ public class NetReceivingThread implements Runnable {
 			DatagramSocket receivingSocket = new DatagramSocket(port);
 			receivingSocket.setSoTimeout(3000);
 			Gdx.app.log("Network", "Receiving socket created");
+			Thread.sleep(100);
 			Network.status += 1;
-			while(Network.status != 2) {
-				Thread.sleep(100);
-				if(Network.status < -10) {
-					isRunning = false;
-					break;
-				}
-			}
+			
 			while(isRunning) {
 				try{
 					byte in[] = new byte[Network.PACKET_LENGTH];
 					DatagramPacket packet = new DatagramPacket(in, Network.PACKET_LENGTH);
 					receivingSocket.receive(packet);
-					if(Network.status == 2) {
-						Network.status = 3;
+					if(Network.status == Network.STATUS_CHECKING_CONNECTION) {
+						Network.status = Network.STATUS_PINGING;
 					}
 					boolean peerExists = false;
 					for(int i=0; i < Network.peers.size(); i ++) {
@@ -43,10 +38,7 @@ public class NetReceivingThread implements Runnable {
 						if(peer.address.equals(packet.getAddress())) {
 							peer.timeLastHeard = System.nanoTime();
 							peerExists = true;
-							if(in[0] == 1) 
-								peer.readyToPlay = true;
-							else
-								peer.readyToPlay = false;
+							peer.status = in[0];
 						}
 						if((System.nanoTime() - peer.timeLastHeard) > Network.IDLE_TIMEOUT*1000000) {
 							Network.peers.remove(peer);
@@ -68,16 +60,16 @@ public class NetReceivingThread implements Runnable {
 		} catch (IOException e) {
 			Gdx.app.error("Network", "Error in receiving thread:"+e.getMessage());
 			e.printStackTrace();
-			Network.status = -50;
+			Network.status = Network.ERROR_RECEIVING_THREAD;
 			//TODO:Error handling!
 		} catch (InterruptedException e) {
 			Gdx.app.error("Network", "Receiving thread force terminated: "+e.getMessage());
 			//e.printStackTrace();
-			Network.status = -50;
-			//TODO:Error handling!
 		}
 		
 		isRunning = false;
+		if(Network.status == Network.STATUS_STOPPING)
+		Network.status = Network.STATUS_OFFLINE;
 		Gdx.app.log("Network", "Receiving thread exited");
 	}
 	private NetReceivingThread(int port){

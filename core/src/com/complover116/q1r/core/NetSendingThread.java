@@ -22,21 +22,21 @@ public class NetSendingThread implements Runnable {
 			Network.status += 1;
 			while(isRunning) {
 				byte out[] = new byte[Network.PACKET_LENGTH];
-				out[0] = (byte) (Network.readyToPlay ? 1 : 0);
+				out[0] = (Network.status == Network.STATUS_FINALIZING) ? NetPeer.STATUS_JOINING_GAME : (byte) (Network.readyToPlay ? NetPeer.STATUS_WILLINGTOPLAY : NetPeer.STATUS_IDLE);
 				sendingSocket.send(new DatagramPacket(out, Network.PACKET_LENGTH,
 						InetAddress.getByName("255.255.255.255"), Network.PORT));
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			}
 			sendingSocket.close();
 		} catch (IOException e) {
 			Gdx.app.error("Network", "Error in sending thread:"+e.getMessage());
 			e.printStackTrace();
-			Network.status = -100;
+			Network.status = Network.ERROR_SENDING_THREAD;
 			//TODO:Error handling!
 		} catch (InterruptedException e2) {
 			Gdx.app.error("Network", "Sending thread force terminated:"+e2.getMessage());
 			//e2.printStackTrace();
-			Network.status = -100;
+			Network.status = Network.ERROR_SENDING_THREAD;
 		}
 		Gdx.app.log("Network", "Sending thread exited");
 	}

@@ -1,5 +1,8 @@
 package com.complover116.q1r.core;
 
+import java.util.spi.ResourceBundleControlProvider;
+
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -32,8 +35,10 @@ public class MainMenuScreen implements Screen {
 	
 	boolean startButtonPressed = false;
 	
+	float gameStartTimer = 0;
 	
 	//The state machine!
+	static final int STATE_GOING_OFFLINE = -1;
 	static final int STATE_OFFLINE_IDLE = 0; // Offline mode: network threads are halted
 	static final int STATE_GOING_ONLINE = 1; // Network threads starting
 	static final int STATE_ONLINE_PINGING = 2; // Listening for incoming pings and pinging
@@ -41,6 +46,7 @@ public class MainMenuScreen implements Screen {
 	static final int STATE_ONLINE_JOINABLE = 4; // Someone wants to play
 	static final int STATE_PREGAME_READY = 5; // Holding the button and ready to play
 	static final int STATE_PREGAME_STARTING = 6; // Button released, game is starting!
+	static final int STATE_PREGAME_STARTED = 7; // Player list finalised, game loading
 	
 	static int state = STATE_OFFLINE_IDLE;
 	
@@ -51,6 +57,10 @@ public class MainMenuScreen implements Screen {
 	
 	void startButtonPressed() {
 		switch(state) {
+			case STATE_OFFLINE_IDLE:
+				state = STATE_GOING_ONLINE;
+				Network.start();
+				break;
 			case STATE_ONLINE_NOTALONE:
 				state = STATE_PREGAME_READY;
 				Network.readyToPlay = true;
@@ -64,12 +74,21 @@ public class MainMenuScreen implements Screen {
 	void startButtonReleased() {
 		switch(state) {
 		case STATE_PREGAME_READY:
-			state = STATE_ONLINE_NOTALONE;
-			Network.readyToPlay = false;
+			if(Network.getPlayerCount() == 0) {
+				Resources.playSound("ui/game_start_failed");
+				Gdx.app.log("Game", "Game failed: not enough players!");
+				Network.reset();
+				state = STATE_ONLINE_PINGING;
+			}
+			state = STATE_PREGAME_STARTING;
+			UI_StartButtonPingSpeed = -0.5f;
+			gameStartTimer = 0;
+			Network.finalizeGame();
 			break;
 	}
 	}
 	public void render(float deltaT) {
+		gameStartTimer += deltaT;
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Q1R.camera.update();
@@ -135,12 +154,26 @@ public class MainMenuScreen implements Screen {
 				UI_StartButtonPingSpeed = 2f;
 				UI_StatusText = Network.getPlayerCount()+1+"/"+(Network.peers.size()+1)+" players connected, release the button simuntaneously to play!";
 				break;
+			case STATE_PREGAME_STARTING:
+				UI_StartButtonColor = Color.ORANGE;
+				UI_StartButtonPingSpeed = 4f;
+				UI_StatusText = "Game starting! " + Network.getJoiningPlayerCount()+"/"+Network.getPlayerCount()+" players accepted";
+				break;
+			case STATE_PREGAME_STARTED:
+				UI_StartButtonColor = Color.WHITE;
+				UI_StartButtonPingSpeed = 0f;
+				UI_StatusText = "Exchanging data... (not really, the program ends here)";
+				UI_StartButtonGoalSize = 0;
+				break;
 		}
-		if(state == STATE_GOING_ONLINE && Network.status>=3) {
+		if(state == STATE_GOING_ONLINE && Network.status==Network.STATUS_PINGING) {
 			state = STATE_ONLINE_PINGING;
 		}
 		if((state == STATE_GOING_ONLINE || state == STATE_ONLINE_PINGING || state == STATE_ONLINE_NOTALONE)&&Network.status<0) {
 			//A network error has occurred
+			state = STATE_OFFLINE_IDLE;
+		}
+		if(state == STATE_GOING_OFFLINE && Network.status == 0) {
 			state = STATE_OFFLINE_IDLE;
 		}
 		if(state == STATE_ONLINE_PINGING && Network.peers.size()>0) {
@@ -164,6 +197,18 @@ public class MainMenuScreen implements Screen {
 			startButtonReleased();
 		}
 		
+		if(state == STATE_PREGAME_STARTING && gameStartTimer > 2) {
+			if(Network.getJoiningPlayerCount() < Network.getPlayerCount()) {
+				//Game failed
+				Gdx.app.log("Game", "Game failed: not everyone accepted!");
+				Resources.playSound("ui/game_init_failed");
+				state = STATE_ONLINE_PINGING;
+				Network.reset();
+			} else {
+				state = STATE_PREGAME_STARTED;
+				Resources.playSound("ui/game_init_success");
+			}
+		}
 		//Start button animation
 		UI_StartButtonX += (UI_StartButtonGoalX - UI_StartButtonX)/10;
 		UI_StartButtonY += (UI_StartButtonGoalY - UI_StartButtonY)/10;
@@ -175,7 +220,7 @@ public class MainMenuScreen implements Screen {
 		}
 		if(UI_StartButtonPing>1) {
 			UI_StartButtonPing -= 1;
-			if(state == STATE_ONLINE_JOINABLE || state == STATE_PREGAME_READY )
+			if(state == STATE_ONLINE_JOINABLE || state == STATE_PREGAME_READY || state == STATE_PREGAME_STARTING)
 				Resources.playSound("ui/ping_notalone");
 			else
 				Resources.playSound("ui/ping_searching");
@@ -203,21 +248,25 @@ public class MainMenuScreen implements Screen {
 	}
 
 	public void show() {
-
+		
 	}
 
 	public void hide() {
-
+		
 	}
 
 	public void pause() {
-		Network.stop();
-		state = STATE_OFFLINE_IDLE;
+		if(Gdx.app.getType()==ApplicationType.Android){
+			Network.stop();
+			state = STATE_GOING_OFFLINE;
+		}
 	}
 
 	public void resume() {
-		state = STATE_GOING_ONLINE;
-		Network.start();
+		if(Gdx.app.getType()==ApplicationType.Android){
+			state = STATE_GOING_ONLINE;
+			Network.start();
+		}
 	}
 
 	public void resize(int width, int height) {
