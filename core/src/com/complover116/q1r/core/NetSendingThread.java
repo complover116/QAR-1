@@ -7,7 +7,7 @@ import java.net.InetAddress;
 
 import com.badlogic.gdx.Gdx;
 
-public class NetSendingThread implements Runnable {
+class NetSendingThread implements Runnable {
 	private static NetSendingThread instance;
 	private static Thread threadInstance;
 	private static volatile boolean isRunning = false;

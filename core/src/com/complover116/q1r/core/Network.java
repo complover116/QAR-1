@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 
-public class Network {
+class Network {
 	public static final int IDLE_PING_DELAY = 500;
 	public static final int IDLE_TIMEOUT = 2000;
 	public static final int PORT = 26678;
@@ -17,12 +17,12 @@ public class Network {
 	static int players = 0;
 	
 	static final int STATUS_OFFLINE = 0;
-	static final int STATUS_STARTING = 1;
+	private static final int STATUS_STARTING = 1;
 	static final int STATUS_STOPPING = 100;
 	static final int STATUS_PINGING = 4;
 	static final int STATUS_FINALIZING = 5;
 	static final int STATUS_CHECKING_CONNECTION = 3;
-	static final int ERROR_OWN_ADDR_UNKNOWN = -100;
+	private static final int ERROR_OWN_ADDR_UNKNOWN = -100;
 	static final int ERROR_RECEIVING_THREAD = -50;
 	static final int ERROR_SENDING_THREAD = -25;
 	static volatile int status = STATUS_OFFLINE;

@@ -29,7 +29,7 @@ class PlayerEnt {
 	volatile float y = (float) (Math.random() * 500 + 50);
 	volatile float velX = 0;
 	volatile float velY = 0;
-	volatile boolean movementUpdated = false;
+	private volatile boolean movementUpdated = false;
 
 	// INPUT VARIABLES!
 	// Volatile because they are accessed from network threads
@@ -42,15 +42,15 @@ class PlayerEnt {
 	byte jumpsleft = 0;
 	int color = 1;
 	private double fireDelay = 1;
-	int health = 4;
-	volatile boolean inControl = true;
+	private int health = 4;
+	private volatile boolean inControl = true;
 	boolean isDead = false;
 
 	Rectangle getBB() {
 		return new Rectangle(x, y, 32, 32);
 	}
 
-	void fire() {
+	private void fire() {
 		if (fireDelay < 0) {
 			this.fireDelay = 0.5;
 			Resources.playSound("firenew" + (int) (Math.random() * 3 + 1));

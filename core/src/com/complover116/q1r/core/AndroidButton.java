@@ -14,7 +14,7 @@ class AndroidButton {
 		this.bounds = bounds;
 	}
 
-	public void update() {
+	void update() {
 		if (!this.isPressed) {
 			for (int i = 0; i < 4; i++) {
 				if (Gdx.input.isTouched(i)) {

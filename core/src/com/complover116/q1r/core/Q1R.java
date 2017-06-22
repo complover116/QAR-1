@@ -18,7 +18,7 @@ public class Q1R extends Game {
 	public static Viewport viewport;
 	public static BitmapFont font;
 	
-	public static MainMenuScreen MMS;
+	private static MainMenuScreen MMS;
 	public static GameScreen GS;
 	
 	@Override

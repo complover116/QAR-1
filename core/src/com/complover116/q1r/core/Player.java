@@ -4,12 +4,10 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 class Player {
 	int score = 0;
 	int streak = 0;
-	int trickshots = 0;
 	
 	Controller controller;
 	
@@ -26,8 +24,6 @@ class Player {
 	private int key_left;
 	private int key_right;
 	private int key_down;
-
-	private int controlScheme = 1;
 	/***
 	 * We have direct connection to the player machine, and we are not the host
 	 */
@@ -41,16 +37,13 @@ class Player {
 	 */
 	final static byte CONNECTION_INDIRECT = 3;
 
-	public byte connectionType;
+	byte connectionType;
 
-	byte ID;
-	
 	PlayerEnt ent;
 
-	public Player(PlayerEnt entity, int cont, byte ID) {
+	Player(PlayerEnt entity, int cont, byte ID) {
 		connectionType = CONNECTION_LOCAL;
 		entity.ply = this;
-		this.ID = ID;
 		switch (cont) {
 		case 1:
 			this.key_up = Input.Keys.W;
@@ -68,55 +61,8 @@ class Player {
 			connectionType = CONNECTION_BOT;
 		}
 		this.ent = entity;
-		this.controlScheme = cont;
 	}
-
-	/***
-	*	This code is shit and will be replaced
-	*   it is still here for reference
-	***/
-	public void draw() {
-		Q1R.shapeRenderer.setColor(PlayerEnt.colorFromID(ent.color));
-		int X = 0;
-		int Y = 0;
-
-		switch (ent.color) {
-		case 1:
-			X = 0;
-			Y = 600;
-			break;
-		case 2:
-			X = 0;
-			Y = 80;
-			break;
-		case 3:
-			X = 780;
-			Y = 600;
-			break;
-		case 4:
-			X = 780;
-			Y = 80;
-			break;
-		}
-		Q1R.shapeRenderer.begin(ShapeType.Line);
-		for (int i = 0; i < 4; i++) {
-			Q1R.shapeRenderer.rect(X, Y - 20 - i * 20, 20, 20);
-		}
-		Q1R.shapeRenderer.end();
-
-		Q1R.shapeRenderer.begin(ShapeType.Filled);
-		//Color col = PlayerEnt.colorFromID(ent.color);
-		for (int i = 0; i < 4; i++) {
-			if (ent.health > i)
-				Q1R.shapeRenderer.rect(X, Y - 20 - i * 20, 20, 20);
-		}
-		Q1R.shapeRenderer.end();
-		// Q1R.batch.begin();
-		// Q1R.font.draw(Q1R.batch, "Score:"+score, X, Y-100);
-		// Q1R.batch.end();
-	}
-
-	public void tick() {
+	void tick() {
 	if(!GameManager.isClient)
 		if (this.connectionType == CONNECTION_LOCAL) {
 			if (Gdx.app.getType() == ApplicationType.Android) {
@@ -165,7 +111,7 @@ class Player {
 				}
 			}
 		} else if (this.connectionType == CONNECTION_BOT) {
-			AI.tickFor(ent, 0.1);
+			AI.tickFor(ent);
 		}
 	}
 }

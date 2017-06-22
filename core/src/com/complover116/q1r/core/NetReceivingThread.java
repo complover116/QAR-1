@@ -7,12 +7,12 @@ import java.net.SocketTimeoutException;
 
 import com.badlogic.gdx.Gdx;
 
-public class NetReceivingThread implements Runnable {
+class NetReceivingThread implements Runnable {
 	private static NetReceivingThread instance;
 	private static Thread threadInstance;
 	private static volatile boolean isRunning = false;
 	
-	int port;
+	private int port;
 	
 	@Override
 	public void run() {
@@ -72,8 +72,8 @@ public class NetReceivingThread implements Runnable {
 		Network.status = Network.STATUS_OFFLINE;
 		Gdx.app.log("Network", "Receiving thread exited");
 	}
-	private NetReceivingThread(int port){
-		this.port = port;
+	private NetReceivingThread(){
+		this.port = Network.PORT;
 	}
 	static void start() {
 		if(isRunning) {
@@ -81,7 +81,7 @@ public class NetReceivingThread implements Runnable {
 			return;
 		}
 		isRunning = true;
-		instance = new NetReceivingThread(Network.PORT);
+		instance = new NetReceivingThread();
 		threadInstance = new Thread(instance, "Network receiving thread");
 		threadInstance.start();
 	}

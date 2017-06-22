@@ -4,7 +4,7 @@ class AI {
 
 	private static final double accuracy = 0.03;
 
-	static void tickFor(PlayerEnt ply, double deltaT) {
+	static void tickFor(PlayerEnt ply) {
 		// JOIN CODE
 
 		// RANDOM JUMPS
@@ -33,7 +33,7 @@ class AI {
 				xvel = -600;
 			else
 				xvel = 600;
-			fireDir = Math.atan2(ply.velX + xvel, ply.velY);
+			fireDir = Math.atan2(ply.velY, ply.velX + xvel);
 			if (fireDir < goalHeading + accuracy && fireDir > goalHeading - accuracy) {
 				ply.fire = true;
 			}
