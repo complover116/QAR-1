@@ -1,5 +1,3 @@
-# This website is a WIP! Many things are missing or incorrect!
-
 QAR-1 is a minimalistic fast-paced multiplayer platformer deathmatch game
 
 V3
@@ -12,8 +10,3 @@ V1
 =========
 Version 1 is where the development began. It is super-obsolete, and you probably don't want to download it
 ### [Go to version 1](https://complover116.github.io/QAR-1/V1_Root)
-
-V2
-=========
-Version 2 is currently stable, although with a lot of the features missing
-### [Go to version 2](https://complover116.github.io/QAR-1/V2_Root)
