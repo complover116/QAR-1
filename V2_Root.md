@@ -1,4 +1,4 @@
-QAR-1 Version 1
+QAR-1 Version 2
 --------
 This version is currently stable, although with features still missing. 
 
