@@ -3,7 +3,7 @@ QAR-1 Version 1
 This is the oldest installment of QAR-1
 It features manual client-server multiplayer and/or local multiplayer with up to 4 players or bots
 It has 3 (olders versions have 2) maps bundled, and the latest version has a VERY crappy level editor
-### Download
+Downloads
 **v1.7**: [.tar](https://github.com/complover116/QAR-1/releases/download/v1.7/QAR-1.tar) [.zip](https://github.com/complover116/QAR-1/releases/download/v1.7/QAR-1.zip)
 **v1.6**: [.tar](https://github.com/complover116/QAR-1/releases/download/v1.6/QAR-1.tar) [.zip](https://github.com/complover116/QAR-1/releases/download/v1.6/QAR-1.zip)
 **v1.5**: Not available right now, will compile and upload later
