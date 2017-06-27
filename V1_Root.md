@@ -6,7 +6,7 @@ It features manual client-server multiplayer and/or local multiplayer with up to
 ### Download
 **v1.7**: [.tar](https://github.com/complover116/QAR-1/releases/download/v1.7/QAR-1.tar) [.zip](https://github.com/complover116/QAR-1/releases/download/v1.7/QAR-1.zip)
 **v1.6**: [.tar](https://github.com/complover116/QAR-1/releases/download/v1.6/QAR-1.tar) [.zip](https://github.com/complover116/QAR-1/releases/download/v1.6/QAR-1.zip)
-**v1.5**: Not available right now, will compile and upload later
+**v1.5**: [.jar](https://github.com/complover116/QAR-1/releases/download/v1.5/QAR-1.jar)
 ### Installation
 Just extract the files and use the scripts in the bin folder to run the game
 ### Usage
