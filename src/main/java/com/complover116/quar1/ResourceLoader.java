@@ -51,10 +51,7 @@ public class ResourceLoader extends SwingWorker<Void, ProgressUpdate> {
 					Thread.sleep(20);
 					publish(new ProgressUpdate(i+images.size()-1, sounds.get(i)));
 				}
-				
-		if(!SoundHandler.startLoop("/sound/music/hihch.wav")){
-			System.err.println("SOUNDS FAILED TO LOAD!");
-		}
+
 		return null;
 		} catch(Exception e) {
 			e.printStackTrace();
