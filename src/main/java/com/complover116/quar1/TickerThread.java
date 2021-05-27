@@ -2,6 +2,8 @@ package com.complover116.quar1;
 
 public class TickerThread implements Runnable {
 
+	long lastTick = System.nanoTime();
+
 	@Override
 	public void run() {
 		try {
@@ -11,17 +13,16 @@ public class TickerThread implements Runnable {
 			e1.printStackTrace();
 		}
 		while(true) {
-			long tickstart = System.nanoTime();
-			Ticker.tick();
+			while (System.nanoTime() > lastTick) {
+				Ticker.tick();
+				lastTick += 20000000;
+			}
 			GUI.mainFrame.repaint();
-			int ttMillis = (int) ((System.nanoTime()- tickstart)/1000000);
-			if(ttMillis < 20) {
-				try {
-					Thread.sleep(20 - ttMillis);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
