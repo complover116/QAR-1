@@ -66,8 +66,10 @@ public class ServerThread implements Runnable {
 		out[0] = 1;
 		out[1] = i;
 		ByteBuffer data = ByteBuffer.wrap(out, 2, 254);
-		CurGame.lvl.players.get(i).downdate(data);
-		sendBytes(out);
+		try {
+			CurGame.lvl.players.get(i).downdate(data);
+			sendBytes(out);
+		} catch (Exception e) {}
 		}
 		}
 	}

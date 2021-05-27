@@ -71,44 +71,47 @@ public class Render extends JPanel implements KeyListener, MouseListener {
 		for(int i = 0; i < CurGame.lvl.TADs.size(); i++) {
 			CurGame.lvl.TADs.get(i).draw(g2d);
 		}
-		
-		//RENDER PLAYER's health
-		g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		g2d.setColor(new Color(0, 0, 255));
-		g2d.drawImage(ResourceContainer.images.get("/img/player1.png"), AffineTransform.getTranslateInstance(810, 100), null);
-		g2d.drawString(CurGame.lvl.players.get(0).getHealth(), 860, 130);
-		if(CurGame.lvl.players.get(0).isBot()) {
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2d.drawString("AI", 820, 150);
+
+		if (CurGame.lvl.players.size() > 0) {
+			//RENDER PLAYER's health
 			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			g2d.setColor(new Color(0, 0, 255));
+			g2d.drawImage(ResourceContainer.images.get("/img/player1.png"), AffineTransform.getTranslateInstance(810, 100), null);
+			g2d.drawString(CurGame.lvl.players.get(0).getHealth(), 860, 130);
+			if (CurGame.lvl.players.get(0).isBot()) {
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+				g2d.drawString("AI", 820, 150);
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			}
+
+			g2d.setColor(new Color(255, 0, 0));
+			g2d.drawImage(ResourceContainer.images.get("/img/player2.png"), AffineTransform.getTranslateInstance(810, 300), null);
+			g2d.drawString(CurGame.lvl.players.get(1).getHealth(), 860, 330);
+			if (CurGame.lvl.players.get(1).isBot()) {
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+				g2d.drawString("AI", 820, 350);
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			}
+
+			g2d.setColor(new Color(0, 255, 0));
+			g2d.drawImage(ResourceContainer.images.get("/img/player3.png"), AffineTransform.getTranslateInstance(810, 500), null);
+			g2d.drawString(CurGame.lvl.players.get(2).getHealth(), 860, 530);
+			if (CurGame.lvl.players.get(2).isBot()) {
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+				g2d.drawString("AI", 820, 550);
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			}
+
+			g2d.setColor(new Color(155, 155, 0));
+			g2d.drawImage(ResourceContainer.images.get("/img/player4.png"), AffineTransform.getTranslateInstance(810, 700), null);
+			g2d.drawString(CurGame.lvl.players.get(3).getHealth(), 860, 730);
+			if (CurGame.lvl.players.get(3).isBot()) {
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+				g2d.drawString("AI", 820, 750);
+				g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+			}
 		}
-		
-		g2d.setColor(new Color(255, 0, 0));
-		g2d.drawImage(ResourceContainer.images.get("/img/player2.png"), AffineTransform.getTranslateInstance(810, 300), null);
-		g2d.drawString(CurGame.lvl.players.get(1).getHealth(), 860, 330);
-		if(CurGame.lvl.players.get(1).isBot()) {
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2d.drawString("AI", 820, 350);
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		}
-		
-		g2d.setColor(new Color(0, 255, 0));
-		g2d.drawImage(ResourceContainer.images.get("/img/player3.png"), AffineTransform.getTranslateInstance(810, 500), null);
-		g2d.drawString(CurGame.lvl.players.get(2).getHealth(), 860, 530);
-		if(CurGame.lvl.players.get(2).isBot()) {
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2d.drawString("AI", 820, 550);
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		}
-		
-		g2d.setColor(new Color(155, 155, 0));
-		g2d.drawImage(ResourceContainer.images.get("/img/player4.png"), AffineTransform.getTranslateInstance(810, 700), null);
-		g2d.drawString(CurGame.lvl.players.get(3).getHealth(), 860, 730);
-		if(CurGame.lvl.players.get(3).isBot()) {
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2d.drawString("AI", 820, 750);
-			g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		}
+
 		if(Loader.editMode) {
 			g2d.drawImage(ResourceContainer.images.get("/img/editorAim.png"), AffineTransform.getTranslateInstance(Editor.posX-8.5, Editor.posY-8.5), null);
 		}
